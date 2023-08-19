@@ -10,6 +10,12 @@ Introduction to Typescript
 -> Types supported in JavaScript/TypeScript:
     -> Primitive/fundamental types: number, string, boolean, void, null, undefined
     -> Complex/object types: functions, arrays, classes, objects
+-> Custom type interfaces can function as 'gatekeepers' - limiting/restricting access to a particular method
+    -> Only arguments which satisfy/implement the interface will be able to utilize the following method
+    -> Classes can implement with the 'implements' keyword:
+        -> These classes must provide definitions for all fields and methods outlined in the interface
+        -> Doing so creates a more direct dependency between a class and an interface, and allows for more accurate error analysis in TypeScript
+-> Custom classes can be defined to function as 'black box' structures - hiding sensitive application internals, and limiting public/exposed features
 
 Type Annotations
 -> Type annotations are explicit type declarations that clearly inform the TypeScript compiler of a variable's type
@@ -90,3 +96,8 @@ Type Inference
     -> Explicit type annotation eliminates this issue
 -> Note: in the case of functions, the type inference system is only able to infer the type of the return variable - not the parameters
     -> Consequently, annotating return variables is optional, but almost always recommended
+
+Type Definition Files
+-> Type definition files (with the extension .d.ts) contain TypeScript type definitions for all objects, methods, and classes contained within a JavaScript library
+    -> They generally can be installed with 'npm install @types/<library_name>'
+    -> The main purpose of these files is to provide TypeScript support for a JavaScript library
