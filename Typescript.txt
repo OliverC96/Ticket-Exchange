@@ -1,2 +1,92 @@
 Introduction to Typescript
--> This is a test!
+-> TypeScript is an open-source programming language developed and maintained by Microsoft
+    -> It can be viewed as a strict 'superset' of JavaScript that offers the following complementary features:
+        -> Static typing (vanilla JS is dynamically/loosely typed in comparison)
+        -> Class-based, object-oriented constructs
+-> TypeScript allows for the creation of custom, complex types in the form of interfaces
+-> TypeScript is converted (i.e. transpiled) into equivalent JavaScript code at runtime
+-> TypeScript files can be easily ran with the 'ts-node <file_name>.ts' command
+    -> The given file is transpiled into JavaScript, and the resulting file (<file_name>.js) is then executed with node
+-> Types supported in JavaScript/TypeScript:
+    -> Primitive/fundamental types: number, string, boolean, void, null, undefined
+    -> Complex/object types: functions, arrays, classes, objects
+
+Type Annotations
+-> Type annotations are explicit type declarations that clearly inform the TypeScript compiler of a variable's type
+-> Examples of explicit type declarations (annotations):
+    -> const myName: string = "Oliver";
+    -> const myAge: number = 22;
+    -> interface customType {
+        field1:  number;
+        field2:  string | number;                            // Union ('|') to allow for multiple different types
+        field3?: boolean;                                    // Conditional field (appending '?')
+        field4:  (number | string)[];                        // Typing a (dynamically-sized) array
+        field5:  [string, number, boolean];                  // Typing a (fixed-size) tuple
+        myFunc:  (param1: string, param2: boolean) => string // Typing a function (parameters + return vals)
+        field6:  "option 1" | "option 2"                     // Defining specific values (rather than general types)
+    }
+-> Typing object literals:
+    -> const point: { x: number; y: number } = {
+            x: 10,
+            y: 10
+        };
+-> Typing classes:
+    -> class MyClass { }
+    -> const instance: MyClass = new MyClass();
+-> Typing functions:
+    -> const addNums: (x: number, y: number) => number {
+           return x + y
+       }
+    -> Note: aside from the standard types, a function's return variable can also be typed as follows:
+        -> void: function returns nothing (e.g. prints statements only)
+        -> never: function never reaches completion or terminates on its own conditions (e.g. throwing an error)
+-> ES6 de-structuring in TypeScript:
+    -> const printWeather = ({ date, currTemp } : { date: Date; currTemp: number}) => void {
+           console.log(date, currTemp);
+       };
+-> Typing arrays:
+    -> In general, arrays in a TypeScript environment are typed arrays (all elements are of the same/consistent type)
+    -> Elements can differ in type, but they must be explicitly annotated to inform the TypeScript compiler accordingly
+    -> e.g. const animals: string[] = ["Cat", "Dog", "Bird"]
+    -> e.g. const timeStamps: (string | Data)[] = ["Jan. 5th", new Date()]
+-> Typing tuples:
+    -> Arrays store a collection of records, where tuples store a collection of properties describing a single record
+    -> Arrays support a fluid ordering of elements, where tuples promote a rigid ordering (to retain semantic meaning)
+    -> e.g. const sodaDrink: [string, boolean, number] = ["Coca-Cola", true, 40]
+        -> Use type aliasing to improve clarity and reduce unnecessary clutter:
+            -> type Drink = [string, boolean, number]
+               const sodaDrink: Drink = ["Coca-Cola", true, 40]
+
+JavaScript Classes
+-> Inheritance: derived classes inherit all fields and methods in the base class that they extend
+-> Overriding: redefining or extending the functionality of an inherited method
+    -> Pre-requisite: both the derived class and base class must contain a function with the same signature
+    -> The derived class' function overrides the base class' function when invoked
+-> Overloading: not supported in JavaScript
+-> Visibility modifiers:
+    -> Fields and methods are public by default (can be accessed directly from an instance of the class)
+    -> Private class members can be created by including a '#' prefix to their definition
+        -> e.g. #myAge: number = 20;
+        -> e.g. #privateMethod() { };
+    -> Private properties cannot be accessed outside the class (only by other properties within the class object)
+-> The 'static' keyword can be used to define a static field or method (properties shared by all instances of the class)
+-> TypeScript modifiers: public, private, and protected (can be accessed by methods in the same class, or in a derived/child class)
+-> Constructor methods are used to initialize certain aspects of a class upon instantiation
+    -> By default, a derived class' constructor invokes the base class' constructor (passing along arguments as necessary)
+    -> If a constructor is explicitly defined in a derived class, it must first invoke the base class' constructor (via super())
+    -> e.g. constructor (name: string, age: number) {
+                this.name = name;
+                this.age = age;
+            }
+        OR  constructor (public name: string, public age: age)
+-> The 'get' and 'set' keywords are prepended to getter and setter function definitions, respectively
+
+Type Inference
+-> Type inference is a process where the TypeScript compiler attempts to infer the type of a variable
+    -> This prediction is based on a set of pre-defined rules
+    -> Type inference can only infer the type of a variable if its declaration and initialization occur on the same line
+-> If TypeScript is unable to infer a variable's type, it labels it as an 'any' type
+    -> The 'any' type is a generic, catch-all type that should be avoided if at all possible in a TypeScript program
+    -> Explicit type annotation eliminates this issue
+-> Note: in the case of functions, the type inference system is only able to infer the type of the return variable - not the parameters
+    -> Consequently, annotating return variables is optional, but almost always recommended
