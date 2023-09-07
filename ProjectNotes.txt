@@ -1,0 +1,49 @@
+Response Normalization Strategies
+-> In order to produce a consistently structured error response from all services, an error handling middleware can be defined
+    -> User-defined error handling middleware functions must accept four arguments in Express: err, req, res, next
+    -> In general, the goal of an error handler is to handle different types of incoming errors, and yield some sort of standardized error response
+-> We can also utilize Express's built-in error handling mechanism (invoking the next() callback in asynchronous route handlers)
+    -> As of Express 5.0, asynchronous route handlers and middleware will automatically invoke the next() function if they reject or throw an error
+        -> Otherwise, if no errors are thrown, the next() function will be invoked with the default error object (if one exists)
+-> Type interfaces, or abstract classes can be defined to set up requirements for subclasses
+    -> Abstract classes are classes which contain abstract methods signatures and cannot be instantiated
+    -> Any classes derived from an abstract class must implement/define all methods specified in the base class
+    -> Abstract classes in JavaScript closely resemble the behaviour of interfaces in Java
+
+Mongo No-SQL Databases
+-> In order to ensure that each microservice is entirely self-contained, we will create a separate database table for each service
+-> Services cannot directly access other services' databases, but can indirectly retrieve information from the event broker
+-> Since we are working with MongoDB within a Kubernetes cluster, deployment and service configuration files must be provided for each database instance
+    -> We can reference the official MongoDB image on Docker Hub when specifying the containers running within the pods
+-> To improve application security, all user passwords should be hashed before being stored in the database (as opposed to being stored in plaintext)
+    -> Consequently, malicious users will be unable to view the actual passwords if they gain access to the database
+-> <schemaName>.pre("save", cb) can be used to execute the specified callback before a new user document is saved to the database
+    -> Mongoose pre hooks aim to atomize the model logic, and effectively handle the presence of asynchronous middlewares
+-> <schemaName>.statics|methods.<method_name> can be used to define instance methods associated with the given schema
+    -> All instances of this model (i.e. documents) will be able to access these methods at any time via the dot notation
+
+Authentication Strategies
+-> Handling user authentication in the context of microservices is quite challenging and complex
+-> Option 1: individual services rely on the authentication service
+    -> Send cookies/JWT data in a synchronous request to each microservice
+    -> Downsides: heavy reliance on the authentication service, no protection if it goes down
+    -> Variant: rely on the authentication service as a gateway (authenticate incoming requests before forwarding request to intended service)
+-> Option 2: individual services are able to directly/natively authenticate users (no reliance on external auth service)
+    -> Downsides: duplicating authentication logic, making an auth-related change within one service does not transfer to other services
+        -> This auth-related discrepancy between services can introduce significant issues
+            -> E.g. One service bans a malicious users account, but the other services are not aware of this access/permission change
+            -> Consequently, the malicious user would still be able to successfully authenticate with their previously obtained cookie/JWT
+    -> Solution: set expiry limits (assign released cookies/JWTs a finite lifetime before they are no longer viable)
+        -> If the expiry time has passed, the user will need to re-authenticate before accessing the application
+-> Common authentication mechanisms:
+    -> Cookies: server includes an arbitrary cookie string in the headers field of the response object
+        -> The browser can then attach the cookie in future requests to the server domain
+    -> JSON Web Tokens: JWTs are encoded out of an arbitrary payload (with a secret key/passphrase), and can be included in the cookie or authorization field of request objects
+    -> TDLR; cookies are a transport mechanism automatically managed by the browser, whereas JWTs are strictly authentication-centric mechanisms that must be managed manually
+-> Cookie-session is a cookie-based session middleware (node module) which stores session data within a client-side cookie
+    -> Consequently, the cookie-session library does not require any server-side resources
+-> A Secret object can be created in a Kubernetes cluster to store sensitive information
+    -> All pods contained within the cluster are able to access secrets
+    -> Caveat: explicit references to desired secrets must be declared in the relevant deployment config files
+        -> These declarations reveal/expose the secret object(s) as local environment variables within the linked pods/containers
+->

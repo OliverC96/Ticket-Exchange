@@ -1,0 +1,17 @@
+apiVersion: skaffold/v4beta3
+kind: Config
+manifests:
+  rawYaml:
+    - ./infra/k8s/*.yaml
+build:
+  artifacts:
+    - image: us.gcr.io/ticket-exchange-396422/auth
+      context: auth
+      sync:
+        manual:
+          - src: src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+  googleCloudBuild:
+    projectId: 	ticket-exchange-396422
