@@ -4,7 +4,7 @@ Introduction to Typescript
         -> Static typing (vanilla JS is dynamically/loosely typed in comparison)
         -> Class-based, object-oriented constructs
 -> TypeScript allows for the creation of custom, complex types in the form of interfaces
--> TypeScript is converted (i.e. transpiled) into equivalent JavaScript code at runtime
+-> TypeScript is converted (i.e., transpiled) into equivalent JavaScript code at runtime
 -> TypeScript files can be easily ran with the 'ts-node <file_name>.ts' command
     -> The given file is transpiled into JavaScript, and the resulting file (<file_name>.js) is then executed with node
 -> Types supported in JavaScript/TypeScript:
@@ -12,7 +12,7 @@ Introduction to Typescript
     -> Complex/object types: functions, arrays, classes, objects
 -> Custom type interfaces can function as 'gatekeepers' - limiting/restricting access to a particular method
     -> Only arguments which satisfy/implement the interface will be able to utilize the following method
-    -> Classes can implement with the 'implements' keyword:
+    -> Classes can implement an interface via the 'implements' keyword:
         -> These classes must provide definitions for all fields and methods outlined in the interface
         -> Doing so creates a more direct dependency between a class and an interface, and allows for more accurate error analysis in TypeScript
 -> Custom classes can be defined to function as 'black box' structures - hiding sensitive application internals, and limiting public/exposed features
@@ -41,10 +41,10 @@ Type Annotations
     -> const instance: MyClass = new MyClass();
 -> Typing functions:
     -> const addNums: (x: number, y: number) => number {
-           return x + y
+           return x + y;
        }
     -> Note: aside from the standard types, a function's return variable can also be typed as follows:
-        -> void: function returns nothing (e.g. prints statements only)
+        -> void: function returns nothing (e.g., prints statements only)
         -> never: function never reaches completion or terminates on its own conditions (e.g. throwing an error)
 -> ES6 de-structuring in TypeScript:
     -> const printWeather = ({ date, currTemp } : { date: Date; currTemp: number}) => void {
@@ -54,7 +54,7 @@ Type Annotations
     -> In general, arrays in a TypeScript environment are typed arrays (all elements are of the same/consistent type)
     -> Elements can differ in type, but they must be explicitly annotated to inform the TypeScript compiler accordingly
     -> e.g. const animals: string[] = ["Cat", "Dog", "Bird"]
-    -> e.g. const timeStamps: (string | Data)[] = ["Jan. 5th", new Date()]
+    -> e.g. const timeStamps: (string | Date)[] = ["Jan. 5th", new Date()]
 -> Typing tuples:
     -> Arrays store a collection of records, where tuples store a collection of properties describing a single record
     -> Arrays support a fluid ordering of elements, where tuples promote a rigid ordering (to retain semantic meaning)

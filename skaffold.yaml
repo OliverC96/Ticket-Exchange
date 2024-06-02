@@ -5,7 +5,7 @@ manifests:
     - ./infra/k8s/*.yaml
 build:
   artifacts:
-    - image: us.gcr.io/ticket-exchange-396422/auth
+    - image: us.gcr.io/ticket-exchange-425222/auth
       context: auth
       sync:
         manual:
@@ -14,4 +14,4 @@ build:
       docker:
         dockerfile: Dockerfile
   googleCloudBuild:
-    projectId: 	ticket-exchange-396422
+    projectId: ticket-exchange-425222

@@ -1,9 +1,13 @@
 import express from "express";
+import { currentUser } from "../middlewares/current-user";
 
 const router = express.Router();
 
-router.get("/api/users/current-user", (req, res) => {
-    res.send("<h1> Current user: Oliver </h1>");
+// Defining a route responsible for retrieving the credentials of the current user
+router.get("/api/users/current-user",
+    currentUser,
+    (req, res) => {
+    res.send({ currentUser: req.currentUser || null });
 });
 
 export { router as currentUserRouter };

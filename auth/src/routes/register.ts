@@ -1,13 +1,13 @@
 import express, { Request, Response } from "express";
 import { User } from "../models/users";
-import { body, ValidationError, validationResult, Result } from "express-validator";
-import { RequestValidationError } from "../errors/RequestValidationError";
+import { body } from "express-validator";
 import { BadRequestError } from "../errors/BadRequestError";
+import { validateRequest } from "../middlewares/validate-request";
 import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-// Defining a route used to register new users with the application
+// Defining a route to encapsulate the registration process (i.e., allows new users to register an account with the application)
 router.post("/api/users/register", [
         body('email')
             .isEmail()
@@ -17,13 +17,8 @@ router.post("/api/users/register", [
             .isLength({min: 4, max: 20})
             .withMessage("Password must be between 4 and 20 characters in length")
     ],
+    validateRequest,
     async (req: Request, res: Response) => {
-
-        // Only proceed if the express-validator middleware did not catch any errors with the provided information
-        const errors: Result<ValidationError> = validationResult(req);
-        if (!errors.isEmpty()) {
-            throw new RequestValidationError(errors.array());
-        }
 
         // Ensuring the provided email address is unique (i.e. no other user in the system currently has the same address)
         const { email, password } = req.body;
@@ -41,7 +36,7 @@ router.post("/api/users/register", [
                 id: newUser.id,
                 email: newUser.email
             },
-            process.env.JWT_KEY!
+            process.env.JWT_KEY!   // JWT signing key
         );
 
         // Storing the JWT on the cookie-session object

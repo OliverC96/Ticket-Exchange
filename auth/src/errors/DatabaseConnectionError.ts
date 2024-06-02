@@ -5,13 +5,13 @@ export class DatabaseConnectionError extends CustomError {
     statusCode: number = 500;
     constructor() {
         super("Failed to connect to MongoDB database.");
-        Object.setPrototypeOf(this, DatabaseConnectionError);
+        Object.setPrototypeOf(this, DatabaseConnectionError.prototype);
     }
-    serializeErrors(): { message: string; field?: string }[] {
+    serializeErrors = (): { message: string; field?: string }[] => {
         return [
             {
-                message: this.reason
+                message: this.message,
             }
-        ];
+        ]
     }
 }

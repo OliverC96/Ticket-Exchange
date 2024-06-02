@@ -16,7 +16,7 @@ Mongo No-SQL Databases
 -> Since we are working with MongoDB within a Kubernetes cluster, deployment and service configuration files must be provided for each database instance
     -> We can reference the official MongoDB image on Docker Hub when specifying the containers running within the pods
 -> To improve application security, all user passwords should be hashed before being stored in the database (as opposed to being stored in plaintext)
-    -> Consequently, malicious users will be unable to view the actual passwords if they gain access to the database
+    -> Consequently, malicious users will be unable to view the actual passwords if they happen to gain access to the database
 -> <schemaName>.pre("save", cb) can be used to execute the specified callback before a new user document is saved to the database
     -> Mongoose pre hooks aim to atomize the model logic, and effectively handle the presence of asynchronous middlewares
 -> <schemaName>.statics|methods.<method_name> can be used to define instance methods associated with the given schema
@@ -24,11 +24,13 @@ Mongo No-SQL Databases
 
 Authentication Strategies
 -> Handling user authentication in the context of microservices is quite challenging and complex
--> Option 1: individual services rely on the authentication service
+-> Option 1: individual services rely on a central authentication service
     -> Send cookies/JWT data in a synchronous request to each microservice
     -> Downsides: heavy reliance on the authentication service, no protection if it goes down
     -> Variant: rely on the authentication service as a gateway (authenticate incoming requests before forwarding request to intended service)
+        -> Allows for un-authenticated requests to be proactively blocked
 -> Option 2: individual services are able to directly/natively authenticate users (no reliance on external auth service)
+    -> Encapsulate authentication logic within each microservice
     -> Downsides: duplicating authentication logic, making an auth-related change within one service does not transfer to other services
         -> This auth-related discrepancy between services can introduce significant issues
             -> E.g. One service bans a malicious users account, but the other services are not aware of this access/permission change
@@ -40,10 +42,11 @@ Authentication Strategies
         -> The browser can then attach the cookie in future requests to the server domain
     -> JSON Web Tokens: JWTs are encoded out of an arbitrary payload (with a secret key/passphrase), and can be included in the cookie or authorization field of request objects
     -> TDLR; cookies are a transport mechanism automatically managed by the browser, whereas JWTs are strictly authentication-centric mechanisms that must be managed manually
+-> In server-side rendering (i.e., NextJS-based React applications), cookies must be utilized to communicate authorization information during the initial request to the server
+    -> All other methods fail to transfer this information in time; preventing the server from constructing the appropriate HTML code
 -> Cookie-session is a cookie-based session middleware (node module) which stores session data within a client-side cookie
     -> Consequently, the cookie-session library does not require any server-side resources
 -> A Secret object can be created in a Kubernetes cluster to store sensitive information
     -> All pods contained within the cluster are able to access secrets
     -> Caveat: explicit references to desired secrets must be declared in the relevant deployment config files
         -> These declarations reveal/expose the secret object(s) as local environment variables within the linked pods/containers
-->

@@ -14,13 +14,13 @@ spec:
     spec:
       containers:
         - name: auth
-          image: us.gcr.io/ticket-exchange-396422/auth
+          image: us.gcr.io/ticket-exchange-425222/auth
           env:
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
                   name: jwt-secret
-                  key: jwt
+                  key: JWT_KEY
 ---
 apiVersion: v1
 kind: Service

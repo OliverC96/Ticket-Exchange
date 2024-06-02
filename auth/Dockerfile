@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy over project files to the working directory, and install required dependencies
 COPY ./package.json ./
-RUN npm install
+RUN npm install --omit=dev
 COPY ./ ./
 
 # Set the primary command of the resultant image to be 'npm start'
