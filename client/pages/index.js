@@ -1,3 +1,10 @@
-export default () => {
-    return <h1> Welcome to my App! </h1>;
-};
+import Header from "../components/Header";
+
+export default function Home() {
+  return (
+      <div>
+          <Header />
+          <h1 className="text-green-500"> Welcome! </h1>
+      </div>
+  );
+}
