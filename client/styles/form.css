@@ -1,0 +1,35 @@
+.form-field {
+    @apply flex flex-col gap-2;
+}
+
+.invalid {
+    @apply border-red-500 !important;
+    @apply outline-red-500 !important;
+    @apply focus:ring-red-500 !important;
+    @apply focus:border-red-500 !important;
+    @apply focus:outline-none !important;
+}
+
+.form-input {
+    @apply px-3 py-2 rounded-lg;
+    @apply text-blue-xlight bg-blue-dark border-blue-dark;
+    @apply outline outline-1 outline-blue-light;
+    @apply placeholder:text-blue-xlight placeholder:opacity-70;
+}
+
+.btn-primary {
+    @apply bg-blue-600 rounded-lg p-2;
+    @apply font-medium;
+    @apply hover:bg-blue-700;
+}
+
+.btn-secondary {
+    @apply py-2 px-6 rounded-lg;
+    @apply bg-blue-xdark hover:bg-blue-dark text-blue-xlight;
+    @apply outline outline-1 outline-blue-light;
+}
+
+input[type="checkbox"] {
+    @apply w-4 h-4 text-blue-500;
+    @apply bg-blue-dark rounded border-blue-light;
+}
