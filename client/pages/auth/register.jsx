@@ -3,7 +3,8 @@ import {
     FaGoogle
 } from "react-icons/fa";
 import { useState } from "react";
-import axios from "axios";
+import useRequest from "../../hooks/use-request";
+import Router from "next/router";
 
 export default () => {
 
@@ -12,7 +13,13 @@ export default () => {
         password: ""
     });
     const [confirm, setConfirm] = useState("");
-    const [errors, setErrors] = useState([]);
+
+    const { performRequest, errors } = useRequest({
+        url: "/api/users/register",
+        method: "post",
+        body: input,
+        onSuccess: () => Router.push("/")
+    });
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -30,14 +37,8 @@ export default () => {
     }
 
     async function handleSubmission(event) {
-        setErrors([]);
         event.preventDefault();
-        try {
-            const response = await axios.post("/api/users/register", input);
-        }
-        catch (err) {
-            setErrors(err.response.data.errors);
-        }
+        await performRequest();
     }
 
     return (
@@ -107,13 +108,7 @@ export default () => {
                         Conditions </a>
                     </div>
 
-                    { errors.length > 0 &&
-                        <ul className="bg-red-300 text-red-dark p-3 rounded-lg list-disc list-inside" >
-                            { errors.map((err) => (
-                                <li key={err.message}> { err.message } </li>
-                            ))}
-                        </ul>
-                    }
+                    {errors}
 
                     <button className={`btn-primary ${input.password !== confirm && "cursor-not-allowed"}`} disabled={input.password !== confirm}>
                         Register

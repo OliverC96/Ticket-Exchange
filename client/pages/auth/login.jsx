@@ -3,7 +3,8 @@ import {
     FaGoogle
 } from "react-icons/fa";
 import { useState } from "react";
-import axios from "axios";
+import useRequest from "../../hooks/use-request";
+import Router from "next/router";
 
 export default () => {
 
@@ -11,7 +12,13 @@ export default () => {
         email: "",
         password: ""
     });
-    const [errors, setErrors] = useState([]);
+
+    const { performRequest, errors } = useRequest({
+        url: "/api/users/login",
+        method: "post",
+        body: input,
+        onSuccess: () => Router.push("/")
+    });
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -24,14 +31,8 @@ export default () => {
     }
 
     async function handleSubmission(event) {
-        setErrors([]);
         event.preventDefault();
-        try {
-            const response = await axios.post("/api/users/login", input);
-        }
-        catch (err) {
-            setErrors(err.response.data.errors);
-        }
+        await performRequest();
     }
 
     return (
@@ -87,13 +88,7 @@ export default () => {
                         />
                     </div>
 
-                    { errors.length > 0 &&
-                        <ul className="bg-red-300 text-red-dark p-3 rounded-lg list-disc list-inside" >
-                            { errors.map((err) => (
-                                <li key={err.message}> { err.message } </li>
-                            ))}
-                        </ul>
-                    }
+                    {errors}
 
                     <button className="btn-primary mt-2" >
                         Login
