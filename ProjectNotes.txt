@@ -50,3 +50,27 @@ Authentication Strategies
     -> All pods contained within the cluster are able to access secrets
     -> Caveat: explicit references to desired secrets must be declared in the relevant deployment config files
         -> These declarations reveal/expose the secret object(s) as local environment variables within the linked pods/containers
+
+Client-Side vs Server-Side Data Fetching
+-> In the browser (i.e., client-side), data can be fetched from any service without additional configuration
+-> Conversely, attempting to fetch external data while server-side is problematic
+    -> By default, the server cannot access data residing in a different pod
+-> There are two possible workarounds to this issue:
+    -> 1) Reach out directly to the desired service - insert its name into the domain of the fetch request
+        -> E.g., http://auth-srv/api/users/current-user (assuming service is named "auth-srv")
+    -> 2) Reach out to ingress-nginx with the current host name (e.g., "ticketing.ca")
+        -> Ingress-nginx will then automatically forward the request to the appropriate service
+        -> URL syntax for cross-namespace communication: http://<SERVICE_NAME>.<NAMESPACE>.svc.cluster.local
+            -> Note: use <k get service -n NAMESPACE> to retrieve the services located within the specified namespace
+
+Data Fetching Methods
+https://blog.logrocket.com/data-fetching-next-js-getserversideprops-getstaticprops/#understanding-getinitialprops
+-> GetInitialProps() is executed on the server-side (during a hard refresh or equivalent action), and on the client-side (when navigating between different pages of the same application)
+-> GetServerSideProps() is only executed on the server-side
+    -> Reduces duplicate data fetching, and provides better predictability of server-side data fetching
+-> Both of these methods can be used to fetch data on the server-side before rendering a page
+    -> 1) Server fetches data from an external source (by invoking the data fetching methods associated with the current component)
+    -> 2) Server passes the fetched data to the component as props
+    -> 2) Server pre-renders the page (i.e., component) with the fetched data
+    -> 3) Server delivers the complete HTML page to the client (i.e., browser)
+-> Server-Side Rendering (SSR) reduces initial page load times and improves Search Engine Optimization (SEO) for the application

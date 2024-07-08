@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import { DatabaseConnectionError } from "./errors/DatabaseConnectionError";
+import { DatabaseConnectionError } from "@ojctickets/common";
 import { server } from "./server";
 
 const initialize = async () => {

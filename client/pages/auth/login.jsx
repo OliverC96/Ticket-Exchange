@@ -5,6 +5,7 @@ import {
 import { useState } from "react";
 import useRequest from "../../hooks/use-request";
 import Router from "next/router";
+import Link from "next/link";
 
 export default () => {
 
@@ -88,7 +89,7 @@ export default () => {
                         />
                     </div>
 
-                    {errors}
+                    { errors }
 
                     <button className="btn-primary mt-2" >
                         Login
@@ -96,9 +97,12 @@ export default () => {
 
                     <p className="">
                         Don't have an account?
-                        <a href="" className="text-blue-500 font-medium ml-1" >
+                        <Link
+                            href="/auth/register"
+                            className="text-blue-500 font-medium ml-1"
+                        >
                             Register
-                        </a>
+                        </Link>
                     </p>
                 </form>
             </div>

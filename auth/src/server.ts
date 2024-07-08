@@ -2,13 +2,12 @@ import express from "express";
 import "express-async-errors";
 import cookieSession from "cookie-session";
 import { json } from "body-parser";
+import { errorHandler, InvalidRouteError } from "@ojctickets/common";
 
 import { currentUserRouter } from "./routes/current-user";
 import { loginRouter } from "./routes/login";
 import { logoutRouter } from "./routes/logout";
 import { registerRouter } from "./routes/register";
-import { errorHandler } from "./middlewares/error-handler";
-import { InvalidRouteError } from "./errors/InvalidRouteError";
 
 const server = express();
 
