@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { currentUser } from "@ojctickets/common";
 
 const router = express.Router();
@@ -6,7 +6,7 @@ const router = express.Router();
 // Defining a route responsible for retrieving the credentials of the current user
 router.get("/api/users/current-user",
     currentUser,
-    (req, res) => {
+    (req: Request, res: Response) => {
     res.send({ currentUser: req.currentUser || null });
 });
 

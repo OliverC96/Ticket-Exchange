@@ -21,5 +21,21 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
+    - image: us.gcr.io/ticket-exchange-425222/tickets
+      context: tickets
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    - image: us.gcr.io/ticket-exchange-425222/orders
+      context: orders
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+      docker:
+        dockerfile: Dockerfile
   googleCloudBuild:
     projectId: ticket-exchange-425222

@@ -74,3 +74,17 @@ https://blog.logrocket.com/data-fetching-next-js-getserversideprops-getstaticpro
     -> 2) Server pre-renders the page (i.e., component) with the fetched data
     -> 3) Server delivers the complete HTML page to the client (i.e., browser)
 -> Server-Side Rendering (SSR) reduces initial page load times and improves Search Engine Optimization (SEO) for the application
+
+NATS Streaming Server: Event Bus Implementation
+-> NATS is a 'message oriented middleware' which enables quick and reliable data exchange between different services or applications
+    -> Events are emitted to specific channels, and each service can independently 'subscribe' to a number of channels
+    -> 'Publishers' produce/emit events; 'subscribers' consume events from their subscriptions
+    -> All events are indexed by unique "sequence numbers", beginning at #1
+-> By default, a comprehensive record of events is stored in-memory
+    -> Services that experience downtime can request a copy of all emitted events from NATS as soon as they come back online (event redelivery)
+-> Events can also be stored in flat files or MySQL/PostgreSQL databases (more persistent storage methods)
+    -> Allows the NATS Server to re-gain access to the history of events if it itself experiences downtime
+-> Queue groups can be used to avoid the redundant emission of events to copies of the same service
+    -> Events published from a particular channel will be sent only to one member of the queue group (selected in a pseudo-random fashion)
+-> Node-nats-streaming is a Node.js client which enables convenient and efficient communication with the NATS Streaming Server
+    -> Port-forwarding can be utilized to expose a particular port within the NATS pod to localhost

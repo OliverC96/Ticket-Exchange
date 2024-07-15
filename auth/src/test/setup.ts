@@ -40,8 +40,5 @@ global.getCookie = async() => {
         })
         .expect(201)
     let cookie = authResponse.get("Set-Cookie");
-    if (typeof cookie === "undefined") {
-        cookie = [];
-    }
-    return cookie;
+    return cookie === undefined ? [] : cookie;
 }

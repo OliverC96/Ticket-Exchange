@@ -1,11 +1,11 @@
 import request from "supertest";
 import { server } from "../../server";
 
-it("Successfully retrieves current user's credentials", async() => {
+it("Successfully retrieves current user", async() => {
    const cookie = await global.getCookie();
    const response = await request(server)
        .get("/api/users/current-user")
-       .set("Cookie", cookie!)
+       .set("Cookie", cookie)
        .send({})
        .expect(200);
    expect(response.body.currentUser.email).toEqual("test@gmail.com");

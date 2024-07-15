@@ -2,12 +2,16 @@ import express from "express";
 import "express-async-errors";
 import cookieSession from "cookie-session";
 import { json } from "body-parser";
-import { errorHandler, NotFoundError } from "@ojctickets/common";
+import {
+    errorHandler,
+    NotFoundError,
+    currentUser
+} from "@ojctickets/common";
 
-import { currentUserRouter } from "./routes/current-user";
-import { loginRouter } from "./routes/login";
-import { logoutRouter } from "./routes/logout";
-import { registerRouter } from "./routes/register";
+import { allOrdersRouter } from "./routes/all-orders";
+import { oneOrderRouter } from "./routes/one-order";
+import { createOrderRouter } from "./routes/create-order";
+import { deleteOrderRouter } from "./routes/delete-order";
 
 const server = express();
 
@@ -17,11 +21,12 @@ server.use(cookieSession({
     signed: false,  // Disable encryption (JWT is already encrypted, by default)
     secure: process.env.NODE_ENV !== "test"
 }));
+server.use(currentUser);
 
-server.use(currentUserRouter);
-server.use(loginRouter);
-server.use(logoutRouter);
-server.use(registerRouter);
+server.use(allOrdersRouter);
+server.use(oneOrderRouter);
+server.use(createOrderRouter);
+server.use(deleteOrderRouter);
 
 server.all("*", async (req, res) => {
     throw new NotFoundError();
