@@ -1,6 +1,10 @@
 import request from "supertest";
 import { server } from "../../server";
-import { OrderStatus } from "@ojctickets/common";
+import {
+    OrderStatus,
+    Subjects,
+    natsWrapper
+} from "@ojctickets/common";
 import mongoose from "mongoose";
 
 it("Can only be accessed by authenticated users", async() => {
@@ -61,4 +65,16 @@ it("Successfully cancels the desired order if it exists", async () => {
     expect(response.body.status).toEqual(OrderStatus.Cancelled);
 });
 
-it.todo("Successfully publishes an 'order:cancelled' event");
+it("Successfully publishes an 'order:cancelled' event", async() => {
+    const user = global.getCookie();
+    const ticket = await global.createTicket();
+    const order = await global.createOrder(ticket.id, user);
+
+    await request(server)
+        .patch(`/api/orders/${order.id}`)
+        .set("Cookie", user)
+        .expect(200);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalledTimes(2);
+    expect(natsWrapper.client.publish).toHaveBeenLastCalledWith(Subjects.OrderCancelled, expect.anything(), expect.anything());
+});

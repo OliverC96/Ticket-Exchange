@@ -7,7 +7,7 @@ import {
 import { body } from "express-validator";
 import { Ticket } from "../models/tickets";
 import { TicketCreatedPublisher } from "../events/publishers/ticket-created-publisher";
-import { natsWrapper } from "../nats-wrapper";
+import { natsWrapper } from "@ojctickets/common";
 import mongoose from "mongoose";
 
 const router = express.Router();
@@ -40,6 +40,7 @@ router.post(
             await newTicket.save();
             await new TicketCreatedPublisher(natsWrapper.client).publish({
                 id: newTicket.id,
+                version: newTicket.version,
                 title: newTicket.title,
                 price: newTicket.price,
                 userID: newTicket.userID

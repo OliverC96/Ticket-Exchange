@@ -88,3 +88,6 @@ NATS Streaming Server: Event Bus Implementation
     -> Events published from a particular channel will be sent only to one member of the queue group (selected in a pseudo-random fashion)
 -> Node-nats-streaming is a Node.js client which enables convenient and efficient communication with the NATS Streaming Server
     -> Port-forwarding can be utilized to expose a particular port within the NATS pod to localhost
+
+Concurrency Issues
+->

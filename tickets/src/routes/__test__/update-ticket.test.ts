@@ -3,8 +3,10 @@ import { server } from "../../server";
 import { Ticket } from "../../models/tickets";
 import { TicketType } from "../../models/tickets";
 import mongoose from "mongoose";
-import { natsWrapper } from "../../nats-wrapper";
-import { Subjects } from "@ojctickets/common";
+import {
+    Subjects,
+    natsWrapper
+} from "@ojctickets/common";
 
 it("Can only be accessed by authenticated users", async() => {
     // Ensuring non-authenticated users CANNOT update existing tickets on the platform
@@ -40,6 +42,28 @@ it("StatusCode = 404 if the ticket does not exist", async() => {
         .set("Cookie", global.getCookie())
         .send(testTicket)
         .expect(404);
+});
+
+it("StatusCode = 400 if the ticket is currently reserved", async() => {
+    const cookie = global.getCookie();
+    const t = await global.createTicket({ cookie });
+
+    const ticket = await Ticket.findById(t.id);
+    ticket!.set({
+        orderID: new mongoose.Types.ObjectId().toHexString()
+    });
+    await ticket!.save();
+
+    const updatedTicket: TicketType = {
+        title: "updatedTicket",
+        price: ticket!.price + 100
+    };
+
+    return request(server)
+        .put(`/api/tickets/${ticket!.id}`)
+        .set("Cookie", cookie)
+        .send(updatedTicket)
+        .expect(400);
 });
 
 it("StatusCode = 401 if the user does not own the ticket", async() => {

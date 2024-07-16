@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 export interface TicketType {
     title: string,
@@ -12,7 +13,9 @@ interface TicketFields extends TicketType {
 export interface TicketDocument extends mongoose.Document {
     title: string,
     price: number,
-    userID: string
+    userID: string,
+    version: number,
+    orderID?: string
 }
 
 interface TicketModel extends mongoose.Model<TicketDocument> {
@@ -32,6 +35,9 @@ const ticketSchema: mongoose.Schema = new mongoose.Schema(
             userID: {
                 type: String,
                 required: true
+            },
+            orderID: {
+                type: String
             }
         },
 {
@@ -43,6 +49,9 @@ const ticketSchema: mongoose.Schema = new mongoose.Schema(
             },
         }
 );
+
+ticketSchema.set("versionKey", "version");
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 /**
  * Adding a static method to the tickets model (TypeScript workaround)

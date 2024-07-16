@@ -5,9 +5,11 @@ import {
     validateRequest,
     NotAuthorizedError,
     NotFoundError,
-    OrderStatus
+    OrderStatus,
+    natsWrapper
 } from "@ojctickets/common";
 import { Order } from "../models/orders";
+import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-publisher";
 
 const router = express.Router();
 
@@ -32,6 +34,14 @@ router.patch(
 
         order.status = OrderStatus.Cancelled;
         await order.save();
+
+        await new OrderCancelledPublisher(natsWrapper.client).publish({
+            id: order.id,
+            version: order.version,
+            ticket: {
+                id: order.ticket.id
+            }
+        });
 
         res.status(200).send(order);
     }

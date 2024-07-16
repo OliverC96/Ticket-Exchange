@@ -2,7 +2,11 @@ import request from "supertest";
 import { server } from "../../server";
 import { Order } from "../../models/orders";
 import mongoose from "mongoose";
-import { OrderStatus } from "@ojctickets/common";
+import {
+    OrderStatus,
+    Subjects,
+    natsWrapper
+} from "@ojctickets/common";
 import { TicketDocument, TicketFields } from "../../models/tickets";
 
 it("Can only be accessed by authenticated users", async() => {
@@ -49,6 +53,7 @@ it("StatusCode = 400 if the ticket is already reserved", async() => {
 
 it("Successfully reserves a ticket (i.e., creates an order with the ticket)", async() => {
     const testTicket: TicketFields = {
+        id: new mongoose.Types.ObjectId().toHexString(),
         title: "ticketName",
         price: 30
     };
@@ -68,4 +73,9 @@ it("Successfully reserves a ticket (i.e., creates an order with the ticket)", as
     expect(order.ticket.price).toEqual(testTicket.price);
 });
 
-it.todo("Successfully publishes an 'order:created' event");
+it("Successfully publishes an 'order:created' event", async() => {
+    const ticket: TicketDocument = await global.createTicket();
+    await global.createOrder(ticket.id);
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
+    expect(natsWrapper.client.publish).toHaveBeenCalledWith(Subjects.OrderCreated, expect.anything(), expect.anything())
+});

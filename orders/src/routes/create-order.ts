@@ -5,10 +5,14 @@ import {
     validateRequest,
     NotFoundError,
     OrderStatus,
-    BadRequestError
+    BadRequestError,
+    DatabaseConnectionError,
+    natsWrapper
 } from "@ojctickets/common";
 import { Ticket } from "../models/tickets";
 import { Order } from "../models/orders";
+import { OrderCreatedPublisher } from "../events/publishers/order-created-publisher";
+import mongoose from "mongoose";
 
 const router = express.Router();
 
@@ -45,9 +49,34 @@ router.post(
             expiresAt: expiration,
             ticket
         });
-        await newOrder.save();
 
-        res.status(201).send(newOrder);
+        const session = await mongoose.startSession();
+
+        try {
+            await session.startTransaction();
+            await newOrder.save();
+            await new OrderCreatedPublisher(natsWrapper.client).publish({
+                id: newOrder.id,
+                version: newOrder.version,
+                status: newOrder.status,
+                userID: newOrder.userID,
+                expiresAt: newOrder.expiresAt.toISOString(),
+                ticket: {
+                    id: ticket.id,
+                    price: ticket.price
+                }
+            });
+            await session.commitTransaction();
+            res.status(201).send(newOrder);
+        }
+        catch (err) {
+            await session.abortTransaction();
+            throw new DatabaseConnectionError();
+        }
+        finally {
+            await session.endSession();
+        }
+
     }
 );
 

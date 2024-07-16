@@ -11,7 +11,25 @@ declare global {
     function createTicket({ newTicket, cookie }: { newTicket?: TicketType, cookie?: string[] }): Promise<TicketDocument>;
 }
 
-jest.mock("../nats-wrapper");
+jest.mock('@ojctickets/common', () => {
+    const original = jest.requireActual('@ojctickets/common');
+
+    return {
+        __esmodule: true,
+        ...original,
+        natsWrapper: {
+            client: {
+                publish: jest
+                    .fn()
+                    .mockImplementation(
+                        (subject: string, data: string, callback: () => void) => {
+                            callback();
+                        }
+                    ),
+            },
+        },
+    };
+});
 
 let mongoDB: any;
 

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { OrderStatus } from "@ojctickets/common";
 import { TicketDocument } from "./tickets";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 export { OrderStatus };
 
@@ -15,7 +16,8 @@ export interface OrderDocument extends mongoose.Document {
     userID: string,
     status: OrderStatus,
     expiresAt: Date,
-    ticket: TicketDocument
+    ticket: TicketDocument,
+    version: number
 }
 
 interface OrderModel extends mongoose.Model<OrderDocument> {
@@ -52,6 +54,9 @@ const orderSchema = new mongoose.Schema(
         }
     }
 );
+
+orderSchema.set("versionKey", "version");
+orderSchema.plugin(updateIfCurrentPlugin);
 
 /**
  * Adding a static method to the orders model (TypeScript workaround)

@@ -5,10 +5,11 @@ import {
     NotFoundError,
     NotAuthorizedError,
     requireAuth,
-    validateRequest
+    validateRequest,
+    natsWrapper,
+    BadRequestError
 } from "@ojctickets/common";
 import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
-import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
@@ -34,9 +35,13 @@ router.put(
         if (!ticket) {
             throw new NotFoundError();
         }
+        if (ticket.orderID) {
+            throw new BadRequestError("Cannot update a reserved ticket.");
+        }
         if (userID !== ticket.userID) {
             throw new NotAuthorizedError();
         }
+
         ticket.set({
             ...req.body
         });
@@ -44,6 +49,7 @@ router.put(
         await ticket.save();
         await new TicketUpdatedPublisher(natsWrapper.client).publish({
             id: ticket.id,
+            version: ticket.version,
             title: ticket.title,
             price: ticket.price,
             userID: ticket.userID

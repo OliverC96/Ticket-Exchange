@@ -1,8 +1,10 @@
 import request from "supertest";
 import { server } from "../../server";
 import { Ticket } from "../../models/tickets";
-import { natsWrapper } from "../../nats-wrapper";
-import { Subjects } from "@ojctickets/common";
+import {
+    Subjects,
+    natsWrapper
+} from "@ojctickets/common";
 
 it("Can only be accessed by authenticated users", async() => {
     // Ensuring non-authenticated users CANNOT create new tickets on the platform

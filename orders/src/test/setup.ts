@@ -13,7 +13,25 @@ declare global {
     function createOrder(ticketID: string, cookie?: string[]): Promise<OrderDocument>;
 }
 
-jest.mock("../nats-wrapper");
+jest.mock('@ojctickets/common', () => {
+    const original = jest.requireActual('@ojctickets/common');
+
+    return {
+        __esmodule: true,
+        ...original,
+        natsWrapper: {
+            client: {
+                publish: jest
+                    .fn()
+                    .mockImplementation(
+                        (subject: string, data: string, callback: () => void) => {
+                            callback();
+                        }
+                    ),
+            },
+        },
+    };
+});
 
 let mongoDB: any;
 
@@ -64,6 +82,7 @@ global.createTicket = async (newTicket?: TicketFields): Promise<TicketDocument> 
     }
     else {
         t = {
+            id: new mongoose.Types.ObjectId().toHexString(),
             title: "ticketName",
             price: 30
         };
