@@ -1,3 +1,5 @@
 1. Migrate to NATS JetStream
 2. Switch to MongoDB Cluster
 3. Thoroughly comment entire project
+4. Configure Redis to utilize disk storage
+5. Migrate queue group names to Kubernetes environment variables

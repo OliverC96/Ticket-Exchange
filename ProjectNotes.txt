@@ -89,5 +89,12 @@ NATS Streaming Server: Event Bus Implementation
 -> Node-nats-streaming is a Node.js client which enables convenient and efficient communication with the NATS Streaming Server
     -> Port-forwarding can be utilized to expose a particular port within the NATS pod to localhost
 
-Concurrency Issues
-->
+Concurrency Issues & Resolution Techniques
+-> OCC via mongoose plugin
+
+Delayed Messaging via BullJS and Redis
+-> NATS Streaming Server does not have built-in support for delayed (i.e., scheduled) messaging
+    -> Instead, we will utilize BullJS and Redis to implement this functionality (and thus, enable order expiration)
+-> Redis (an in-memory database) is utilized as a worker server; temporarily storing BullJS jobs
+    -> After the 15-min expiration window has elapsed, Redis will return the job to the originating server for processing
+-> BullJS is used to create, enqueue (i.e., publish), and process jobs
