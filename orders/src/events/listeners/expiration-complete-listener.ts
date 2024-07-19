@@ -1,7 +1,8 @@
 import {
     Listener,
     Subjects,
-    ExpirationCompleteEvent
+    ExpirationCompleteEvent,
+    OrderStatus
 } from "@ojctickets/common";
 import { queueGroupName } from "./queue-group-name";
 import { OrderCancelledPublisher } from "../publishers/order-cancelled-publisher";
@@ -17,6 +18,9 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
 
         if (!order) {
             throw new Error(`Order cancellation failed - order (id: ${data.orderID}) does not exist.`)
+        }
+        if (order.status === OrderStatus.Complete) {
+            return msg.ack();
         }
         order.set({
             status: Subjects.OrderCancelled

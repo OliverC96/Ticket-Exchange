@@ -3,3 +3,5 @@
 3. Thoroughly comment entire project
 4. Configure Redis to utilize disk storage
 5. Migrate queue group names to Kubernetes environment variables
+6. Improve specificity of error messages in listeners and publishers
+7. Implement personalized order history feature via Stripe API

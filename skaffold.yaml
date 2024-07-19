@@ -45,5 +45,13 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
+    - image: us.gcr.io/ticket-exchange-425222/payments
+      context: payments
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+      docker:
+        dockerfile: Dockerfile
   googleCloudBuild:
     projectId: ticket-exchange-425222

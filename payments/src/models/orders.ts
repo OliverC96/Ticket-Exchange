@@ -1,27 +1,25 @@
 import mongoose from "mongoose";
 import { OrderStatus } from "@ojctickets/common";
-import { TicketDocument } from "./tickets";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
-export { OrderStatus };
-
 export interface OrderFields {
+    id: string,
+    version: number,
     userID: string,
-    status: OrderStatus,
-    expiresAt: Date,
-    ticket: TicketDocument
+    price: number,
+    status: OrderStatus
 }
 
 export interface OrderDocument extends mongoose.Document {
+    version: number,
     userID: string,
+    price: number
     status: OrderStatus,
-    expiresAt: Date,
-    ticket: TicketDocument,
-    version: number
 }
 
 interface OrderModel extends mongoose.Model<OrderDocument> {
-    build(fields: OrderFields): OrderDocument
+    build(fields: OrderFields): OrderDocument;
+    findByEvent(event: { id: string, version: number}): Promise<OrderDocument | null>;
 }
 
 const orderSchema = new mongoose.Schema(
@@ -30,19 +28,15 @@ const orderSchema = new mongoose.Schema(
                 type: String,
                 required: true
             },
+            price: {
+                type: Number,
+                required: true
+            },
             status: {
                 type: String,
                 required: true,
                 enum: Object.values(OrderStatus),
                 default: OrderStatus.Created
-            },
-            expiresAt: {
-                type: mongoose.Schema.Types.Date,
-                required: false
-            },
-            ticket: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Ticket"
             }
         },
 {
@@ -58,13 +52,19 @@ const orderSchema = new mongoose.Schema(
 orderSchema.set("versionKey", "version");
 orderSchema.plugin(updateIfCurrentPlugin);
 
-/**
- * Adding a static method to the orders model (TypeScript workaround)
- * @param fields The parameters of the new document
- * @return The newly created document
- */
 orderSchema.statics.build = (fields: OrderFields) => {
-    return new Order(fields);
+    const { id, ...rest } = fields;
+    return new Order({
+        _id: id,
+        ...rest
+    });
 };
 
-export const Order = mongoose.model<OrderDocument, OrderModel>("Order", orderSchema);
+orderSchema.statics.findByEvent = (event: { id: string, version: number }) => {
+    return Order.findOne({
+        _id: event.id,
+        version: event.version - 1
+    });
+}
+
+export const Order: OrderModel = mongoose.model<OrderDocument, OrderModel>('User', orderSchema);
