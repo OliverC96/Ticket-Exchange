@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: payments
-          image: us.gcr.io/ticket-exchange-425222/payments
+          image: oliverc96/payments
           env:
             - name: STRIPE_KEY
               valueFrom:

@@ -1,15 +1,17 @@
-import buildClient from "../api/build-client";
+import { testTickets } from "../data/testTickets";
+import Ticket from "../components/Ticket";
 
 export default function LandingPage({ currentUser }) {
-    return currentUser ? (
-        <h1>You are signed in</h1>
-    ) : (
-        <h1>You are NOT signed in</h1>
+    return (
+        <div className="flex flex-col p-8 gap-3 text-lg text-blue-dark w-fit" >
+            { testTickets.map((ticket) => {
+                const { id, ...rest } = ticket;
+                return <Ticket key={id} {...rest} />;
+            })}
+        </div>
     );
 }
 
-export const getServerSideProps = async(context) => {
-    const client = buildClient(context);
-    const { data } = await client.get('/api/users/current-user');
-    return { props: data };
+LandingPage.getInitialProps = async (context, client, currentUser) => {
+    return {};
 }

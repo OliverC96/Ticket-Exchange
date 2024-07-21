@@ -5,7 +5,8 @@ manifests:
     - ./infra/k8s/*.yaml
 build:
   artifacts:
-    - image: us.gcr.io/ticket-exchange-425222/auth
+    - image: oliverc96/auth
+      platforms: ["linux/arm64"]
       context: auth
       sync:
         manual:
@@ -13,7 +14,8 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
-    - image: us.gcr.io/ticket-exchange-425222/client
+    - image: oliverc96/client
+      platforms: ["linux/arm64"]
       context: client
       sync:
         manual:
@@ -21,7 +23,8 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
-    - image: us.gcr.io/ticket-exchange-425222/tickets
+    - image: oliverc96/tickets
+      platforms: ["linux/arm64"]
       context: tickets
       sync:
         manual:
@@ -29,7 +32,8 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
-    - image: us.gcr.io/ticket-exchange-425222/orders
+    - image: oliverc96/orders
+      platforms: ["linux/arm64"]
       context: orders
       sync:
         manual:
@@ -37,7 +41,8 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
-    - image: us.gcr.io/ticket-exchange-425222/expiration
+    - image: oliverc96/expiration
+      platforms: ["linux/arm64"]
       context: expiration
       sync:
         manual:
@@ -45,7 +50,8 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
-    - image: us.gcr.io/ticket-exchange-425222/payments
+    - image: oliverc96/payments
+      platforms: ["linux/arm64"]
       context: payments
       sync:
         manual:
@@ -53,5 +59,3 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
-  googleCloudBuild:
-    projectId: ticket-exchange-425222
