@@ -37,7 +37,7 @@ router.patch(
 
         await new OrderCancelledPublisher(natsWrapper.client).publish({
             id: order.id,
-            version: order.version,
+            version: order.__v,
             ticket: {
                 id: order.ticket.id
             }

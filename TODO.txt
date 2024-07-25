@@ -2,7 +2,12 @@
 2. Switch to MongoDB Cluster
 3. Thoroughly comment entire project
 4. Configure Redis to utilize disk storage
-5. Migrate queue group names to Kubernetes environment variables
+5. [discarded] Migrate queue group names to Kubernetes environment variables
 6. Improve specificity of error messages in listeners and publishers
-7. Implement personalized order history feature via Stripe API
+7. [discarded] Implement personalized order history feature via Stripe API
 8. Implement refunds via Stripe API?
+9. Refactor "handleChange" function?
+10. Extract queueGroupName strings to enum in common module
+11. Switch from stripe.charges.create to PaymentIntent method?
+12. Extract create ticket, order ticket, and purchase ticket form logic into shared form component
+13. Implement order confirmation emails with relevant ticket details

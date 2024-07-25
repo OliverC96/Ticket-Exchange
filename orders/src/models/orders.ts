@@ -50,12 +50,12 @@ const orderSchema = new mongoose.Schema(
                 transform(doc, ret) {
                     ret.id = ret._id;
                     delete ret._id;
-                },
-            }
+                }
+            },
+            versionKey: "version"
         }
 );
 
-orderSchema.set("versionKey", "version");
 orderSchema.plugin(updateIfCurrentPlugin);
 
 /**
@@ -65,6 +65,6 @@ orderSchema.plugin(updateIfCurrentPlugin);
  */
 orderSchema.statics.build = (fields: OrderFields) => {
     return new Order(fields);
-};
+}
 
 export const Order = mongoose.model<OrderDocument, OrderModel>("Order", orderSchema);

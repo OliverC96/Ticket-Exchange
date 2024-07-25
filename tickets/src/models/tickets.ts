@@ -13,8 +13,8 @@ interface TicketFields extends TicketType {
 export interface TicketDocument extends mongoose.Document {
     title: string,
     price: number,
-    userID: string,
     version: number,
+    userID: string,
     orderID?: string
 }
 
@@ -45,12 +45,12 @@ const ticketSchema: mongoose.Schema = new mongoose.Schema(
                 transform(doc, ret) {
                     ret.id = ret._id;
                     delete ret._id;
-                },
+                }
             },
+            versionKey: "version"
         }
 );
 
-ticketSchema.set("versionKey", "version");
 ticketSchema.plugin(updateIfCurrentPlugin);
 
 /**

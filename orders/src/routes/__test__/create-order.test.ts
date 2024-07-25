@@ -56,7 +56,7 @@ it("Successfully reserves a ticket (i.e., creates an order with the ticket)", as
         id: new mongoose.Types.ObjectId().toHexString(),
         title: "ticketName",
         price: 30
-    };
+    }
     const ticket: TicketDocument = await global.createTicket(testTicket);
 
     let orders = await Order.find({});

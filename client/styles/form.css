@@ -20,7 +20,12 @@
 .btn-primary {
     @apply bg-blue-600 rounded-lg p-2;
     @apply font-medium;
-    @apply hover:bg-blue-700;
+    @apply enabled:hover:bg-blue-700;
+}
+
+.btn-primary:disabled {
+    @apply cursor-not-allowed;
+    @apply opacity-80;
 }
 
 .btn-secondary {

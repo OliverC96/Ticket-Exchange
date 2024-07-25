@@ -4,15 +4,17 @@ export default function Header({ currentUser }) {
 
     // Conditionally rendered links based on the current user's authentication status
     const links = [
+         currentUser && {label: "Create", href: "/tickets/create"},
+         currentUser && {label: "Orders", href: "/orders"},
+         currentUser && {label: "Logout", href: "/auth/logout"},
         !currentUser && {label: "Register", href: "/auth/register"},
-        !currentUser && {label: "Login", href: "/auth/login"},
-         currentUser && {label: "Logout", href: "/auth/logout"}
+        !currentUser && {label: "Login", href: "/auth/login"}
     ]
         .filter(Boolean)
         .map(({ label, href }) => {
             return (
                 <Link
-                    className="hover:underline"
+                    className="opacity-85 hover:underline hover:opacity-100"
                     key={href}
                     href={href}
                 >
@@ -22,7 +24,7 @@ export default function Header({ currentUser }) {
         });
 
     return (
-        <div className="bg-blue-dark text-blue-xlight p-4 text-lg flex justify-between">
+        <div className="bg-blue-dark text-blue-xlight p-6 text-lg flex justify-between">
             <Link href="/">
                 Ticket-Exchange
             </Link>

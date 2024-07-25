@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { Order, OrderStatus } from "./orders";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 export interface TicketFields {
     id: string,
@@ -38,21 +38,12 @@ const ticketSchema = new mongoose.Schema(
                 ret.id = ret._id;
                 delete ret._id;
             },
-        }
+        },
+        versionKey: "version"
     }
 );
 
-ticketSchema.set("versionKey", "version");
 ticketSchema.plugin(updateIfCurrentPlugin);
-
-ticketSchema.statics.build = (fields: TicketFields) => {
-    const { id, ...rest } = fields;
-    return new Ticket({
-        _id: id,
-        version: 0,
-        ...rest
-    });
-};
 
 ticketSchema.statics.findByEvent = (event: { id: string, version: number }) => {
     return Ticket.findOne({
@@ -60,6 +51,14 @@ ticketSchema.statics.findByEvent = (event: { id: string, version: number }) => {
         version: event.version - 1
     });
 }
+
+ticketSchema.statics.build = (fields: TicketFields) => {
+    const { id, ...rest } = fields;
+    return new Ticket({
+        _id: id,
+        ...rest
+    });
+};
 
 ticketSchema.methods.isReserved = async function() {
     const existingOrder = await Order.findOne({

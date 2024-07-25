@@ -1,17 +1,21 @@
-import { testTickets } from "../data/testTickets";
 import Ticket from "../components/Ticket";
 
-export default function LandingPage({ currentUser }) {
+export default function LandingPage({ currentUser, tickets }) {
     return (
-        <div className="flex flex-col p-8 gap-3 text-lg text-blue-dark w-fit" >
-            { testTickets.map((ticket) => {
-                const { id, ...rest } = ticket;
-                return <Ticket key={id} {...rest} />;
-            })}
+        <div className="flex h-screen w-screen bg-blue-dark justify-center">
+            <div className="flex flex-col gap-3 text-lg text-blue-xlight pt-8">
+                { tickets.map((ticket) => {
+                    return <Ticket key={ticket.id} currUser={currentUser} {...ticket} />;
+                })}
+            </div>
         </div>
     );
-}
+};
 
 LandingPage.getInitialProps = async (context, client, currentUser) => {
-    return {};
-}
+    const { data } = await client.get("/api/tickets");
+    return {
+        tickets: data,
+        currentUser
+    };
+};

@@ -37,6 +37,10 @@ const orderSchema = new mongoose.Schema(
                 required: true,
                 enum: Object.values(OrderStatus),
                 default: OrderStatus.Created
+            },
+            version: {
+                type: Number,
+                default: 0
             }
         },
 {

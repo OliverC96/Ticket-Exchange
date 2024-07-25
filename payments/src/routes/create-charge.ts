@@ -20,18 +20,19 @@ router.post(
     "/api/payments",
     requireAuth,
     [
-        body("token")
+        body("tokenID")
             .notEmpty()
-            .withMessage("Missing pre-authorization token."),
+            .withMessage("Missing Stripe Token ID."),
         body("orderID")
             .isMongoId()
             .withMessage("Invalid MongoDB identifier")
     ],
     validateRequest,
     async (req: Request, res: Response) => {
-        const { token, orderID } = req.body;
+        const { tokenID, orderID } = req.body;
         const userID = req.currentUser!.id;
         const order = await Order.findById(orderID);
+
         if (!order) {
             throw new NotFoundError();
         }
@@ -43,10 +44,19 @@ router.post(
         }
 
         const charge = await stripe.charges.create({
-            currency: "cad",
             amount: order.price * 100,
-            source: token
+            currency: "cad",
+            description: `Order ${order.id} - $${order.price} CAD`,
+            metadata: {
+                timePurchased: new Date().getTime()
+            },
+            source: tokenID
         });
+
+        if (charge.status !== "succeeded") {
+            throw new BadRequestError(`Failed to charge user ${userID} for order ${order.id}.`)
+        }
+
         const payment = Payment.build({
             orderID: order.id,
             chargeID: charge.id
@@ -55,7 +65,8 @@ router.post(
 
         await new PaymentCreatedPublisher(natsWrapper.client).publish({
             id: payment.id,
-            ...payment
+            orderID: order.id,
+            chargeID: charge.id
         });
 
         res.status(201).send({ id: payment.id });
