@@ -13,13 +13,7 @@ export default ({ url, method, body, onSuccess }) => {
             return response.data;
         }
         catch (err) {
-            setErrors(
-                <ul className="bg-red-300 text-red-dark p-5 rounded-lg list-disc list-inside" >
-                    { err.response.data.errors.map((err) => (
-                        <li key={err.message} > { err.message } </li>
-                    ))}
-                </ul>
-            );
+            setErrors(err.response.data.errors);
         }
     }
     return { performRequest, errors };

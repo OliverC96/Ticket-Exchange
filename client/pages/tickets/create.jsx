@@ -78,7 +78,13 @@ export default () => {
                         />
                     </div>
 
-                    { errors }
+                    { errors &&
+                        <ul className="bg-red-300 text-red-dark p-5 rounded-lg list-disc list-inside" >
+                            { errors.map((err) => (
+                                <li key={err.message} > { err.message } </li>
+                            ))}
+                        </ul>
+                    }
 
                     <button className="btn-primary mt-2" >
                         Create

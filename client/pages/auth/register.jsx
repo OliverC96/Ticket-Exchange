@@ -129,7 +129,13 @@ export default () => {
                             <FaFacebook className="text-2xl"/>
                             Continue with Facebook
                         </button>
-                        { errors }
+                        { errors &&
+                            <ul className="bg-red-300 text-red-dark p-5 rounded-lg list-disc list-inside" >
+                                { errors.map((err) => (
+                                    <li key={err.message} > { err.message } </li>
+                                ))}
+                            </ul>
+                        }
                     </div>
 
                 </form>
