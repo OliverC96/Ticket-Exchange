@@ -32,15 +32,16 @@ router.patch(
             throw new NotAuthorizedError();
         }
 
-        order.status = OrderStatus.Cancelled;
+        order.status = OrderStatus.Refunded;
         await order.save();
 
         await new OrderCancelledPublisher(natsWrapper.client).publish({
             id: order.id,
-            version: order.__v,
+            version: order.version,
             ticket: {
                 id: order.ticket.id
-            }
+            },
+            refunded: true
         });
 
         res.status(200).send(order);

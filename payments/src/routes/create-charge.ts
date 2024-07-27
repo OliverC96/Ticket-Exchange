@@ -42,11 +42,16 @@ router.post(
         if (order.status === OrderStatus.Cancelled) {
             throw new BadRequestError(`Cannot create charge - order ${orderID} is cancelled.`);
         }
+        if (order.status === OrderStatus.Refunded) {
+            throw new BadRequestError(`Cannot create charge - order ${orderID} has been refunded.`);
+        }
+
+        order.status = OrderStatus.AwaitingPayment;
 
         const charge = await stripe.charges.create({
             amount: order.price * 100,
             currency: "cad",
-            description: `Order ${order.id} - $${order.price} CAD`,
+            description: `Order ID: ${order.id}`,
             metadata: {
                 timePurchased: new Date().getTime()
             },
@@ -54,6 +59,7 @@ router.post(
         });
 
         if (charge.status !== "succeeded") {
+            await order.save();
             throw new BadRequestError(`Failed to charge user ${userID} for order ${order.id}.`)
         }
 
@@ -62,6 +68,9 @@ router.post(
             chargeID: charge.id
         });
         await payment.save();
+
+        order.status = OrderStatus.Complete;
+        await order.save();
 
         await new PaymentCreatedPublisher(natsWrapper.client).publish({
             id: payment.id,

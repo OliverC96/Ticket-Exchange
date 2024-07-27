@@ -1,15 +1,15 @@
 import {
     Listener,
     OrderCreatedEvent,
-    Subjects
+    Subjects,
+    QueueGroupNames
 } from "@ojctickets/common";
-import { queueGroupName } from "./queue-group-name";
 import { Message } from "node-nats-streaming";
 import { expirationQueue } from "../../queues/expiration-queue";
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     readonly subject = Subjects.OrderCreated;
-    queueGroupName = queueGroupName;
+    queueGroupName = QueueGroupNames.ExpirationService;
 
     async onMessage(data: OrderCreatedEvent["data"], msg: Message) {
         const expirationTime = new Date(data.expiresAt).getTime();

@@ -62,7 +62,7 @@ it("Successfully cancels the desired order if it exists", async () => {
 
     expect(response.body.id).toEqual(order.id);
     expect(response.body.ticket.id).toEqual(ticket.id);
-    expect(response.body.status).toEqual(OrderStatus.Cancelled);
+    expect(response.body.status).toEqual(OrderStatus.Refunded);
 });
 
 it("Successfully publishes an 'order:cancelled' event", async() => {

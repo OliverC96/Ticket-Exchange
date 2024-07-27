@@ -37,7 +37,7 @@ export default () => {
     }
 
     return (
-        <div className="bg-blue-dark h-screen flex flex-col justify-center items-center text-blue-xlight">
+        <div className="bg-blue-dark -mt-[10vh] h-screen flex flex-col justify-center items-center text-blue-xlight">
             <div className="bg-blue-xxdark flex flex-col p-8 rounded-lg outline outline-1 outline-blue-light">
                 <form className="flex flex-col gap-5" onSubmit={handleSubmission} >
 

@@ -6,29 +6,29 @@ import { stripe } from "../../stripe";
 import { Payment } from "../../models/payments";
 
 it("StatusCode = 404 if the associated order does not exist", async() => {
-    const token = "testToken";
+    const tokenID = "testToken";
     const orderID = new mongoose.Types.ObjectId().toHexString();
     return request(server)
         .post("/api/payments")
         .set("Cookie", global.getCookie())
-        .send({ token, orderID })
+        .send({ tokenID, orderID })
         .expect(404);
 });
 
 it("StatusCode = 401 if the current user does not own the order", async() => {
     const userOne = new mongoose.Types.ObjectId().toHexString();
     const userTwo = new mongoose.Types.ObjectId().toHexString();
-    const token = "testToken";
+    const tokenID = "testToken";
     const order = await global.createOrder(userOne);
     return request(server)
         .post("/api/payments")
         .set("Cookie", global.getCookie(userTwo))
-        .send({ token, orderID: order.id })
+        .send({ tokenID, orderID: order.id })
         .expect(401);
 });
 
 it("StatusCode = 400 when attempting to purchase a cancelled order", async() => {
-    const token = "testToken";
+    const tokenID = "testToken";
     const userID = new mongoose.Types.ObjectId().toHexString();
     const order = await global.createOrder(userID);
 
@@ -40,12 +40,12 @@ it("StatusCode = 400 when attempting to purchase a cancelled order", async() => 
     return request(server)
         .post("/api/payments")
         .set("Cookie", global.getCookie(userID))
-        .send({ token, orderID: order.id })
+        .send({ tokenID, orderID: order.id })
         .expect(400);
 });
 
 it("Successfully creates a charge", async() => {
-    const token = "tok_visa";
+    const tokenID = "tok_visa";
     const userID = new mongoose.Types.ObjectId().toHexString();
     const price = Math.floor(Math.random() * 100000);
     const order = await global.createOrder(userID);
@@ -56,22 +56,16 @@ it("Successfully creates a charge", async() => {
     const response = await request(server)
         .post("/api/payments")
         .set("Cookie", global.getCookie(userID))
-        .send({ token, orderID: order.id })
+        .send({ tokenID, orderID: order.id })
         .expect(201);
 
-    const stripeCharges = await stripe.charges.list({ limit: 10 });
-    const stripeCharge = stripeCharges.data.find((charge) => {
-        return charge.amount === price * 100;
-    });
+    const payment = await Payment.findById(response.body.id);
+    expect(payment).not.toBeNull();
+    expect(response.body.id).toEqual(payment!.id);
 
+    const stripeCharge = await stripe.charges.retrieve(payment!.chargeID);
     expect(stripeCharge).toBeDefined();
     expect(stripeCharge!.currency).toEqual("cad");
     expect(stripeCharge!.paid).toEqual(true);
 
-    const payment = await Payment.findOne({
-        orderID: order.id,
-        chargeID: stripeCharge!.id
-    });
-    expect(payment).toBeDefined();
-    expect(response.body.id).toEqual(payment!.id);
 });

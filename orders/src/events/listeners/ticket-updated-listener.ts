@@ -1,20 +1,20 @@
 import {
     TicketUpdatedEvent,
     Subjects,
-    Listener
+    Listener,
+    QueueGroupNames
 } from "@ojctickets/common";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../models/tickets";
-import { queueGroupName } from "./queue-group-name";
 
 export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
     readonly subject = Subjects.TicketUpdated;
-    queueGroupName = queueGroupName;
+    queueGroupName = QueueGroupNames.OrderService;
 
     async onMessage(data: TicketUpdatedEvent["data"], msg: Message): Promise<void> {
         const ticket = await Ticket.findByEvent(data);
         if (!ticket) {
-            throw new Error("Ticket not found");
+            throw new Error(`Failed to update ticket ${data.id}`);
         }
 
         const { title, price } = data;

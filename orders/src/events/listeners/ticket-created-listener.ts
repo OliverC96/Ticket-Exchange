@@ -1,15 +1,15 @@
 import {
     TicketCreatedEvent,
     Subjects,
-    Listener
+    Listener,
+    QueueGroupNames
 } from "@ojctickets/common";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../models/tickets";
-import { queueGroupName } from "./queue-group-name";
 
 export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
     readonly subject = Subjects.TicketCreated;
-    queueGroupName = queueGroupName;
+    queueGroupName = QueueGroupNames.OrderService;
 
     async onMessage(data: TicketCreatedEvent["data"], msg: Message): Promise<void> {
         const { id, title, price } = data;

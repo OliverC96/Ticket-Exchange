@@ -14,9 +14,9 @@ export default ({ url, method, body, onSuccess }) => {
         }
         catch (err) {
             setErrors(
-                <ul className="bg-red-300 text-red-dark p-3 rounded-lg list-disc list-inside" >
+                <ul className="bg-red-300 text-red-dark p-5 rounded-lg list-disc list-inside" >
                     { err.response.data.errors.map((err) => (
-                        <li key={err.message}> { err.message } </li>
+                        <li key={err.message} > { err.message } </li>
                     ))}
                 </ul>
             );

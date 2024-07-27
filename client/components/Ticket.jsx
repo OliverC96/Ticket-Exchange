@@ -9,7 +9,7 @@ export default function Ticket({ id, title, price, currUser }) {
             />
             <Link
                 href={currUser ? `/tickets/${id}` : "/auth/register"}
-                className="w-fit">
+                className="w-fit opacity-85 hover:opacity-100">
                 { title } - ${ price }
             </Link>
         </div>

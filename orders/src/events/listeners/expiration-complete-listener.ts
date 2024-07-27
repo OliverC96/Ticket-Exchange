@@ -2,16 +2,16 @@ import {
     Listener,
     Subjects,
     ExpirationCompleteEvent,
-    OrderStatus
+    OrderStatus,
+    QueueGroupNames
 } from "@ojctickets/common";
-import { queueGroupName } from "./queue-group-name";
 import { OrderCancelledPublisher } from "../publishers/order-cancelled-publisher";
 import { Message } from "node-nats-streaming";
 import { Order } from "../../models/orders";
 
 export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent> {
     readonly subject = Subjects.ExpirationComplete;
-    queueGroupName = queueGroupName;
+    queueGroupName = QueueGroupNames.OrderService;
 
     async onMessage(data: ExpirationCompleteEvent["data"], msg: Message) {
         const order = await Order.findById(data.orderID).populate("ticket");
@@ -19,12 +19,10 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
         if (!order) {
             throw new Error(`Order cancellation failed - order (id: ${data.orderID}) does not exist.`)
         }
-        if (order.status === OrderStatus.Complete) {
+        if (order.status !== OrderStatus.Created) {
             return msg.ack();
         }
-        order.set({
-            status: OrderStatus.Cancelled
-        });
+        order.status = OrderStatus.Cancelled
         await order.save();
 
         await new OrderCancelledPublisher(this.client).publish({
@@ -32,7 +30,8 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
             version: order.version,
             ticket: {
                 id: order.ticket.id
-            }
+            },
+            refunded: false
         });
 
         msg.ack();

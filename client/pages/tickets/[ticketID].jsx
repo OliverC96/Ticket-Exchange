@@ -17,7 +17,7 @@ const ViewTicket = ({ ticket }) => {
     }
 
     return (
-        <div className="bg-blue-dark h-screen flex flex-col pt-24 items-center text-blue-xlight">
+        <div className="bg-blue-dark h-screen -mt-[10vh] flex flex-col pt-32 items-center text-blue-xlight">
             <div className="bg-blue-xxdark flex flex-col p-8 rounded-lg outline outline-1 outline-blue-light w-1/3">
                 <form className="flex flex-col gap-5" onSubmit={handleSubmission} >
 

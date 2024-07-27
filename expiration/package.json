@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ojctickets/common": "^1.0.17",
+    "@ojctickets/common": "^1.0.22",
     "@types/bull": "^4.10.0",
     "bull": "^4.15.1",
     "nats": "^2.28.0",

@@ -1,23 +1,23 @@
 import {
     Listener,
     Subjects,
-    OrderCreatedEvent
+    OrderCreatedEvent,
+    QueueGroupNames
 } from "@ojctickets/common";
-import { queueGroupName } from "./queue-group-name";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../models/tickets";
 import { TicketUpdatedPublisher } from "../publishers/ticket-updated-publisher";
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     readonly subject = Subjects.OrderCreated;
-    queueGroupName = queueGroupName;
+    queueGroupName = QueueGroupNames.TicketService;
 
     async onMessage(data: OrderCreatedEvent["data"], msg: Message) {
         const ticketID = data.ticket.id;
         const ticket = await Ticket.findById(ticketID);
 
         if (!ticket) {
-            throw new Error("Ticket not found.");
+            throw new Error(`Failed to retrieve ticket ${ticketID}`);
         }
 
         ticket.set({

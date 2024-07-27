@@ -24,8 +24,8 @@ export default function Header({ currentUser }) {
         });
 
     return (
-        <div className="bg-blue-dark text-blue-xlight p-6 text-lg flex justify-between">
-            <Link href="/">
+        <div className="text-blue-xlight text-lg flex justify-between px-6 items-center h-[10vh]">
+            <Link href="/" className="font-title text-2xl">
                 Ticket-Exchange
             </Link>
             <div className="flex gap-5">

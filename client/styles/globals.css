@@ -1,3 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Orbitron:wght@400..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.decal {
+    background-image: radial-gradient(
+            circle at 10% 20%,
+            #001B29 0%,
+            #001B29 15%,
+            #002438 15%,
+            #002438 32%,
+            #003049 32%,
+            #003049 57%,
+            #002438 57%,
+            #002438 74%,
+            #001B29 74%,
+            #001B29 100%
+    );
+}
