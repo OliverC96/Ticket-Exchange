@@ -1,5 +1,5 @@
 .form-field {
-    @apply flex flex-col gap-2;
+    @apply flex flex-col gap-1.5;
 }
 
 .invalid {
@@ -11,7 +11,7 @@
 }
 
 .form-input {
-    @apply px-3 py-2 rounded-lg;
+    @apply px-3 py-2 rounded-md;
     @apply text-blue-xlight bg-blue-dark border-blue-dark;
     @apply outline outline-1 outline-blue-light;
     @apply placeholder:text-blue-xlight placeholder:opacity-70;

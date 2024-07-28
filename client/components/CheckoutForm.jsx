@@ -6,10 +6,12 @@ import {
     useElements,
     CardNumberElement,
     CardExpiryElement,
-    CardCvcElement
+    CardCvcElement,
+    AddressElement
 } from "@stripe/react-stripe-js";
 import { elementStyle } from "../styles/stripe-form";
 import { FaRegCreditCard } from "react-icons/fa";
+import { addressOptions } from "../utils/address_config";
 
 export default function CheckoutForm({ order, currentUser }) {
 
@@ -45,11 +47,37 @@ export default function CheckoutForm({ order, currentUser }) {
         }
 
         const card = elements.getElement(CardNumberElement);
-        const res = await stripe.createToken(card);
+        const address = elements.getElement(AddressElement);
+        const billing_details = await address.getValue();
+        if (billing_details.complete) {
 
-        if (res.token) {
-            setTokenID(res.token.id);
+            const { name, address } = billing_details.value;
+            await fetch(
+                "/api/send-confirmation",
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        title: order.ticket.title,
+                        price: order.ticket.price,
+                        status: "complete",
+                        orderID: order.id,
+                        tax_percent: 5,
+                        discount: 0,
+                        customer: {
+                            name,
+                            address
+                        }
+                    })
+                }
+            );
+
+            const res = await stripe.createToken(card);
+            if (res.token) {
+                setTokenID(res.token.id);
+            }
+
         }
+
     }
 
     useEffect(() => {
@@ -64,85 +92,80 @@ export default function CheckoutForm({ order, currentUser }) {
         };
     }, [order]);
 
-    const isFR = useRef(true);
-    useEffect(() => {
-        if (isFR.current) {
-            isFR.current = false;
-            return;
-        }
-        elements.getElement(CardNumberElement).update(elementStyle);
-        elements.getElement(CardExpiryElement).update(elementStyle);
-        elements.getElement(CardCvcElement).update(elementStyle);
-    }, [elements]);
-
     return (
-        <div className="bg-blue-dark h-screen -mt-[10vh] flex flex-col pt-20 items-center text-blue-xlight">
-            <div className="bg-blue-xxdark flex flex-col p-8 rounded-lg outline outline-1 outline-blue-light w-fit">
-                <div className="mb-2 self-center">
+        <div className="bg-blue-dark h-screen -mt-[10vh] flex flex-col justify-center items-center text-blue-xlight">
+            <div className="bg-blue-xxdark flex flex-col gap-5 p-8 rounded-lg outline outline-1 outline-blue-light w-[60%]">
+                <div className="flex flex-col gap-2 items-center">
                     {
                         timeRemaining > 0
                             ? <h3 className="text-blue-xlight text-lg"> Time Remaining: { timeRemaining }s </h3>
                             : <h3 className="text-red-400 text-lg"> Order Expired </h3>
                     }
-                </div>
-                <form className="flex flex-col gap-5" onSubmit={handleSubmission}>
-
                     <h1 className="text-2xl font-bold">
                         Purchase <i>{ order.ticket.title  }</i> - ${ order.ticket.price  } CAD
                     </h1>
+                </div>
 
-                    <div className="form-field" >
-                        <label id="email">
-                            Email Address
-                        </label>
-                        <input
-                            className="form-input"
-                            name="email"
-                            value={currentUser.email}
-                            disabled
-                        />
-                    </div>
+                <form className="flex gap-5" onSubmit={handleSubmission}>
 
-                    <div className="w-full my-1 bg-blue-light h-0.5 rounded-lg opacity-50" />
+                    <AddressElement options={addressOptions} className="w-3/5" />
 
-                    <div className="form-field" id="cardNumber">
-                        <label className="flex justify-between items-center">
-                            Card Number
-                            <FaRegCreditCard />
-                        </label>
-                        <CardNumberElement className="form-input" />
-                    </div>
+                    <div className="min-h-full mx-1 bg-blue-light w-0.5 rounded-lg opacity-50" />
 
-                    <div className="flex justify-between">
-                        <div className="flex flex-col gap-2 w-[48%]" id="expiryDate">
-                            <label>
-                                Expiry Date
-                            </label>
-                            <CardExpiryElement className="form-input" />
+                    <div className="w-2/5 flex flex-col gap-5 justify-between">
+
+                        <div className="flex flex-col gap-3">
+                            <div className="form-field">
+                                <label>
+                                    Email Address
+                                </label>
+                                <input
+                                    className="px-3 py-1.5 rounded-md text-blue-xlight bg-blue-dark border-blue-dark outline outline-1 outline-blue-light placeholder:text-blue-xlight placeholder:opacity-70"
+                                    value={currentUser.email}
+                                    disabled
+                                />
+                            </div>
+
+                            <div className="form-field" id="cardNumber">
+                                <label className="flex justify-between items-center">
+                                    Card Number
+                                    <FaRegCreditCard />
+                                </label>
+                                <CardNumberElement className="form-input" options={elementStyle} />
+                            </div>
+
+                            <div className="flex justify-between">
+                                <div className="flex flex-col gap-1.5 w-[48%]" id="expiryDate">
+                                    <label>
+                                        Expiry Date
+                                    </label>
+                                    <CardExpiryElement className="form-input" options={elementStyle} />
+                                </div>
+                                <div className="flex flex-col gap-1.5 w-[48%]" id="securityCode">
+                                    <label>
+                                        Security Code
+                                    </label>
+                                    <CardCvcElement className="form-input" options={elementStyle} />
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex flex-col gap-2 w-[48%]" id="securityCode">
-                            <label>
-                                Security Code
-                            </label>
-                            <CardCvcElement className="form-input" />
-                        </div>
+
+                        { errors &&
+                            <ul className="bg-red-300 text-red-dark p-5 rounded-lg list-disc list-inside" >
+                                { errors.map((err) => (
+                                    <li key={err.message} > { err.message } </li>
+                                ))}
+                            </ul>
+                        }
+
+                        <button
+                            className="btn-primary mb-1"
+                            type="submit"
+                            disabled={!stripe || !elements}
+                        >
+                            Buy now
+                        </button>
                     </div>
-
-                    { errors &&
-                        <ul className="bg-red-300 text-red-dark p-5 rounded-lg list-disc list-inside" >
-                            { errors.map((err) => (
-                                <li key={err.message} > { err.message } </li>
-                            ))}
-                        </ul>
-                    }
-
-                    <button
-                        className="btn-primary mt-2"
-                        type="submit"
-                        disabled={!stripe || !elements}
-                    >
-                        Buy now
-                    </button>
 
                 </form>
             </div>

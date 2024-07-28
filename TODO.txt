@@ -2,4 +2,4 @@
 2. Switch to MongoDB Cluster
 3. [pending] Thoroughly document entire project [https://google.github.io/styleguide/tsguide.html#comments-documentation]
 4. Configure Redis to utilize disk storage (persistent volumes)
-5. [pending] Implement order confirmation emails with relevant ticket details (use Twilio SendGrid API)
+5. [selected] Make client-side API keys private (i.e., stored on the next server)
