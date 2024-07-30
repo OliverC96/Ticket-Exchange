@@ -18,7 +18,7 @@ const initialize = async () => {
         throw new DatabaseConnectionError();
     }
     server.listen(3001, () => {
-        console.log("Successfully launched on port 3001.");
+        console.log("Successfully launched on port 3001");
     });
 }
 
