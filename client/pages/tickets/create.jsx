@@ -45,7 +45,7 @@ export default () => {
 
     return (
         <div className="page-wrapper">
-            <div className="card p-8 w-1/3 -mt-44">
+            <div className="card p-8 w-1/3 -mt-28">
                 <form className="flex flex-col gap-5" onSubmit={handleSubmission} >
 
                     <div className="flex gap-4 items-center text-2xl">
