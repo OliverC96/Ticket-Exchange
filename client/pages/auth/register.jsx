@@ -7,6 +7,7 @@ import { useState } from "react";
 import useRequest from "../../hooks/use-request";
 import Router from "next/router";
 import Link from "next/link";
+import Divider from "../../components/Divider";
 
 export default () => {
 
@@ -44,8 +45,8 @@ export default () => {
     }
 
     return (
-        <div className="bg-blue-dark -mt-[10vh] h-screen flex flex-col justify-center items-center text-blue-xlight">
-            <div className="bg-blue-xxdark flex flex-col p-8 rounded-lg outline outline-1 outline-blue-light w-1/2">
+        <div className="page-wrapper">
+            <div className="card p-8 w-1/2">
                 <form className="flex gap-5" onSubmit={handleSubmission}>
 
                     <div className="flex flex-col gap-5 w-[55%]">
@@ -110,27 +111,23 @@ export default () => {
 
                     </div>
 
-                    <div className="flex flex-col items-center py-1 gap-1">
-                        <div className="flex-grow border-t border border-1.5 border-blue-light"></div>
-                        <span className="flex-shrink mx-4 text-blue-xlight text-lg"> or </span>
-                        <div className="flex-grow border-t border border-1.5 border-blue-light"></div>
-                    </div>
+                    <Divider type="vertical" />
 
                     <div className="flex flex-col gap-5 justify-center w-[45%]">
-                        <button className="btn-secondary flex gap-2 items-center">
+                        <button className="btn-secondary icon-btn">
                             <FaApple className="text-2xl"/>
                             Continue with Apple
                         </button>
-                        <button className="btn-secondary flex gap-2 items-center">
+                        <button className="btn-secondary icon-btn">
                             <FaGoogle className="text-xl"/>
                             Continue with Google
                         </button>
-                        <button className="btn-secondary flex gap-2 items-center">
+                        <button className="btn-secondary icon-btn">
                             <FaFacebook className="text-2xl"/>
                             Continue with Facebook
                         </button>
                         { errors &&
-                            <ul className="bg-red-300 text-red-dark p-5 rounded-lg list-disc list-inside" >
+                            <ul className="card-error" >
                                 { errors.map((err) => (
                                     <li key={err.message} > { err.message } </li>
                                 ))}

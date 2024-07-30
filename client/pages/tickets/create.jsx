@@ -44,8 +44,8 @@ export default () => {
     }
 
     return (
-        <div className="bg-blue-dark h-screen -mt-[10vh] flex flex-col pt-40 items-center text-blue-xlight">
-            <div className="bg-blue-xxdark flex flex-col p-8 rounded-lg outline outline-1 outline-blue-light w-1/3">
+        <div className="page-wrapper">
+            <div className="card p-8 w-1/3 -mt-44">
                 <form className="flex flex-col gap-5" onSubmit={handleSubmission} >
 
                     <div className="flex gap-4 items-center text-2xl">
@@ -79,7 +79,7 @@ export default () => {
                     </div>
 
                     { errors &&
-                        <ul className="bg-red-300 text-red-dark p-5 rounded-lg list-disc list-inside" >
+                        <ul className="card-error" >
                             { errors.map((err) => (
                                 <li key={err.message} > { err.message } </li>
                             ))}

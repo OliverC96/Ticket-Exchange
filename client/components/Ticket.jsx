@@ -1,17 +1,20 @@
-import Link from "next/link";
-import { RiArrowRightDoubleFill } from "react-icons/ri";
+import Router from "next/router";
 
 export default function Ticket({ id, title, price, currUser }) {
+    const onClick = async() => {
+        if (currUser) {
+            await Router.push(`/tickets/${id}`);
+        }
+        else {
+            await Router.push("/auth/register")
+        }
+    };
     return (
-        <div className="flex gap-1 items-center group" >
-            <RiArrowRightDoubleFill
-                className="opacity-0 group-hover:opacity-100 text-blue-xlight transition duration-200 text-2xl"
-            />
-            <Link
-                href={currUser ? `/tickets/${id}` : "/auth/register"}
-                className="w-fit opacity-85 hover:opacity-100">
-                { title } - ${ price }
-            </Link>
+        <div
+            onClick={onClick}
+            className="card gap-2 p-5 h-fit hover:outline-2 hover:cursor-pointer" >
+            <h1 className="text-lg"> { title } </h1>
+            <h3 className="text-xl flex gap-1 items-center"> ${ price } <span className="text-xs opacity-85">CAD</span> </h3>
         </div>
     );
 }

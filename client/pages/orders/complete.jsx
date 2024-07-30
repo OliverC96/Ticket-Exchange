@@ -4,10 +4,7 @@ import CostSummary from "../../components/email-templates/CostSummary";
 import { parseDate } from "../../utils/parse_date";
 import { IoReceiptOutline } from "react-icons/io5";
 import { RiArrowRightDoubleFill } from "react-icons/ri";
-import {
-    getTaxAmount,
-    getTotal
-} from "../../utils/calculate_charges";
+import { getCharges } from "../../utils/calculate_charges";
 
 export default () => {
 
@@ -20,30 +17,14 @@ export default () => {
     const { name, email, address } = JSON.parse(localStorage.getItem("customer"));
 
     const d = parseDate();
-    const taxAmount = getTaxAmount(ticket.price, taxPercent);
-    const total = getTotal(ticket.price, taxAmount, discount).toFixed(2);
-
-    const charges = [
-        {
-            type: "Ticket Price",
-            amount: ticket.price.toFixed(2)
-        },
-        {
-            type: `Tax (${taxPercent}%)`,
-            amount: taxAmount.toFixed(2)
-        },
-        {
-            type: "Discount",
-            amount: discount.toFixed(2)
-        }
-    ];
+    const charges = getCharges(ticket.price, taxPercent, discount, false);
 
     return (
-        <div className="bg-blue-dark h-screen -mt-[10vh] flex flex-col justify-center items-center text-blue-xlight">
-            <div className="bg-blue-xxdark flex flex-col p-8 rounded-lg outline outline-1 outline-blue-light">
+        <div className="page-wrapper">
+            <div className="card p-8">
                 <form className="flex flex-col gap-5" onSubmit={handleSubmission}>
 
-                    <div className="flex flex-col gap-2 items-center text-2xl text-center">
+                    <div className="order-confirm-header">
                         <h1 className="font-bold">
                             Order #{id} - <span className="text-green-400"> COMPLETE </span>
                         </h1>
@@ -53,8 +34,8 @@ export default () => {
                     <div className="flex flex-col gap-5 mx-10">
                         <p className="text-lg"> Confirmation email sent to <span className="underline"> { email } </span> </p>
 
-                        <div className="flex flex-col gap-6 py-6 px-8 bg-blue-dark rounded-md ring-1 ring-blue-light">
-                            <CostSummary charges={charges} total={total} />
+                        <div className="order-confirm-summary">
+                            <CostSummary charges={charges} />
                             <div className="flex justify-between items-center">
                                 <BillingDetails name={name} address={address} />
                                 <IoReceiptOutline size={58} />

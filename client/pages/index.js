@@ -5,7 +5,7 @@ export default function LandingPage({ currentUser, tickets }) {
     return (
         <div className="w-screen -mt-[10vh] flex justify-center h-screen decal">
             <RiExchange2Fill className="absolute top-20 left-20 text-blue-xlight" size={65} />
-            <div className="flex flex-col gap-3 text-lg text-blue-xlight pt-32">
+            <div className="ticket-grid">
                 { tickets.map((ticket) => {
                     return <Ticket key={ticket.id} currUser={currentUser} {...ticket} />;
                 })}

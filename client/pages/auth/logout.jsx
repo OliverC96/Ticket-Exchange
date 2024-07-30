@@ -13,7 +13,4 @@ export default function Logout() {
     useEffect(() => {
         performRequest();
     }, []);
-
-    return <h1> LOGOUT SUCCESSFUL </h1>;
-
 }

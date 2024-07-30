@@ -4,7 +4,7 @@ import TicketDecal from "../../components/TicketDecal";
 const OrderIndex = ({ orders }) => {
     return (
         <div className="flex p-8 justify-evenly h-screen -mt-[10vh] bg-blue-dark">
-            <div className="grid grid-cols-2 gap-5 text-lg text-blue-xlight w-fit h-fit pt-24">
+            <div className="order-grid">
                 { orders.map((order) => {
                     return <Order key={order.id} {...order} />;
                 })}

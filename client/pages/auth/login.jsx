@@ -6,6 +6,7 @@ import { useState } from "react";
 import useRequest from "../../hooks/use-request";
 import Router from "next/router";
 import Link from "next/link";
+import Divider from "../../components/Divider";
 
 export default () => {
 
@@ -37,8 +38,8 @@ export default () => {
     }
 
     return (
-        <div className="bg-blue-dark -mt-[10vh] h-screen flex flex-col justify-center items-center text-blue-xlight">
-            <div className="bg-blue-xxdark flex flex-col p-8 rounded-lg outline outline-1 outline-blue-light">
+        <div className="page-wrapper">
+            <div className="card p-8">
                 <form className="flex flex-col gap-5" onSubmit={handleSubmission} >
 
                     <h1 className="text-2xl font-bold">
@@ -56,11 +57,7 @@ export default () => {
                         </button>
                     </div>
 
-                    <div className="flex items-center py-1">
-                        <div className="flex-grow border-t border border-1.5 border-blue-light"></div>
-                        <span className="flex-shrink mx-4 text-blue-xlight"> or </span>
-                        <div className="flex-grow border-t border border-1.5 border-blue-light"></div>
-                    </div>
+                    <Divider type="horizontal" />
 
                     <div className="form-field" >
                         <label id="email"> Email address </label>
@@ -90,7 +87,7 @@ export default () => {
                     </div>
 
                     { errors &&
-                        <ul className="bg-red-300 text-red-dark p-5 rounded-lg list-disc list-inside" >
+                        <ul className="card-error" >
                             { errors.map((err) => (
                                 <li key={err.message} > { err.message } </li>
                             ))}

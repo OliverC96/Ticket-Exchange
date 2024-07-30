@@ -1,3 +1,43 @@
+.page-wrapper {
+    @apply bg-blue-dark -mt-[10vh] h-screen text-blue-xlight;
+    @apply flex flex-col justify-center items-center;
+}
+
+.card {
+    @apply bg-blue-xxdark outline outline-1 outline-blue-light;
+    @apply flex flex-col rounded-lg;
+}
+
+.vertical-line {
+    @apply min-h-full mx-1 bg-blue-light w-0.5 rounded-lg opacity-50
+}
+
+.card-error {
+    @apply bg-red-300 text-red-dark p-5 rounded-lg list-disc list-inside;
+}
+
+.ticket-grid {
+    @apply grid grid-cols-4 gap-5 text-blue-xlight pt-32 h-2/3;
+}
+
+.order-grid {
+    @apply grid grid-cols-2 gap-5 text-lg;
+    @apply text-blue-xlight w-fit h-fit pt-24;
+}
+
+.order-confirm-header {
+    @apply flex flex-col gap-2 items-center text-2xl text-center;
+}
+
+.icon-btn {
+    @apply flex gap-2 items-center;
+}
+
+.order-confirm-summary {
+    @apply flex flex-col gap-6 py-6 px-8;
+    @apply bg-blue-dark rounded-md ring-1 ring-blue-light;
+}
+
 .form-field {
     @apply flex flex-col gap-1.5;
 }

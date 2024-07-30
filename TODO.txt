@@ -2,3 +2,6 @@
 2. Switch to MongoDB Cluster
 3. [pending] Thoroughly document entire project [https://google.github.io/styleguide/tsguide.html#comments-documentation]
 4. Configure Redis to utilize disk storage (persistent volumes)
+5. Implement dynamic discounts on tickets?
+6. Implement third-party OAuth login/register
+7. Implement user profile page with order history?

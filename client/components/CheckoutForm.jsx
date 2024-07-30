@@ -11,10 +11,10 @@ import {
 } from "@stripe/react-stripe-js";
 import { elementStyle } from "../styles/stripe-form";
 import { FaRegCreditCard } from "react-icons/fa";
-import addressOptions from "../utils/address_config";
+import { addressOptions, countryMapping } from "../utils/address_config";
 import { ThreeDots } from "react-loader-spinner";
 
-export default function CheckoutForm({ order, currentUser, placesKey }) {
+export default function CheckoutForm({ order, currentUser }) {
 
     const [timeRemaining, setTimeRemaining] = useState(0);
     const [tokenID, setTokenID] = useState("");
@@ -59,6 +59,8 @@ export default function CheckoutForm({ order, currentUser, placesKey }) {
         if (billingDetails.complete) {
 
             const { name, address } = billingDetails.value;
+            address.country = countryMapping[address.country];
+
             await fetch(
                 "/api/send-confirmation",
                 {
@@ -112,8 +114,8 @@ export default function CheckoutForm({ order, currentUser, placesKey }) {
     }, [order]);
 
     return (
-        <div className="bg-blue-dark h-screen -mt-[10vh] flex flex-col justify-center items-center text-blue-xlight">
-            <div className="bg-blue-xxdark flex flex-col gap-5 p-8 rounded-lg outline outline-1 outline-blue-light w-[60%]">
+        <div className="page-wrapper">
+            <div className="card gap-5 p-8 w-[60%]">
                 <div className="flex flex-col gap-2 items-center">
                     {
                         timeRemaining > 0
@@ -127,9 +129,9 @@ export default function CheckoutForm({ order, currentUser, placesKey }) {
 
                 <form className="flex gap-5" onSubmit={handleSubmission}>
 
-                    <AddressElement options={addressOptions(placesKey)} className="w-3/5" />
+                    <AddressElement options={addressOptions} className="w-3/5" />
 
-                    <div className="min-h-full mx-1 bg-blue-light w-0.5 rounded-lg opacity-50" />
+                    <div className="vertical-line" />
 
                     <div className="w-2/5 flex flex-col gap-5 justify-between">
 
@@ -139,7 +141,7 @@ export default function CheckoutForm({ order, currentUser, placesKey }) {
                                     Email Address
                                 </label>
                                 <input
-                                    className="px-3 py-1.5 rounded-md text-blue-xlight bg-blue-dark border-blue-dark outline outline-1 outline-blue-light placeholder:text-blue-xlight placeholder:opacity-70"
+                                    className="form-input !py-1.5"
                                     value={currentUser.email}
                                     disabled
                                 />
@@ -154,13 +156,13 @@ export default function CheckoutForm({ order, currentUser, placesKey }) {
                             </div>
 
                             <div className="flex justify-between">
-                                <div className="flex flex-col gap-1.5 w-[48%]" id="expiryDate">
+                                <div className="form-field w-[48%]" id="expiryDate">
                                     <label>
                                         Expiry Date
                                     </label>
                                     <CardExpiryElement className="form-input" options={elementStyle} />
                                 </div>
-                                <div className="flex flex-col gap-1.5 w-[48%]" id="securityCode">
+                                <div className="form-field w-[48%]" id="securityCode">
                                     <label>
                                         Security Code
                                     </label>
@@ -170,7 +172,7 @@ export default function CheckoutForm({ order, currentUser, placesKey }) {
                         </div>
 
                         { errors &&
-                            <ul className="bg-red-300 text-red-dark p-5 rounded-lg list-disc list-inside" >
+                            <ul className="card-error" >
                                 { errors.map((err) => (
                                     <li key={err.message} > { err.message } </li>
                                 ))}
@@ -178,7 +180,7 @@ export default function CheckoutForm({ order, currentUser, placesKey }) {
                         }
 
                         <button
-                            className="btn-primary mb-1 flex items-center justify-center gap-2"
+                            className="btn-primary mb-1 icon-btn justify-center"
                             type="submit"
                             disabled={!stripe || !elements}
                         >
