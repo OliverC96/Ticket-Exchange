@@ -1,7 +1,7 @@
-import OrderConfirmation from "../../components/email-templates/OrderConfirmation";
+import OrderConfirmed from "../../components/email-templates/OrderConfirmed";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_KEY);
+const resend = new Resend(process.env.RESEND_KEY);
 
 export default async function (req, res) {
 
@@ -11,7 +11,7 @@ export default async function (req, res) {
         from: "clennanoliver@gmail.com",
         to: "clennanoliver@gmail.com",
         subject: `Order #${props.orderID} - CONFIRMED`,
-        react: OrderConfirmation(props)
+        react: OrderConfirmed(props)
     });
 
     if (error) {

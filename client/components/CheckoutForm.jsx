@@ -11,13 +11,15 @@ import {
 } from "@stripe/react-stripe-js";
 import { elementStyle } from "../styles/stripe-form";
 import { FaRegCreditCard } from "react-icons/fa";
-import { addressOptions } from "../utils/address_config";
+import addressOptions from "../utils/address_config";
+import { ThreeDots } from "react-loader-spinner";
 
-export default function CheckoutForm({ order, currentUser }) {
+export default function CheckoutForm({ order, currentUser, placesKey }) {
 
     const [timeRemaining, setTimeRemaining] = useState(0);
     const [tokenID, setTokenID] = useState("");
     const isFirstRender = useRef(true);
+    const [loading, setLoading] = useState(false);
 
     const { performRequest, errors } = useRequest({
         url: "/api/payments",
@@ -26,7 +28,10 @@ export default function CheckoutForm({ order, currentUser }) {
             tokenID,
             orderID: order.id
         },
-        onSuccess: () => Router.push("/orders")
+        onSuccess: async () => {
+            setLoading(false);
+            await Router.push("/orders/complete");
+        }
     });
 
     const stripe = useStripe();
@@ -46,23 +51,26 @@ export default function CheckoutForm({ order, currentUser }) {
             return;
         }
 
+        setLoading(true);
+
         const card = elements.getElement(CardNumberElement);
         const address = elements.getElement(AddressElement);
-        const billing_details = await address.getValue();
-        if (billing_details.complete) {
+        const billingDetails = await address.getValue();
+        if (billingDetails.complete) {
 
-            const { name, address } = billing_details.value;
+            const { name, address } = billingDetails.value;
             await fetch(
                 "/api/send-confirmation",
                 {
                     method: "POST",
                     body: JSON.stringify({
-                        title: order.ticket.title,
-                        price: order.ticket.price,
-                        status: "complete",
-                        orderID: order.id,
-                        tax_percent: 5,
-                        discount: 0,
+                        order: {
+                            id: order.id,
+                            ticket: order.ticket,
+                            taxPercent: 5,
+                            discount: 0,
+                            status: "complete"
+                        },
                         customer: {
                             name,
                             address
@@ -70,6 +78,17 @@ export default function CheckoutForm({ order, currentUser }) {
                     })
                 }
             );
+
+            localStorage.setItem("order", JSON.stringify({
+                ...order,
+                taxPercent: 5,
+                discount: 0
+            }));
+            localStorage.setItem("customer", JSON.stringify({
+                name,
+                email: currentUser.email,
+                address
+            }));
 
             const res = await stripe.createToken(card);
             if (res.token) {
@@ -108,7 +127,7 @@ export default function CheckoutForm({ order, currentUser }) {
 
                 <form className="flex gap-5" onSubmit={handleSubmission}>
 
-                    <AddressElement options={addressOptions} className="w-3/5" />
+                    <AddressElement options={addressOptions(placesKey)} className="w-3/5" />
 
                     <div className="min-h-full mx-1 bg-blue-light w-0.5 rounded-lg opacity-50" />
 
@@ -159,11 +178,12 @@ export default function CheckoutForm({ order, currentUser }) {
                         }
 
                         <button
-                            className="btn-primary mb-1"
+                            className="btn-primary mb-1 flex items-center justify-center gap-2"
                             type="submit"
                             disabled={!stripe || !elements}
                         >
                             Buy now
+                            <ThreeDots visible={loading} height={10} width={30} color="#E0F4FF" />
                         </button>
                     </div>
 

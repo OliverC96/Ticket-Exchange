@@ -1,7 +1,7 @@
 import OrderRefunded from "../../components/email-templates/OrderRefunded";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_KEY);
+const resend = new Resend(process.env.RESEND_KEY);
 
 export default async function (req, res) {
 

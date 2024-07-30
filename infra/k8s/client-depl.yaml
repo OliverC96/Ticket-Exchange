@@ -15,6 +15,22 @@ spec:
       containers:
         - name: client
           image: oliverc96/client
+          env:
+            - name: RESEND_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: resend-secret
+                  key: RESEND_KEY
+            - name: GOOGLE_PLACES_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: places-secret
+                  key: GOOGLE_PLACES_KEY
+            - name: STRIPE_PUBLISHABLE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-public
+                  key: STRIPE_PUBLISHABLE_KEY
 ---
 apiVersion: v1
 kind: Service

@@ -12,6 +12,28 @@ export default function Order({ status, ticket, id }) {
     });
 
     const processRefund = async () => {
+        const { id, ticket, taxPercent, discount } = JSON.parse(localStorage.getItem("order"));
+        const { name, address } = JSON.parse(localStorage.getItem("customer"));
+
+        await fetch(
+            "/api/send-update",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    order: {
+                        id,
+                        ticket,
+                        taxPercent,
+                        discount,
+                        status: "refunded"
+                    },
+                    customer: {
+                        name,
+                        address
+                    }
+                })
+            }
+        );
         await performRequest();
     };
 

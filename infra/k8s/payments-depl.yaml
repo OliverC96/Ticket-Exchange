@@ -16,11 +16,11 @@ spec:
         - name: payments
           image: oliverc96/payments
           env:
-            - name: STRIPE_KEY
+            - name: STRIPE_SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   name: stripe-secret
-                  key: STRIPE_KEY
+                  key: STRIPE_SECRET_KEY
             - name: NATS_URL
               value: 'http://nats-srv:4222'
             - name: NATS_CLUSTER_ID
