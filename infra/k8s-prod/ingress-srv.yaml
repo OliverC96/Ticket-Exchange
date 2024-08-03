@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: ticket-exchange.ca
+    - host: www.ticket-exchange.ca
       http:
         paths:
           - path: /api/payments/?(.*)
@@ -51,7 +51,7 @@ kind: Service
 metadata:
   annotations:
     service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "false"
-    service.beta.kubernetes.io/do-loadbalancer-hostname: "ticket-exchange.ca"
+    service.beta.kubernetes.io/do-loadbalancer-hostname: "www.ticket-exchange.ca"
   labels:
     helm.sh/chart: ingress-nginx-2.0.3
     app.kubernetes.io/name: ingress-nginx
