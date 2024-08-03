@@ -15,10 +15,15 @@ const expirationQueue = new Queue<Payload>(
     }
 );
 
+// Redis persistence configuration (RDB snapshots are enabled by default)
+expirationQueue.client.config("SET", "appendonly", "yes");  // Enable append-only log (AOF)
+expirationQueue.client.config("SET", "appendfsync", "everysec"); // fsync with disk every second
+
 expirationQueue.process(async (job) => {
     await new ExpirationCompletePublisher(natsWrapper.client).publish({
         orderID: job.data.orderID
     });
+    expirationQueue.client.bgsave(); // Asynchronously save the current state of the Redis dataset
 });
 
 export { expirationQueue };

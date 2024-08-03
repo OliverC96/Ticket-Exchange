@@ -74,6 +74,8 @@ https://blog.logrocket.com/data-fetching-next-js-getserversideprops-getstaticpro
     -> 2) Server pre-renders the page (i.e., component) with the fetched data
     -> 3) Server delivers the complete HTML page to the client (i.e., browser)
 -> Server-Side Rendering (SSR) reduces initial page load times and improves Search Engine Optimization (SEO) for the application
+-> Aside: public environment variables (i.e., those prefixed with 'NEXT_PUBLIC_') are fully exposed to the browser
+    -> Private environment variables are stored on the server, and must be accessed via data fetching methods, or pages/api routes
 
 NATS Streaming Server: Event Bus Implementation
 -> NATS is a 'message oriented middleware' which enables quick and reliable data exchange between different services or applications
@@ -98,3 +100,16 @@ Delayed Messaging via BullJS and Redis
 -> Redis (an in-memory database) is utilized as a worker server; temporarily storing BullJS jobs
     -> After the 15-min expiration window has elapsed, Redis will return the job to the originating server for processing
 -> BullJS is used to create, enqueue (i.e., publish), and process jobs
+-> Redis offers two main data persistence methods:
+    -> Redis Database (RDB) persistence; point-in-time snapshots (i.e., archives) of the Redis instance at certain intervals
+    -> Append-Only File (AOF) persistence; maintains a comprehensive log of write operations received by the Redis server
+
+Continuous Integration & Continuous Deployment via GitHub
+1. Create a new branch from the master/main branch [git checkout -b <branch_name>]
+2. Make changes to the local branch
+3. Commit changes [git add -A && git commit -m "Initial commit."]
+4. Push changes to remote repository [git push origin <branch_name>]
+5. Create a pull request to merge the new branch with the master branch
+    -> Use GitHub Actions to automatically run tests whenever a pull request is created
+6. Accept the pull request to complete the merge
+    -> Use GitHub Actions to configure deployment workflows

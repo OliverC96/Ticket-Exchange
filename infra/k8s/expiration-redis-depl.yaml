@@ -15,6 +15,13 @@ spec:
       containers:
         - name: expiration-redis
           image: redis
+          volumeMounts:
+            - mountPath: /data
+              name: redis-data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-data
 ---
 apiVersion: v1
 kind: Service

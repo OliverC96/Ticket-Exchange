@@ -23,6 +23,8 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
                 delay: expirationTime - currentTime
             }
         );
+        expirationQueue.client.bgsave(); // Asynchronously save the current state of the Redis dataset (i.e., create a point-in-time snapshot)
+
         msg.ack();
     }
 }
