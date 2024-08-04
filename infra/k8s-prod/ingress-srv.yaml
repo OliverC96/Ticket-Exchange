@@ -52,6 +52,8 @@ metadata:
   annotations:
     service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "false"
     service.beta.kubernetes.io/do-loadbalancer-hostname: "www.ticket-exchange.ca"
+    service.beta.kubernetes.io/do-loadbalancer-enable-backend-keepalive: "true"
+    service.beta.kubernetes.io/do-loadbalancer-size-unit: "3"
   labels:
     helm.sh/chart: ingress-nginx-2.0.3
     app.kubernetes.io/name: ingress-nginx
