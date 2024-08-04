@@ -50,7 +50,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "false"
+    service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
     service.beta.kubernetes.io/do-loadbalancer-hostname: "www.ticket-exchange.ca"
     service.beta.kubernetes.io/do-loadbalancer-enable-backend-keepalive: "true"
     service.beta.kubernetes.io/do-loadbalancer-size-unit: "1"
