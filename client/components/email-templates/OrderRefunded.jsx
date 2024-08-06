@@ -9,7 +9,7 @@ export default function OrderRefunded({ order, customer }) {
         <div className="flex flex-col gap-5 p-5">
             <Metadata orderID={id} />
             <StatusMessage status={status} firstName={customer.name.split(" ")[0]} title={ticket.title} />
-            <CostSummary charges={getCharges(ticket.price, taxPercent, discount, true)} />
+            <CostSummary charges={getCharges(ticket.price, taxPercent, discount, true)} forEmail={true}/>
         </div>
     );
 }

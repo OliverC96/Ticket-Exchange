@@ -5,7 +5,7 @@ export default function CostSummary({ charges, forEmail }) {
     const total = charges[charges.length - 1];
     if (!forEmail) {
         return (
-            <div className="flex flex-col gap-3 text-red-500">
+            <div className="flex flex-col gap-3">
                 <h1 className="text-xl"> Order Summary </h1>
                 <div className="flex flex-col gap-0.5">
                     {
@@ -22,7 +22,7 @@ export default function CostSummary({ charges, forEmail }) {
         );
     }
     return (
-        <Section className="flex flex-col gap-3">
+        <Section className="flex flex-col gap-3 text-red-500">
             <Text className="text-xl"> Order Summary </Text>
             <Section className="flex flex-col gap-0.5">
                 {
