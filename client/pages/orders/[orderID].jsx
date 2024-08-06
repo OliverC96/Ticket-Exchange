@@ -4,7 +4,6 @@ import CheckoutForm from "../../components/CheckoutForm";
 import { appearanceOptions } from "../../styles/stripe-form";
 
 const ViewOrder = ({ order, currentUser }) => {
-    console.log(process.env.NEXT_PUBLIC_STRIPE_KEY_PUBLISHABLE);
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY_PUBLISHABLE);
     return (
         <Elements stripe={stripePromise} options={appearanceOptions}>
