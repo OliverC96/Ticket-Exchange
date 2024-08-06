@@ -11,6 +11,7 @@ declare global {
     function createTicket({ newTicket, cookie }: { newTicket?: TicketType, cookie?: string[] }): Promise<TicketDocument>;
 }
 
+// Create a mock implementation of the natsWrapper.client.publish() method for testing purposes
 jest.mock('@ojctickets/common', () => {
     const original = jest.requireActual('@ojctickets/common');
 
@@ -55,7 +56,10 @@ afterAll(async() => {
     await mongoose.connection.close();
 });
 
-// Forges a JWT cookie (for testing purposes; to emulate user authentication within the ticketing service)
+/**
+ * Forges a JWT cookie (for testing purposes; to emulate user authentication within the ticketing service)
+ * @returns {string[]} JWT session cookie
+ */
 global.getCookie = (): string[] => {
     const ticketID = new mongoose.Types.ObjectId().toHexString();
     const payload = {
@@ -72,12 +76,18 @@ global.getCookie = (): string[] => {
     return [`session=${encodedSession}`];
 };
 
+/**
+ * Helper method which creates a ticket document via a POST request to /api/tickets
+ * @param {TicketType} [newTicket] Ticket attributes
+ * @param {string[]} [cookie] A session cookie
+ * @returns {Promise<TicketDocument>} The newly-created ticket document
+ */
 global.createTicket = async ({ newTicket, cookie }: { newTicket?: TicketType, cookie?: string[] }): Promise<TicketDocument> => {
     let t: TicketType;
-    if (newTicket !== undefined) {
+    if (newTicket !== undefined) { // Use the provided ticket attributes
         t = newTicket;
     }
-    else {
+    else { // Use the default ticket attributes
         t = {
             title: "ticketName",
             price: 30

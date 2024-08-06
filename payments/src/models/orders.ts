@@ -50,7 +50,7 @@ const orderSchema = new mongoose.Schema(
 );
 
 orderSchema.set("versionKey", "version");
-orderSchema.plugin(updateIfCurrentPlugin);
+orderSchema.plugin(updateIfCurrentPlugin); // Enable optimistic concurrency control
 
 orderSchema.statics.build = (fields: OrderFields) => {
     const { id, ...rest } = fields;
@@ -60,6 +60,13 @@ orderSchema.statics.build = (fields: OrderFields) => {
     });
 };
 
+/**
+ * Helper method which retrieves an order matching the provided id and version number
+ * @param {Object} event
+ * @param {string} event.id The id associated with the order
+ * @param {number} event.version The current version number of the order document
+ * @returns {OrderDocument|null} The matching order document (if it exists)
+ */
 orderSchema.statics.findByEvent = (event: { id: string, version: number }) => {
     return Order.findOne({
         _id: event.id,

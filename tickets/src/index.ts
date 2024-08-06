@@ -23,6 +23,7 @@ const initialize = async () => {
     }
 
     try {
+        // Establish a connection to MongoDB
         await mongoose.connect(process.env.MONGO_URI);
         console.log("Successfully connected to MongoDB database");
     }
@@ -31,12 +32,14 @@ const initialize = async () => {
         throw new DatabaseConnectionError();
     }
 
+    // Connect to NATS Streaming Server (i.e., the event bus)
     await natsWrapper.connect(
         process.env.NATS_CLUSTER_ID,
         process.env.NATS_CLIENT_ID,
         process.env.NATS_URL
     );
 
+    // Terminate the NATS connection upon receiving a shutdown signal
     natsWrapper.client.on("close", () => {
         console.log("Terminated connection to NATS Streaming server");
         process.exit();
@@ -44,6 +47,7 @@ const initialize = async () => {
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());
 
+    // Ensure the tickets service receives events pertaining to order creation and order cancellation
     new OrderCreatedListener(natsWrapper.client).listen();
     new OrderCancelledListener(natsWrapper.client).listen();
 

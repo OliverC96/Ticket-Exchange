@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 
 const router = express.Router();
 
+// An API route responsible for retrieving a single ticket document
 router.get(
     "/api/tickets/:id",
     param("id")
@@ -13,10 +14,10 @@ router.get(
         .withMessage("Invalid MongoDB identifier"),
     validateRequest,
     async (req: Request, res: Response) => {
-        const ticketID = req.params.id;
-        const match = await Ticket.findById(ticketID);
+        const ticketID = req.params.id; // Extract the ID of the desired ticket
+        const match = await Ticket.findById(ticketID); // Attempt to retrieve the ticket
         if (!match) {
-            throw new NotFoundError();
+            throw new NotFoundError(); // Ticket does not exist in the database
         }
         return res.status(200).send(match);
     }

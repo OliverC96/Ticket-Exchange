@@ -51,6 +51,7 @@ const ticketSchema: mongoose.Schema = new mongoose.Schema(
         }
 );
 
+// Enable optimistic concurrency control
 ticketSchema.plugin(updateIfCurrentPlugin);
 
 /**

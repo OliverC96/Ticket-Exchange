@@ -19,8 +19,10 @@ server.use(cookieSession({
 }));
 server.use(currentUser);
 
+// Attach all routers related to the payments service
 server.use(createChargeRouter);
 
+// Configure a wildcard catch-all route for invalid URLs (i.e., those not prefixed with /api/payments)
 server.all("*", async (req, res) => {
     throw new NotFoundError();
 });

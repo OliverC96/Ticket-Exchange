@@ -3,6 +3,7 @@ import { Ticket } from "../models/tickets";
 
 const router = express.Router();
 
+// An API route responsible for retrieving all tickets currently present in the database
 router.get(
     "/api/tickets",
     async (req: Request, res: Response) => {

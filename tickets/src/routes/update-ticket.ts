@@ -13,6 +13,7 @@ import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publ
 
 const router = express.Router();
 
+// An API route encapsulating ticket update logic
 router.put(
     "/api/tickets/:id",
     requireAuth,
@@ -31,17 +32,18 @@ router.put(
     async (req: Request, res: Response) => {
         const userID = req.currentUser!.id;
         const ticketID = req.params.id;
-        const ticket = await Ticket.findById(ticketID);
+        const ticket = await Ticket.findById(ticketID); // Retrieve the ticket
         if (!ticket) {
-            throw new NotFoundError();
+            throw new NotFoundError(); // Ticket does not exist
         }
         if (ticket.orderID) {
-            throw new BadRequestError("Cannot update a reserved ticket.");
+            throw new BadRequestError("Cannot update a reserved ticket."); // Ticket is currently reserved (i.e., tied to an order)
         }
         if (userID !== ticket.userID) {
-            throw new NotAuthorizedError();
+            throw new NotAuthorizedError(); // Cannot update another user's ticket
         }
 
+        // Perform the update operation
         ticket.set({
             ...req.body
         });

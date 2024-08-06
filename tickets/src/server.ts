@@ -2,7 +2,11 @@ import express from "express";
 import "express-async-errors";
 import cookieSession from "cookie-session";
 import { json } from "body-parser";
-import { errorHandler, NotFoundError, currentUser } from "@ojctickets/common";
+import {
+    errorHandler,
+    NotFoundError,
+    currentUser
+} from "@ojctickets/common";
 import { createTicketRouter } from "./routes/create-ticket";
 import { updateTicketRouter } from "./routes/update-ticket";
 import { deleteTicketRouter } from "./routes/delete-ticket";
@@ -19,12 +23,14 @@ server.use(cookieSession({
 }));
 server.use(currentUser);
 
+// Attach all routers related to the tickets service
 server.use(createTicketRouter);
 server.use(updateTicketRouter);
 server.use(deleteTicketRouter);
 server.use(oneTicketRouter);
 server.use(allTicketsRouter);
 
+// Configure a wildcard catch-all route for invalid URLs (i.e., those not prefixed with /api/tickets)
 server.all("*", async (req, res) => {
     throw new NotFoundError();
 });

@@ -9,6 +9,7 @@ declare global {
     function createOrder(userID?: string): Promise<OrderDocument>;
 }
 
+// Create a mock implementation of the natsWrapper.client.publish() method for testing purposes
 jest.mock('@ojctickets/common', () => {
     const original = jest.requireActual('@ojctickets/common');
     return {
@@ -53,7 +54,11 @@ afterAll(async() => {
     await mongoose.connection.close();
 });
 
-// Forges a JWT cookie (for testing purposes; to emulate user authentication within the ticketing service)
+/**
+ * Forges a JWT cookie (for testing purposes; to emulate user authentication within the ticketing service)
+ * @param {string} [id] An id corresponding to a ticket document
+ * @returns {string[]} JWT session cookie
+ */
 global.getCookie = (id?: string): string[] => {
     const payload = {
         id: id || new mongoose.Types.ObjectId().toHexString(),
@@ -69,6 +74,11 @@ global.getCookie = (id?: string): string[] => {
     return [`session=${encodedSession}`];
 };
 
+/**
+ * Helper method which directly creates an order document through the Orders model
+ * @param {string} [userID] A JWT cookie
+ * @return {Promise<OrderDocument>} The newly-created order document
+ */
 global.createOrder = async (userID?: string): Promise<OrderDocument> => {
     const order: OrderDocument = Order.build({
         id: new mongoose.Types.ObjectId().toHexString(),

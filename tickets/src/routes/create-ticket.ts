@@ -12,6 +12,7 @@ import mongoose from "mongoose";
 
 const router = express.Router();
 
+// An API route encapsulating ticket creation logic
 router.post(
     "/api/tickets",
     requireAuth,
@@ -26,6 +27,7 @@ router.post(
     validateRequest,
     async (req: Request, res: Response) => {
 
+        // Construct a new ticket document from the provided attributes
         const { title, price } = req.body;
         const newTicket = Ticket.build({
             title,
@@ -33,10 +35,12 @@ router.post(
             userID: req.currentUser!.id
         });
 
+        // Initializing a session
         const session = await mongoose.startSession();
 
         try {
-            await session.startTransaction();
+            // Executing all ticket creation logic within a single transaction
+            session.startTransaction();
             await newTicket.save();
             await new TicketCreatedPublisher(natsWrapper.client).publish({
                 id: newTicket.id,
