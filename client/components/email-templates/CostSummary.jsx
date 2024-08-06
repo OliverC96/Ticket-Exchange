@@ -23,7 +23,7 @@ export default function CostSummary({ charges, forEmail }) {
     }
     return (
         <Section className="flex flex-col gap-3">
-            <Text className="text-xl"> Order Summary </>
+            <Text className="text-xl"> Order Summary </Text>
             <Section className="flex flex-col gap-0.5">
                 {
                     charges.slice(0, -1).map((charge) => (
