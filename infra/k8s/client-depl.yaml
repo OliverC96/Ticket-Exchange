@@ -15,6 +15,12 @@ spec:
       containers:
         - name: client
           image: oliverc96/client
+          env:
+            - name: BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: client-config
+                  key: BASE_URL
 ---
 apiVersion: v1
 kind: Service
