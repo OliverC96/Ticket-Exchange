@@ -8,9 +8,9 @@ export default async function (req, res) {
     const props = JSON.parse(req.body);
 
     const { data, error } = await resend.emails.send({
-        from: "Oliver <oclennan@ticket-exchange.ca>",
-        to: "clennanoliver@gmail.com",
-        subject: `Order #${props.orderID} - REFUNDED`,
+        from: process.env.SENDER_NAME + " <" + process.env.SENDER_EMAIL + ">",
+        to: process.env.RECIPIENT_EMAIL,
+        subject: `Order #${props.order.id} - REFUNDED`,
         react: OrderRefunded(props)
     });
 

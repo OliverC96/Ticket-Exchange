@@ -1,11 +1,12 @@
 import { parseDate } from "../../utils/parse_date";
+import { Section, Text } from "@react-email/components";
 
 export default function Metadata({ orderID }) {
     const { month, date, year } = parseDate();
     return (
-        <div id="metadata" className="flex justify-between">
-            <h3> { month } { date }, { year } </h3>
-            <h3> #{orderID} </h3>
-        </div>
+        <Section className="flex justify-between">
+            <Text> { month } { date }, { year } </Text>
+            <Text> #{orderID} </Text>
+        </Section>
     );
 }

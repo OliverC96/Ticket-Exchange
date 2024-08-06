@@ -1,21 +1,23 @@
+import { Section, Text } from "@react-email/components";
+
 export default function StatusMessage({ status, firstName, title }) {
     return (
-        <div id="status-msg" className="flex flex-col gap-2">
-            <h3>
+        <Section className="flex flex-col gap-2">
+            <Text>
                 { status === "complete"
                     ? `Thanks, ${firstName}!`
                     : `${firstName},`
                 }
-            </h3>
-            <h1>
+            </Text>
+            <Text>
                 { status === "complete"
                     ? "Your order was successfully processed."
                     : "Your order has been refunded."
                 }
-            </h1>
-            <h2>
+            </Text>
+            <Text>
                 - 1 { title } Ticket
-            </h2>
-        </div>
+            </Text>
+        </Section>
     );
 }
