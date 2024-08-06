@@ -5,7 +5,7 @@ export default function CostSummary({ charges, forEmail }) {
     const total = charges[charges.length - 1];
     if (!forEmail) {
         return (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 text-red-500">
                 <h1 className="text-xl"> Order Summary </h1>
                 <div className="flex flex-col gap-0.5">
                     {
