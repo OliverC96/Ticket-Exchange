@@ -35,9 +35,9 @@ export default () => {
                         <p className="text-lg"> Confirmation email sent to <span className="underline"> { email } </span> </p>
 
                         <div className="order-confirm-summary">
-                            <CostSummary charges={charges} />
+                            <CostSummary charges={charges} forEmail={false} />
                             <div className="flex justify-between items-center">
-                                <BillingDetails name={name} address={address} />
+                                <BillingDetails name={name} address={address} forEmail={false} />
                                 <IoReceiptOutline size={58} />
                             </div>
                         </div>
