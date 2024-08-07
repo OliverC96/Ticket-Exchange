@@ -27,7 +27,7 @@ export default function OrderRefunded({ order, customer }) {
                     }
                 }}
             >
-                <Body className="flex flex-col gap-4 p-4 bg-blue-dark text-blue-xlight">
+                <Body className="p-6 bg-blue-dark text-blue-xlight">
                     <Metadata orderID={id} />
                     <StatusMessage
                         status={status}
