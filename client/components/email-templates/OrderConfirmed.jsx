@@ -7,6 +7,7 @@ import {
     Body,
     Html,
     Tailwind,
+    Text
 } from "@react-email/components";
 
 export default function OrderConfirmed({ order, customer }) {
