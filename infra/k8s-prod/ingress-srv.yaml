@@ -62,6 +62,7 @@ metadata:
     service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "120"
     service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
     service.beta.kubernetes.io/do-loadbalancer-certificate-name: "tls-cert"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "4b5a9275-4c57-4571-ae1d-231329170a11"
     service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
   labels:
     helm.sh/chart: ingress-nginx-2.0.3
