@@ -63,8 +63,6 @@ metadata:
     service.beta.kubernetes.io/do-loadbalancer-certificate-name: "tls-cert"
     service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
     service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
-    service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
-    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
   labels:
     helm.sh/chart: ingress-nginx-2.0.3
     app.kubernetes.io/name: ingress-nginx
