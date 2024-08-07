@@ -2,8 +2,9 @@
 2. [pending] Thoroughly document entire project [ref: https://google.github.io/styleguide/tsguide.html#comments-documentation]
 3. Implement randomly-generated discounts on ticket offerings
 4. Implement third-party OAuth for Google, Facebook, and Apple
-5. [pending] Implement price and/or keyword filters to enhance ticket-browsing experience
-6. Obtain TLS certificate [ref: https://cert-manager.io/docs/tutorials/acme/nginx-ingress/]
+5. Implement price and/or keyword filters to enhance ticket-browsing experience
+6. [pending] Obtain TLS certificate [ref: https://cert-manager.io/docs/tutorials/acme/nginx-ingress/]
 7. Configure Digital Ocean block storage volumes for MongoDB persistence [ref: https://docs.digitalocean.com/products/kubernetes/how-to/add-volumes/]
 8. Create architectural diagram(s) illustrating event bus communication between microservices
 9. Implement update and delete ticket functionality
+10. [selected] Configure production environment in workflows (i.e., npm run dev -> npm run build)

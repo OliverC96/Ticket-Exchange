@@ -15,7 +15,7 @@ server.set('trust proxy', true);    // Trust traffic originating from the ingres
 server.use(json());
 server.use(cookieSession({
     signed: false,  // Disable encryption (JWT is already encrypted, by default)
-    secure: false,
+    secure: process.env.NODE_ENV !== 'test' // Enable cookies in unsecure test environments (i.e., HTTP connections)
 }));
 
 server.use(currentUserRouter);

@@ -4,8 +4,13 @@ metadata:
   name: ingress-srv
   annotations:
     nginx.ingress.kubernetes.io/use-regex: 'true'
+    cert-manager.io/issuer: "letsencrypt-staging"
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - www.ticket-exchange.ca
+      secretName: tls-cert
   rules:
     - host: www.ticket-exchange.ca
       http:
@@ -55,6 +60,8 @@ metadata:
     service.beta.kubernetes.io/do-loadbalancer-enable-backend-keepalive: "true"
     service.beta.kubernetes.io/do-loadbalancer-size-unit: "1"
     service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "120"
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-name: "tls-cert"
   labels:
     helm.sh/chart: ingress-nginx-2.0.3
     app.kubernetes.io/name: ingress-nginx
