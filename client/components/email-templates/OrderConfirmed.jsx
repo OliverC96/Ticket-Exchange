@@ -6,17 +6,29 @@ import { getCharges } from "../../utils/calculate_charges";
 import {
     Body,
     Html,
-    Tailwind,
-    Text
+    Tailwind
 } from "@react-email/components";
 
 export default function OrderConfirmed({ order, customer }) {
     const { id, ticket, taxPercent, discount, status } = order;
     return (
         <Html>
-            <Tailwind>
-                <Text className="text-red-500"> TEST </Text>
-                <Body className="flex flex-col gap-5 p-5">
+            <Tailwind
+                config={{
+                    theme: {
+                        extend: {
+                            colors: {
+                                blue: {
+                                    xlight: "#E0F4FF",
+                                    dark: "#003049",
+                                    xxdark: "#001B29"
+                                }
+                            }
+                        }
+                    }
+                }}
+            >
+                <Body className="flex flex-col gap-4 p-4 bg-blue-dark text-blue-xlight">
                     <Metadata orderID={id} />
                     <StatusMessage
                         status={status}
@@ -29,7 +41,7 @@ export default function OrderConfirmed({ order, customer }) {
                     />
                     <BillingDetails
                         {...customer}
-                        forEmail={false}
+                        forEmail={true}
                     />
                 </Body>
             </Tailwind>

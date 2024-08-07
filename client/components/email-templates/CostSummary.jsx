@@ -1,5 +1,4 @@
 import Charge from "./Charge";
-import { Section, Text } from "@react-email/components";
 
 export default function CostSummary({ charges, forEmail }) {
     const total = charges[charges.length - 1];
@@ -22,9 +21,9 @@ export default function CostSummary({ charges, forEmail }) {
         );
     }
     return (
-        <Section className="flex flex-col gap-3 text-red-500">
-            <Text className="text-xl"> Order Summary </Text>
-            <Section className="flex flex-col gap-0.5">
+        <div className="flex flex-col">
+            <p className="text-xl"> Order Summary </p>
+            <div className="flex flex-col bg-blue-xxdark px-7 pt-7 rounded-md outline outline-1 outline-blue-xlight">
                 {
                     charges.slice(0, -1).map((charge) => (
                         <Charge
@@ -35,7 +34,7 @@ export default function CostSummary({ charges, forEmail }) {
                     ))
                 }
                 <Charge { ...total } />
-            </Section>
-        </Section>
+            </div>
+        </div>
     )
 };

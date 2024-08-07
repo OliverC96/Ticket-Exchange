@@ -6,3 +6,4 @@
 6. Obtain TLS certificate [ref: https://cert-manager.io/docs/tutorials/acme/nginx-ingress/]
 7. Configure Digital Ocean block storage volumes for MongoDB persistence [ref: https://docs.digitalocean.com/products/kubernetes/how-to/add-volumes/]
 8. Create architectural diagram(s) illustrating event bus communication between microservices
+9. Implement update and delete ticket functionality

@@ -1,7 +1,16 @@
-import { Section, Text } from "@react-email/components";
-
 export default function BillingDetails({ name, address, forEmail }) {
     const { line1, line2, city, state, country, postal_code } = address;
+    const sectionContent = [
+        name,
+        <br />,
+        line1,
+        <br />,
+        line2 && line2,
+        line2 && <br />,
+        city + ", " + state + " " + postal_code,
+        <br />,
+        country
+    ];
     if (!forEmail) {
         return (
             <div className="flex flex-col gap-3">
@@ -17,15 +26,11 @@ export default function BillingDetails({ name, address, forEmail }) {
         );
     }
     return (
-        <Section className="flex flex-col gap-3">
-            <Text className="text-xl"> Billing Details </Text>
-            <Section className="flex flex-col gap-0.5">
-                <Text> { name } </Text>
-                <Text> { line1 } </Text>
-                { line2 && <Text> { line2 } </Text>}
-                <Text> { city }, { state } { postal_code } </Text>
-                <Text> { country } </Text>
-            </Section>
-        </Section>
+        <div className="flex flex-col">
+            <p className="text-xl"> Billing Details </p>
+            <div className="flex flex-col bg-blue-xxdark rounded-md p-7 outline outline-1 outline-blue-xlight">
+                { sectionContent }
+            </div>
+        </div>
     );
 }

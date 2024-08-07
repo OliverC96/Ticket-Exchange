@@ -1,23 +1,21 @@
-import { Section, Text } from "@react-email/components";
-
 export default function StatusMessage({ status, firstName, title }) {
     return (
-        <Section className="flex flex-col gap-2">
-            <Text>
+        <div className="flex flex-col bg-blue-xxdark px-7 py-4 rounded-md outline outline-1 outline-blue-xlight">
+            <p className="opacity-80">
                 { status === "complete"
                     ? `Thanks, ${firstName}!`
                     : `${firstName},`
                 }
-            </Text>
-            <Text>
+            </p>
+            <p className="text-xl -mt-3">
                 { status === "complete"
                     ? "Your order was successfully processed."
                     : "Your order has been refunded."
                 }
-            </Text>
-            <Text>
+            </p>
+            <p className="-mt-3 opacity-80">
                 - 1 { title } Ticket
-            </Text>
-        </Section>
+            </p>
+        </div>
     );
 }
