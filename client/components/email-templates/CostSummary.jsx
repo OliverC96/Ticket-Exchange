@@ -33,7 +33,7 @@ export default function CostSummary({ charges, forEmail }) {
                         />
                     ))
                 }
-                <Charge { ...total } />
+                <Charge { ...total } forEmail={forEmail} />
             </div>
         </div>
     )
