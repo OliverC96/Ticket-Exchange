@@ -14,7 +14,7 @@ export default function BillingDetails({ name, address, forEmail }) {
     if (!forEmail) {
         return (
             <div className="flex flex-col gap-3">
-                <h1 className="text-xl"> Billing Details </h1>
+                <h1 className="text-xl font-bold"> Billing Details </h1>
                 <div className="flex flex-col gap-0.5">
                     <p> { name } </p>
                     <p> { line1 } </p>

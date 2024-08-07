@@ -5,7 +5,7 @@ export default function CostSummary({ charges, forEmail }) {
     if (!forEmail) {
         return (
             <div className="flex flex-col gap-3">
-                <h1 className="text-xl"> Order Summary </h1>
+                <h1 className="text-xl font-bold"> Order Summary </h1>
                 <div className="flex flex-col gap-0.5">
                     {
                         charges.slice(0, -1).map((charge) => (
