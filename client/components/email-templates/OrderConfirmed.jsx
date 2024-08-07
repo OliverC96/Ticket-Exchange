@@ -14,6 +14,7 @@ export default function OrderConfirmed({ order, customer }) {
     return (
         <Html>
             <Tailwind>
+                <Text className="text-red-500"> TEST </Text>
                 <Body className="flex flex-col gap-5 p-5">
                     <Metadata orderID={id} />
                     <StatusMessage
