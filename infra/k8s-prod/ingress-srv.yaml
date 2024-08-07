@@ -60,8 +60,8 @@ metadata:
     service.beta.kubernetes.io/do-loadbalancer-enable-backend-keepalive: "true"
     service.beta.kubernetes.io/do-loadbalancer-size-unit: "1"
     service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "120"
-#    service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
-#    service.beta.kubernetes.io/do-loadbalancer-certificate-name: "tls-cert"
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-name: "tls-cert"
   labels:
     helm.sh/chart: ingress-nginx-2.0.3
     app.kubernetes.io/name: ingress-nginx
