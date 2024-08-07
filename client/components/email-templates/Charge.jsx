@@ -1,6 +1,6 @@
 export default function Charge({ type, amount, forEmail }) {
     return (
-        <div className={`flex -mt-5 justify-between ${type === "Order Total" && "text-lg font-bold"}`}>
+        <div className={`flex ${forEmail && "-mt-5"} justify-between ${type === "Order Total" && "text-lg font-bold"}`}>
             <p> { type }: </p>
             {
                 (type === "Discount" || type === "Refund")
