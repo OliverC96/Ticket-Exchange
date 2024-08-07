@@ -1,11 +1,11 @@
 import { parseDate } from "../../utils/parse_date";
 
 export default function Metadata({ orderID }) {
-    const { month, date, year } = parseDate();
+    const d = parseDate();
     return (
-        <div className="flex justify-between">
-            <p> { month } { date }, { year } </p>
-            <p> #{orderID} </p>
+        <div className="text-center text-lg font-bold">
+            <p> Order #{orderID} </p>
+            <p className="-mt-3"> {d.day} {d.date} {d.month} {d.year} @ {d.hours}:{d.minutes} {d.tag} </p>
         </div>
     );
 }

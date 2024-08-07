@@ -26,9 +26,9 @@ export default function BillingDetails({ name, address, forEmail }) {
         );
     }
     return (
-        <div className="flex flex-col">
-            <p className="text-xl"> Billing Details </p>
-            <div className="flex flex-col bg-blue-xxdark rounded-md p-7 outline outline-1 outline-blue-xlight">
+        <div className="mt-10">
+            <p className="text-xl font-bold"> Billing Details </p>
+            <div className="bg-blue-xxdark rounded-md p-7 outline outline-1 outline-blue-xlight">
                 { sectionContent }
             </div>
         </div>

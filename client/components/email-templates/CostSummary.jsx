@@ -21,9 +21,9 @@ export default function CostSummary({ charges, forEmail }) {
         );
     }
     return (
-        <div className="flex flex-col">
-            <p className="text-xl"> Order Summary </p>
-            <div className="flex flex-col bg-blue-xxdark px-7 pt-7 rounded-md outline outline-1 outline-blue-xlight">
+        <div className="mt-10">
+            <p className="text-xl font-bold"> Order Summary </p>
+            <div className="bg-blue-xxdark px-7 pt-7 rounded-md outline outline-1 outline-blue-xlight">
                 {
                     charges.slice(0, -1).map((charge) => (
                         <Charge
