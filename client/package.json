@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "build": "next build",
     "start": "next start",
+    "build": "next build && start",
     "pub": "docker build --target image-dev -t oliverc96/client . && docker push oliverc96/client"
   },
   "dependencies": {
