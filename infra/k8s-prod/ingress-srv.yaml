@@ -59,7 +59,6 @@ metadata:
     service.beta.kubernetes.io/do-loadbalancer-hostname: "www.ticket-exchange.ca"
     service.beta.kubernetes.io/do-loadbalancer-enable-backend-keepalive: "true"
     service.beta.kubernetes.io/do-loadbalancer-size-unit: "1"
-    service.beta.kubernetes.io/do-loadbalancer-http-idle-timeout-seconds: "120"
   labels:
     helm.sh/chart: ingress-nginx-2.0.3
     app.kubernetes.io/name: ingress-nginx
