@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --watchAll --no-cache",
     "start": "ts-node-dev --poll ./src/index.ts",
-    "pub": "docker build -t oliverc96/expiration . && docker push oliverc96/expiration"
+    "build": "tsc && node src/index.js",
+    "pub": "docker build --target image-dev -t oliverc96/expiration . && docker push oliverc96/expiration"
   },
   "jest": {
     "preset": "ts-jest",

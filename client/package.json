@@ -6,7 +6,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "pub": "docker build -t oliverc96/client . && docker push oliverc96/client"
+    "pub": "docker build --target image-dev -t oliverc96/client . && docker push oliverc96/client"
   },
   "dependencies": {
     "@material-tailwind/react": "^2.1.9",

@@ -1,5 +1,5 @@
 # Use minimal/compact version of node as the base image
-FROM node:alpine
+FROM node:alpine as base
 
 # Set the working directory inside the container to be /app
 WORKDIR /app
@@ -9,5 +9,10 @@ COPY ./package.json ./
 RUN npm install --omit=dev
 COPY ./ ./
 
-# Set the primary command of the resultant image to be 'npm start'
+# Run deployment script for dev environment (i.e., Skaffold on localhost)
+FROM base as image-dev
 CMD ["npm", "start"]
+
+# Run deployment script for prod environment (i.e., DigitalOcean)
+FROM base as image-prod
+CMD ["npm", "run", "build"]

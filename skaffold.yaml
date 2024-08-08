@@ -16,6 +16,7 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
+        target: image-dev
     - image: oliverc96/client
       context: client
       sync:
@@ -24,6 +25,7 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
+        target: image-dev
     - image: oliverc96/tickets
       context: tickets
       sync:
@@ -32,6 +34,7 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
+        target: image-dev
     - image: oliverc96/orders
       context: orders
       sync:
@@ -40,6 +43,7 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
+        target: image-dev
     - image: oliverc96/expiration
       context: expiration
       sync:
@@ -48,6 +52,7 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
+        target: image-dev
     - image: oliverc96/payments
       context: payments
       sync:
@@ -56,3 +61,4 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
+        target: image-dev
