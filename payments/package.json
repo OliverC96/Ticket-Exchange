@@ -7,7 +7,7 @@
     "test": "jest --watchAll --no-cache",
     "test:ci": "jest",
     "start": "ts-node-dev --poll ./src/index.ts",
-    "build": "tsc -p tsconfig.json && node src/index.js",
+    "build": "tsc -p tsconfig.build.json && node src/index.js",
     "pub": "docker build --target image-dev -t oliverc96/payments . && docker push oliverc96/payments"
   },
   "jest": {
