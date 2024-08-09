@@ -3,7 +3,5 @@
 3. Implement randomly-generated discounts on ticket offerings
 4. Implement third-party OAuth for Google, Facebook, and Apple
 5. Implement price and/or keyword filters to enhance ticket-browsing experience
-6. [selected] Configure Digital Ocean block storage volumes for MongoDB persistence [ref: https://docs.digitalocean.com/products/kubernetes/how-to/add-volumes/]
-7. Create architectural diagram(s) illustrating event bus communication between microservices
-8. Implement update and delete ticket functionality
-9. [pending] Configure production environment in workflows (i.e., npm run dev -> npm run build)
+6. [selected] Implement update and delete ticket functionality
+7. [pending] Configure Digital Ocean block storage volumes for MongoDB persistence [ref: https://docs.digitalocean.com/products/kubernetes/how-to/add-volumes/]

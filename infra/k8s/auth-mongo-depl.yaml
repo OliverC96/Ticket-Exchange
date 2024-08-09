@@ -1,31 +1,49 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: auth-mongo-depl
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: auth-mongo
-  template:
-    metadata:
-      labels:
-        app: auth-mongo
-    spec:
-      containers:
-        - name: auth-mongo
-          image: mongo
----
 apiVersion: v1
 kind: Service
 metadata:
   name: auth-mongo-srv
+  labels:
+    app: auth-mongo-set
 spec:
-  type: ClusterIP
+  clusterIP: None
   selector:
-    app: auth-mongo
+    app: auth-mongo-set
   ports:
     - name: mongo-db
       protocol: TCP
       port: 27017
       targetPort: 27017
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: auth-mongo-set
+  labels:
+    app: auth-mongo-set
+spec:
+  serviceName: "auth-mongo-srv"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-mongo-set
+  template:
+    metadata:
+      labels:
+        app: auth-mongo-set
+    spec:
+      containers:
+        - name: auth-mongo-set
+          image: mongo
+          volumeMounts:
+            - mountPath: /data
+              name: auth-data
+  volumeClaimTemplates:
+    - metadata:
+        name: auth-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: do-block-storage-retain
