@@ -3,10 +3,12 @@ import {
     NotFoundError,
     NotAuthorizedError,
     requireAuth,
-    validateRequest
+    validateRequest,
+    natsWrapper
 } from "@ojctickets/common";
 import { param } from "express-validator";
 import { Ticket } from "../models/tickets";
+import { TicketDeletedPublisher } from "../events/publishers/ticket-deleted-publisher";
 
 const router = express.Router();
 
@@ -28,7 +30,13 @@ router.delete(
         if (userID !== ticket.userID) {
             throw new NotAuthorizedError(); // Cannot delete another user's ticket
         }
+
         const deletedTicket = await Ticket.findByIdAndDelete(ticketID); // Deleting the ticket
+        await new TicketDeletedPublisher(natsWrapper.client).publish({
+            id: ticket.id,
+            version: ticket.version
+        });
+
         return res.status(204).send(deletedTicket);
     }
 );
