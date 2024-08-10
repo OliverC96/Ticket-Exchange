@@ -35,7 +35,7 @@ spec:
         - name: auth-mongo-set
           image: mongo
           volumeMounts:
-            - mountPath: /data
+            - mountPath: /data/db
               name: auth-data
   volumeClaimTemplates:
     - metadata:
@@ -46,4 +46,3 @@ spec:
         resources:
           requests:
             storage: 5Gi
-        storageClassName: do-block-storage-retain
