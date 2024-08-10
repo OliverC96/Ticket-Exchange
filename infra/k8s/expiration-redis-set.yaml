@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: expiration-redis-srv
+  labels:
+    app: expiration-redis-set
+spec:
+  clusterIP: None
+  selector:
+    app: expiration-redis-set
+  ports:
+    - name: redis-db
+      protocol: TCP
+      port: 6379
+      targetPort: 6379
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: expiration-redis-set
+  labels:
+    app: expiration-redis-set
+spec:
+  serviceName: "expiration-redis-srv"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: expiration-redis-set
+  template:
+    metadata:
+      labels:
+        app: expiration-redis-set
+    spec:
+      containers:
+        - name: expiration-redis-set
+          image: redis
+          volumeMounts:
+            - mountPath: /data/db
+              name: redis-data
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi

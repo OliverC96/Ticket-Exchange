@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: payments-mongo-srv
+  labels:
+    app: payments-mongo-set
+spec:
+  clusterIP: None
+  selector:
+    app: payments-mongo-set
+  ports:
+    - name: mongo-db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: payments-mongo-set
+  labels:
+    app: payments-mongo-set
+spec:
+  serviceName: "payments-mongo-srv"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payments-mongo-set
+  template:
+    metadata:
+      labels:
+        app: payments-mongo-set
+    spec:
+      containers:
+        - name: payments-mongo-set
+          image: mongo
+          volumeMounts:
+            - mountPath: /data/db
+              name: payments-data
+  volumeClaimTemplates:
+    - metadata:
+        name: payments-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
