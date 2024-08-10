@@ -2,12 +2,12 @@ import express, { Response, Request } from "express";
 import {
     DatabaseConnectionError,
     requireAuth,
-    validateRequest
+    validateRequest,
+    natsWrapper
 } from "@ojctickets/common";
 import { body } from "express-validator";
 import { Ticket } from "../models/tickets";
 import { TicketCreatedPublisher } from "../events/publishers/ticket-created-publisher";
-import { natsWrapper } from "@ojctickets/common";
 import mongoose from "mongoose";
 
 const router = express.Router();

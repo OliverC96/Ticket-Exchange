@@ -31,13 +31,16 @@ router.delete(
             throw new NotAuthorizedError(); // Cannot delete another user's ticket
         }
 
-        const deletedTicket = await Ticket.findByIdAndDelete(ticketID); // Deleting the ticket
+        console.log(ticket);
+        await Ticket.findByIdAndDelete(ticket.id); // Deleting the ticket
+        console.log("After deletion");
         await new TicketDeletedPublisher(natsWrapper.client).publish({
             id: ticket.id,
             version: ticket.version
         });
+        console.log("DELETED PUBLISHER");
 
-        return res.status(204).send(deletedTicket);
+        return res.status(204);
     }
 );
 

@@ -6,7 +6,13 @@ export default ({ url, method, body, onSuccess }) => {
     const performRequest = async() => {
         try {
             setErrors(null);
-            const response = await axios[method](url, body);
+            let response;
+            if (method === "delete") {
+                response = await axios[method](url);
+            }
+            else {
+                response = await axios[method](url, body);
+            }
             if (onSuccess) {
                 onSuccess(response.data);
             }
