@@ -2,6 +2,6 @@
 2. [pending] Thoroughly document entire project [ref: https://google.github.io/styleguide/tsguide.html#comments-documentation]
 3. Implement randomly-generated discounts on ticket offerings
 4. Implement third-party OAuth for Google, Facebook, and Apple
-5. Implement price and keyword filters to enhance ticket-browsing experience
+5. Implement price and/or keyword filters to enhance ticket-browsing experience
 6. [selected] Implement update and delete ticket functionality
 7. [pending] Configure Digital Ocean block storage volumes for MongoDB persistence [ref: https://docs.digitalocean.com/products/kubernetes/how-to/add-volumes/]
