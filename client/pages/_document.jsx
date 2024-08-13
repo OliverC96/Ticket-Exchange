@@ -5,6 +5,7 @@ export default function Document() {
         <Html lang="en">
             <Head>
                 <link rel="shortcut icon" href="/favicon.ico" />
+                <title> Ticket Exchange </title>
             </Head>
             <body>
                 <Main />

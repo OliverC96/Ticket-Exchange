@@ -8,7 +8,7 @@ export default function Order({ status, ticket, id }) {
         url: `/api/orders/${id}`,
         method: "patch",
         body: {},
-        onSuccess: () => Router.push("/orders")
+        onSuccess: () => Router.reload()
     });
 
     const processRefund = async () => {
