@@ -13,7 +13,8 @@ export default function Ticket({ id, title, price, currUser }) {
         onSuccess: () => Router.reload()
     });
 
-    const onClick = async() => {
+    const onClick = async(event) => {
+        event.preventDefault();
         if (currUser) {
             await Router.push(`/tickets/${id}`);
         }
@@ -22,8 +23,9 @@ export default function Ticket({ id, title, price, currUser }) {
         }
     };
 
-    const onKeyDown = async ({ keyCode }) => {
-        if (keyCode === 46 || keyCode === 8) {
+    const onKeyDown = async (event) => {
+        event.preventDefault();
+        if (event.keyCode === 46 || event.keyCode === 8) {
             await performRequest();
         }
     };
