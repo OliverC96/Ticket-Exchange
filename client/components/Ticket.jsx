@@ -10,7 +10,7 @@ export default function Ticket({ id, title, price, currUser }) {
         url: `/api/tickets/${id}`,
         method: "delete",
         body: {},
-        onSuccess: () => Router.reload()
+        onSuccess: () => Router.replace(Router.asPath)
     });
 
     const onClick = async() => {
