@@ -2,6 +2,5 @@
 2. [pending] Thoroughly document entire project [ref: https://google.github.io/styleguide/tsguide.html#comments-documentation]
 3. Implement randomly-generated discounts on ticket offerings
 4. Implement third-party OAuth for Google, Facebook, and Apple
-5. Implement price and/or keyword filters to enhance ticket-browsing experience
-6. [selected] Implement update and delete ticket functionality
-7. Ensure every route/listener/publisher has thorough testing
+5. [selected] Implement price and/or keyword filters to enhance ticket-browsing experience
+6. Ensure every route/listener/publisher has thorough testing

@@ -3,6 +3,11 @@
     @apply flex flex-col justify-center items-center;
 }
 
+.modal-wrapper {
+    @apply z-50 absolute top-0 left-0 h-screen w-screen;
+    @apply bg-transparent bg-opacity-85 flex justify-center items-center;
+}
+
 .card {
     @apply bg-blue-xxdark outline outline-1 outline-blue-light;
     @apply flex flex-col rounded-lg;
@@ -17,7 +22,7 @@
 }
 
 .ticket-grid {
-    @apply grid grid-cols-4 gap-5 text-blue-xlight pt-32 h-fit;
+    @apply grid grid-cols-4 gap-5 text-blue-xlight pt-32 h-fit items-start;
 }
 
 .order-grid {

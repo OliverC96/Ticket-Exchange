@@ -2,17 +2,16 @@ import {
     FaApple,
     FaGoogle
 } from "react-icons/fa";
-import { useState } from "react";
 import useRequest from "../../hooks/use-request";
+import useFormInput from "../../hooks/use-form-input/auth";
 import Router from "next/router";
 import Link from "next/link";
 import Divider from "../../components/Divider";
 
 export default () => {
 
-    const [input, setInput] = useState({
-        email: "",
-        password: ""
+    const { input, handleChange, handleSubmission } = useFormInput({
+        onSubmit: async () => await performRequest()
     });
 
     const { performRequest, errors } = useRequest({
@@ -21,21 +20,6 @@ export default () => {
         body: input,
         onSuccess: () => Router.push("/")
     });
-
-    function handleChange(event) {
-        const { name, value } = event.target;
-        setInput((prev) => {
-            return {
-                ...prev,
-                [name]: value
-            };
-        });
-    }
-
-    async function handleSubmission(event) {
-        event.preventDefault();
-        await performRequest();
-    }
 
     return (
         <div className="page-wrapper">
