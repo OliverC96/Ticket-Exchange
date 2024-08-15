@@ -19,7 +19,7 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
         if (!order) {
             throw new Error(`Order cancellation failed - order (id: ${data.orderID}) does not exist.`)
         }
-        if (order.status !== OrderStatus.Created) {
+        if (order.status === OrderStatus.Complete || order.status === OrderStatus.Refunded) {
             return msg.ack();
         }
         order.status = OrderStatus.Cancelled
