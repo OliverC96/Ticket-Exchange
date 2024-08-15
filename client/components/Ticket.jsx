@@ -8,7 +8,7 @@ import ActionButton from "../components/ActionButton";
 
 export default function Ticket({ id, title, price, userID, currUser }) {
 
-    const isOwner = userID === currUser.id;
+    const isOwner = userID === currUser?.id;
     const containerRef = useRef(null);
     const [modalOpen, setModalOpen] = useState(false);
 
