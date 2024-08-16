@@ -3,11 +3,12 @@
 ### Overview
 - A web application which facilitates the seamless buying and selling of tickets
 - Users can create new listings, edit or delete existing listings, and purchase other users' listings
-- Powered by six independent microservices (detailed in Event-based Communication)
+- Powered by six independent microservices, each running within a separate [Docker](https://www.docker.com) container
 - Uses [MongoDB](https://www.mongodb.com) to securely store user account credentials, and maintain a comprehensive record of listings, orders, and payments
 - Uses [NATS Streaming Server](https://nats.io) to implement asynchronous, event-based communication between services
 - Uses [BullJS](https://www.npmjs.com/package/bull) and [Redis](https://redis.io) to implement delayed messaging (in particular, a 15-minute order expiration window)
 - Uses [Resend](https://resend.com) to provide email updates; notifying users of significant events (e.g., order confirmation, order refunds)
+- Uses [Kubernetes](https://kubernetes.io) to manage - and facilitate interactions between - the various microservices
 
 ### UI Colour Palette
 
