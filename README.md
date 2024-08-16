@@ -8,9 +8,9 @@
 ![Landing page containing all current listings on the platform](./images/landing_page.png)
 ![Create a new ticket form](./images/create_form.png)
 ![Intent to purchase page](./images/purchase_page.png)
-![Payment method and billing address form](./images/payment_form.png)
+![Payment method and billing address form](./images/checkout_form.png)
 ![Order confirmation page containing a recap of the newly-placed order](./images/order_confirmation.png)
-![Order history page](./images/orders_collection.png)
+![Order history page](./images/order_history.png)
 
 <h3> User Authentication </h3>
 
@@ -27,4 +27,4 @@
 
 <h3> Database Models </h3>
 
-![A diagram detailing all database models utilized in the application](./images/models.png)
+![A diagram detailing all database models utilized in the application](./images/data_models.png)
