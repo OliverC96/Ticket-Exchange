@@ -1,4 +1,4 @@
-# Ticket Exchange <a href="https://www.ticket-exchange.ca"> [https://www.ticket-exchange.ca] </a>
+# Ticket Exchange <a href="https://www.ticket-exchange.ca" target="_blank"> [https://www.ticket-exchange.ca] </a>
 
 ### Overview
 - A web application which facilitates the seamless buying and selling of tickets
