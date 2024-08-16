@@ -8,7 +8,8 @@
 - Uses [NATS Streaming Server](https://nats.io) to implement asynchronous, event-based communication between services
 - Uses [BullJS](https://www.npmjs.com/package/bull) and [Redis](https://redis.io) to implement delayed messaging (in particular, a 15-minute order expiration window)
 - Uses [Resend](https://resend.com) to provide email updates; notifying users of significant events (e.g., order confirmation, order refunds)
-- Uses [Kubernetes](https://kubernetes.io) to manage - and facilitate interactions between - the various microservices
+- Uses [Stripe](https://stripe.com/en-ca) to implement secure checkout (i.e., collecting payment information server-side)
+- Uses [Kubernetes](https://kubernetes.io) to manage - and facilitate interactions between - the containerized microservices
 
 ### UI Colour Palette
 
@@ -50,3 +51,7 @@
 ### NATS Streaming Server
 
 ### Kubernetes
+
+## Testing
+
+## CI/CD
