@@ -16,6 +16,11 @@ spec:
         - name: client
           image: oliverc96/client
           env:
+            - name: RESEND_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: resend-secret
+                  key: RESEND_KEY
             - name: BASE_URL
               valueFrom:
                 configMapKeyRef:
