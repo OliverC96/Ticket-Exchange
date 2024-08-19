@@ -49,6 +49,8 @@ Un-authenticated users are only able to view listings. Users must be authenticat
 
 ## Email Updates
 
+Users will receive emails notifying them of significant events that occur within the [core application workflow](#core-workflow). Users will receive an order confirmation email (containing an order summary and billing details) once an order has been successfully processed. Additionally, users will receive an email notifying them of successful order refunds. The image below provides an example of the order confirmation email (on the left) and the order refund email (on the right).
+
 ![Order confirmation and order refunded email updates](./images/email_updates.png)
 
 ## Event-based Communication
