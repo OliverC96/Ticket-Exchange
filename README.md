@@ -25,13 +25,13 @@
 - Authenticated users can create listings by clicking on the "Create" link and filling out the subsequent form
 - Clicking on a listing brings up a new page containing the listing details - users can click "Purchase" to initiate the checkout process
 - Users are then shown the checkout page, where they have 15 minutes to enter their billing address and payment information to secure the listing
-  - Note: if the user fails to complete the checkout stage in this 15-minute window, the ticket is released back into the marketplace
+  - Note: if the user fails to complete the checkout stage in this 15-minute window, the ticket is released back into the public marketplace
 - If the purchase is successful, the user is shown a new page which displays a brief summary of the order
   - Additionally, the user is sent an email containing all significant order information
 - Clicking "View Orders" directs the user to a new page presenting a comprehensive order history
-- If desired, users may request a complete refund for any of their prior orders by clicking the icon on the top-right of the corresponding order card
+- If desired, users can request a complete refund for any of their prior orders by clicking the icon on the top-right of the corresponding order card
   - Note: partial refunds (i.e., refunds less than 100% of the original amount) are not supported at this time
-  - If the refund was successful, the user will receive an email notification
+  - If the refund was successful, the user will receive a notification by email
 
 ![Landing page containing all current listings on the platform](./images/landing_page.png)
 ![Create a new ticket form](./images/create_form.png)
@@ -41,6 +41,8 @@
 ![Order history page](./images/order_history.png)
 
 ## User Authentication
+
+Un-authenticated users are only able to view listings. Users must be authenticated in order to create, edit, delete, or purchase listings. Returning users can login to their existing accounts by providing valid credentials. New users must complete the registration form to create an account with the application (note: the supplied email address must be unique, i.e., it cannot be tied to another account in the system).
 
 ![Registration form for new users](./images/registration_form.png)
 ![Login form for returning users](./images/login_form.png)
