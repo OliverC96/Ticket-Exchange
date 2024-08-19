@@ -10,13 +10,14 @@
 - Uses [Resend](https://resend.com) to provide email updates; notifying users of significant events (e.g., order confirmation, order refunds)
 - Uses [Stripe](https://stripe.com/en-ca) to implement secure checkout (i.e., collecting payment information server-side)
 - Uses [Kubernetes](https://kubernetes.io) to manage - and facilitate interactions between - the containerized microservices
+- This project was completed as part of the [Microservices with Node JS and React](https://www.udemy.com/share/102VKE3@7EmZCLfhgMS8nceqObqL-SLnUUwTL_cQ2PgLDvt3Djbb7731WxXdE-WuEC-NyENJTQ==/) course on Udemy
 
 ### UI Colour Palette
 
-- Background (primary): `#003049`
-- Background (secondary): `#001B29`
-- Font: `#E0F4FF`
-- Outline: `#669BBC`
+- Background (primary): `#003049` ![#003049](https://placehold.co/15x15/003049/003049.png)
+- Background (secondary): `#001B29` ![#001B29](https://placehold.co/15x15/001B29/001B29.png)
+- Font: `#E0F4FF` ![#E0F4FF](https://placehold.co/15x15/E0F4FF/E0F4FF.png)
+- Outline: `#669BBC` ![#669BBC](https://placehold.co/15x15/669BBC/669BBC.png)
 
 ## Core Workflow
 
