@@ -20,18 +20,25 @@
 
 ## Core Workflow
 
+### Create, Edit, and Delete Listings
+
 - Authenticated users are redirected to the landing page, which displays all currently available listings
   - On this page, users are able to edit or delete their listings (but not other users' listings)
 - Authenticated users can create listings by clicking on the "Create" link and filling out the subsequent form
+
+### Purchase a Listing (Ticket)
+
 - Clicking on a listing brings up a new page containing the listing details - users can click "Purchase" to initiate the checkout process
 - Users are then shown the checkout page, where they have 15 minutes to enter their billing address and payment information to secure the listing
   - Note: if the user fails to complete the checkout stage in this 15-minute window, the ticket is released back into the public marketplace
 - If the purchase is successful, the user is shown a new page which displays a brief summary of the order
-  - Additionally, the user is sent an email containing all significant order information
+  - Additionally, the user is sent an email containing all significant order information (see [Email Updates](#email-updates))
 - Clicking "View Orders" directs the user to a new page presenting a comprehensive order history
+
+### [Optional] Refund an Order
 - If desired, users can request a complete refund for any of their prior orders by clicking the icon on the top-right of the corresponding order card
   - Note: partial refunds (i.e., refunds less than 100% of the original amount) are not supported at this time
-  - If the refund was successful, the user will receive a notification by email
+- If the refund was successful, the user will receive a notification by email (see [Email Updates](#email-updates))
 
 ![Landing page containing all current listings on the platform](./images/landing_page.png)
 ![Create a new ticket form](./images/create_form.png)
