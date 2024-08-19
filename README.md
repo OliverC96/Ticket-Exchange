@@ -55,9 +55,13 @@ Users will receive emails notifying them of significant events that occur within
 
 ## Event-based Communication
 
+Backend microservices communicate with each other in an asynchronous, event-based fashion. Publishers emit events, and subscribers consume events from their subscriptions (i.e., the channels which they are subscribed to). Queue groups are used to avoid the redundant emission of events to copies of the same service. The following diagram illustrates the flow of events through the event bus.
+
 ![A diagram illustrating event-based communication between microservices](./images/event_flow.png)
 
 ## Database Models
+
+The following diagram displays the database schema for the models present in each microservice. In order to ensure each service is entirely self-contained, there is some duplication of data within the application. For example, information regarding tickets is stored within both the **tickets** and **orders** services. Whenever the orders service requires ticket information (e.g., order creation, which requires a reference to an existing ticket document), it can directly access the ticket from within its own ticket model - effectively circumventing the need for asynchronous communication. In some services, optimistic concurrency control is implemented via a [plugin](https://www.npmjs.com/package/mongoose-update-if-current) which increments the version number field whenever a document is modified (to prevent out-of-order execution).
 
 ![A diagram detailing all database models utilized in the application](./images/data_models.png)
 
