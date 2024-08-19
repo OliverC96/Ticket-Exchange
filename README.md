@@ -30,7 +30,7 @@
 
 - Clicking on a listing brings up a new page containing the listing details - users can click "Purchase" to initiate the checkout process
 - Users are then shown the checkout page, where they have 15 minutes to enter their billing address and payment information to secure the listing
-  - Note: if the user fails to complete the checkout stage in this 15-minute window, the ticket is released back into the public marketplace
+  - Note: if the user fails to complete the checkout stage in this 15-minute window, the order expires, and the ticket is released back into the public marketplace
 - If the purchase is successful, the user is shown a new page which displays a brief summary of the order
   - Additionally, the user is sent an email containing all significant order information (see [Email Updates](#email-updates))
 - Clicking "View Orders" directs the user to a new page presenting a comprehensive order history
@@ -68,7 +68,7 @@ Backend microservices communicate with each other in an asynchronous, event-base
 
 ## Database Models
 
-The following diagram displays the database schema for the models present in each microservice. In order to ensure each service is entirely self-contained, there is some duplication of data within the application. For example, information regarding tickets is stored within both the **tickets** and **orders** services. Whenever the orders service requires ticket information (e.g., order creation, which requires a reference to an existing ticket document), it can directly access the ticket from within its own ticket model - effectively circumventing the need for asynchronous communication. In some services, optimistic concurrency control is implemented via a [plugin](https://www.npmjs.com/package/mongoose-update-if-current) which increments the version number field whenever a document is modified (to prevent out-of-order execution).
+The following diagram displays the database schema for the models present in each microservice. In order to ensure each service is entirely self-contained, there is some duplication of data within the application. For example, information regarding tickets is stored within both the **tickets** and **orders** services. Whenever the orders service requires ticket information (e.g., order creation, which requires a reference to an existing ticket document), it can directly access the ticket from within its own ticket model - effectively circumventing the need for asynchronous communication. In some services, optimistic concurrency control is implemented via a Mongoose [plugin](https://www.npmjs.com/package/mongoose-update-if-current) which increments the version number field whenever a document is modified (to prevent out-of-order execution).
 
 ![A diagram detailing all database models utilized in the application](./images/data_models.png)
 
