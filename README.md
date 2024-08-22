@@ -69,7 +69,7 @@ Backend microservices communicate with each other in an asynchronous, event-base
 
 ## Database Models
 
-The following diagram displays the database schema for the models present in each microservice. In order to ensure each service is entirely self-contained, there is some duplication of data within the application. For example, information regarding tickets is stored within both the **tickets** and **orders** services. Whenever the orders service requires ticket information (e.g., order creation, which requires a reference to an existing ticket document), it can directly access the ticket from within its own ticket model - effectively circumventing the need for asynchronous communication. In some services, optimistic concurrency control is implemented via a Mongoose [plugin](https://www.npmjs.com/package/mongoose-update-if-current) which increments the version number field whenever a document is modified (to prevent out-of-order execution).
+The following diagram displays the database schema for the models present in each microservice. In order to ensure each service is entirely self-contained, there is some duplication of data within the application. For example, information regarding tickets is stored within both the **tickets** and **orders** services. Whenever the orders service requires ticket information (e.g., order creation, which requires a reference to an existing ticket document), it can directly access the ticket from within its own ticket model - effectively circumventing the need for asynchronous communication. In some services, optimistic concurrency control is implemented via a Mongoose [plugin](https://www.npmjs.com/package/mongoose-update-if-current) which increments the version number field whenever a document is modified (to prevent out-of-order updates).
 
 ![A diagram detailing all database models utilized in the application](./images/data_models.png)
 
@@ -83,4 +83,11 @@ The following diagram displays the database schema for the models present in eac
 
 ## Testing
 
+Backend microservices are thoroughly tested using [supertest](https://www.npmjs.com/package/supertest) and [jest](https://www.npmjs.com/package/jest). All backend components (routes, data models, event listeners/publishers) are targeted in these tests to ensure comprehensive test coverage.
+
+[!NOTE]
+Integration testing will be implemented in the near future.
+
 ## CI/CD
+
+CI/CD is implemented via [GitHub Actions](https://docs.github.com/en/actions/writing-workflows). Whenever a pull request is created (attempting to merge a secondary branch with the main branch), all affected code will be tested automatically (by executing the relevant test suites). For example, if a pull request is created, and only the **orders** service has been modified, then all tests related to the **orders** service (and only those tests!) will be executed (to ensure it is still functioning as expected after the recent changes). Additionally, whenever a pull request is accepted (i.e., code is pushed into the main branch), new Docker images will be created (to reflect the recent changes), and the affected deployments will be restarted.
