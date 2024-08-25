@@ -85,7 +85,7 @@ _Note:_ [MongoDB Atlas Clusters](https://www.mongodb.com/resources/products/fund
 
 [Redis Database (RDB)](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/#snapshotting) persistence is configured to save point-in-time snapshots of the Redis instance to the disk after each significant event in the expiration workflow (i.e., whenever the state of the BullJS queue changes). Additionally, [Redis Append-Only File (AOF)](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/#append-only-file) persistence is enabled; maintaining a comprehensive log of all write operations received by the Redis server.
 
-### NATS Streaming Server
+### NATS
 
 Currently, NATS Streaming Server is used to manage the transmission of events between microservices. By default, NATS Streaming Server operates entirely in-memory - eliminating the possibility of data persistence. In the future, I plan on investigating the viability of a migration to the newer [NATS Jetstream](https://docs.nats.io/nats-concepts/jetstream) module, which (in conjunction with Kubernetes PVs) could be used to successfully persist events/messages beyond the lifetime of any consumer.
 
