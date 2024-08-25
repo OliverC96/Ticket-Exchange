@@ -91,8 +91,18 @@ NATS Streaming Server: Event Bus Implementation
 -> Node-nats-streaming is a Node.js client which enables convenient and efficient communication with the NATS Streaming Server
     -> Port-forwarding can be utilized to expose a particular port within the NATS pod to localhost
 
-Concurrency Issues & Resolution Techniques
--> OCC via mongoose plugin
+Concurrency Control Mechanisms
+https://www.freecodecamp.org/news/how-databases-guarantee-isolation
+-> Optimistic Concurrency Control (OCC) is implemented via a Mongoose plugin
+    -> The version number field is incremented whenever a document is modified (preventing out-of-order execution)
+-> OCC assumes that conflicts between transactions are infrequent (an optimistic outlook)
+    -> Allows transactions to execute asynchronously, without blocking
+    -> Transactions check for conflicts (e.g., inconsistent version numbers) before committing the changes to the database
+        -> If a conflict is identified, the transaction must be aborted
+-> Conversely, Pessimistic Concurrency Control (PCC) assumes that conflicts between transactions arise frequently
+    -> Data referenced by a transaction is locked down until the transaction has completed
+    -> Locking mechanisms are used to grant, and revoke access to data elements (ensuring data integrity)
+-> OCC checks for conflicts at the end of a transaction; PCC prevents conflicts from ever occurring in the first place
 
 Delayed Messaging via BullJS and Redis
 -> NATS Streaming Server does not have built-in support for delayed (i.e., scheduled) messaging

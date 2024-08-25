@@ -4,3 +4,5 @@
 4. [selected] Implement third-party OAuth for Google, Facebook, and Apple
 5. [selected] Implement price and/or keyword filters to enhance ticket-browsing experience
 6. Ensure every route/listener/publisher has thorough testing
+7. Make Resend email recipient dynamic (only once the project is finished)
+8. Style Edit Ticket modal
