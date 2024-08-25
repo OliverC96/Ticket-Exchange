@@ -1,6 +1,8 @@
 # Ticket Exchange
 
-### Overview
+## Overview
+
+### Core Functionality
 - A web application which facilitates the seamless buying and selling of tickets
 - Users can create new listings, edit or delete existing listings, and purchase other users' listings
 - Powered by six independent microservices, each running within a separate [Docker](https://www.docker.com) container
