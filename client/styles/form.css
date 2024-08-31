@@ -5,7 +5,7 @@
 
 .modal-wrapper {
     @apply z-50 absolute top-0 left-0 h-screen w-screen;
-    @apply bg-transparent bg-opacity-85 flex justify-center items-center;
+    @apply bg-[#0F2A38] bg-opacity-65 flex justify-center items-center;
 }
 
 .card {
@@ -22,7 +22,7 @@
 }
 
 .ticket-grid {
-    @apply grid grid-cols-4 gap-5 text-blue-xlight pt-32 h-fit items-start;
+    @apply grid grid-cols-4 gap-4 text-blue-xlight pt-32 h-fit items-start w-1/2;
 }
 
 .order-grid {
@@ -77,6 +77,16 @@
     @apply py-2 px-6 rounded-lg;
     @apply bg-blue-xdark hover:bg-blue-dark text-blue-xlight;
     @apply outline outline-1 outline-blue-light;
+}
+
+.sort-btn {
+    @apply bg-blue-xdark outline outline-1 outline-blue-light text-base;
+    @apply rounded-3xl px-4 py-1 text-blue-xlight;
+}
+
+.sort-enabled {
+    @apply bg-pink !important;
+    @apply outline-pink !important;
 }
 
 input[type="checkbox"] {

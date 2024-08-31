@@ -21,7 +21,8 @@ module.exports = {
           light: "#c1121f",
           dark: "#c1121f"
         },
-        grey: "#3E485B"
+        grey: "#3E485B",
+        pink: "#A61657"
       },
       fontFamily: {
         title: ["Comfortaa", "sans-serif"]

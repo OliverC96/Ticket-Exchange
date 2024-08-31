@@ -24,7 +24,6 @@ export default ({ priceRef, ticket, onSubmit }) => {
     }
 
     function onBlur() {
-        console.log("BLURRED");
         let value = input.price;
         if (value.charAt(0) === '$') {
             value = value.slice(1);
@@ -46,5 +45,5 @@ export default ({ priceRef, ticket, onSubmit }) => {
         setSubmitted(true);
     }
 
-    return { priceRef, input, handleChange, onBlur, handleSubmission };
+    return { input, handleChange, onBlur, handleSubmission };
 }
