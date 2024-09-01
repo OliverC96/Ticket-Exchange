@@ -1,4 +1,6 @@
+// Divider component used to partition login/registration forms
 export default function Divider({ type }) {
+    // Vertical divider
     if (type === "vertical") {
         return (
             <div className="flex flex-col items-center py-1 gap-1">
@@ -8,6 +10,7 @@ export default function Divider({ type }) {
             </div>
         );
     }
+    // Horizontal divider
     else if (type === "horizontal") {
         return (
             <div className="flex items-center py-1">

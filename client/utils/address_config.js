@@ -1,3 +1,4 @@
+// Address configuration for the Stripe checkout form
 const addressOptions = {
     mode: "billing",
     autocomplete: {
@@ -18,6 +19,7 @@ const addressOptions = {
     }
 };
 
+// Maps ISO Alpha-2 country codes to full country names
 const countryMapping = {
     "AU": "Australia",
     "CA": "Canada",

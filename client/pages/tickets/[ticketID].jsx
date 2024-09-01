@@ -2,8 +2,10 @@ import useRequest from "../../hooks/use-request";
 import Router from "next/router";
 import { TbReceiptDollar } from "react-icons/tb";
 
+// Displays all information corresponding to the selected ticket
 const ViewTicket = ({ ticket }) => {
 
+    // POST /api/orders
     const { performRequest, errors } = useRequest({
         url: "/api/orders",
         method: "post",
@@ -36,6 +38,7 @@ const ViewTicket = ({ ticket }) => {
                         <p> Price: ${ ticket.price } CAD </p>
                     </div>
 
+                    {/* Displays any errors encountered during the server-side request */}
                     { errors &&
                         <ul className="card-error" >
                             { errors.map((err) => (
@@ -54,6 +57,7 @@ const ViewTicket = ({ ticket }) => {
     );
 };
 
+// Fetch the desired ticket upon initial page load, and subsequent client-side navigations
 ViewTicket.getInitialProps = async (context, client) => {
     const { ticketID } = context.query;
     const { data } = await client.get(`/api/tickets/${ticketID}`);

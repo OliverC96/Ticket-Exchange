@@ -13,6 +13,7 @@ declare global {
     function createOrder(ticketID: string, cookie?: string[]): Promise<OrderDocument>;
 }
 
+// Create a mock implementation of the natsWrapper.client.publish() method for testing purposes
 jest.mock('@ojctickets/common', () => {
     const original = jest.requireActual('@ojctickets/common');
 
@@ -57,7 +58,10 @@ afterAll(async() => {
     await mongoose.connection.close();
 });
 
-// Forges a JWT cookie (for testing purposes; to emulate user authentication within the ticketing service)
+/**
+ * Forges a JWT cookie (for testing purposes; to emulate user authentication)
+ * @returns {string[]} JWT session cookie
+ */
 global.getCookie = (): string[] => {
     const ticketID = new mongoose.Types.ObjectId().toHexString();
     const payload = {
@@ -74,7 +78,11 @@ global.getCookie = (): string[] => {
     return [`session=${encodedSession}`];
 };
 
-// Creates a ticket document in the MongoDB database with the provided attributes
+/**
+ * Helper method which creates a ticket document
+ * @param {TicketFields} [newTicket] Ticket attributes (if not provided, the default attributes will be used)
+ * @returns {Promise<TicketDocument>} The newly-created ticket document
+ */
 global.createTicket = async (newTicket?: TicketFields): Promise<TicketDocument> => {
     let t: TicketFields;
     if (newTicket !== undefined) {
@@ -92,9 +100,13 @@ global.createTicket = async (newTicket?: TicketFields): Promise<TicketDocument> 
     return ticket;
 };
 
-// Creates an order document in the MongoDB database (i.e., reserves the specified ticket)
+/**
+ * Helper method which creates an order document
+ * @param {string} ticketID The ID of the ticket associated with the order
+ * @param {string[]} [cookie] A session cookie
+ */
 global.createOrder = async (ticketID: string, cookie?: string[]): Promise<OrderDocument> => {
-    const c: string[] = cookie === undefined ? global.getCookie() : cookie;
+    const c: string[] = cookie || global.getCookie();
     const response = await request(server)
         .post("/api/orders")
         .set("Cookie", c)

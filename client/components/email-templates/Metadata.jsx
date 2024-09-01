@@ -1,5 +1,6 @@
 import { parseDate } from "../../utils/parse_date";
 
+// Displays order metadata (namely, order ID and time of purchase)
 export default function Metadata({ orderID }) {
     const d = parseDate();
     return (

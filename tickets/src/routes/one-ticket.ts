@@ -1,8 +1,7 @@
 import express, { Request, Response } from "express";
 import { Ticket } from "../models/tickets";
-import {BadRequestError, NotFoundError, validateRequest} from "@ojctickets/common";
+import { NotFoundError, validateRequest } from "@ojctickets/common";
 import { param } from "express-validator";
-import mongoose from "mongoose";
 
 const router = express.Router();
 

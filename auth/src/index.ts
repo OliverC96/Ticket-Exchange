@@ -10,6 +10,7 @@ const initialize = async () => {
         throw new Error("Mongo URI must be defined.");
     }
     try {
+        // Establish a connection to MongoDB
         await mongoose.connect(process.env.MONGO_URI);
         console.log("Successfully connected to MongoDB database.");
     }

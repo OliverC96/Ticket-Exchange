@@ -6,6 +6,7 @@ import { IoReceiptOutline } from "react-icons/io5";
 import { RiArrowRightDoubleFill } from "react-icons/ri";
 import { getCharges } from "../../utils/calculate_charges";
 
+// Displays an order confirmation summary
 export default () => {
 
     async function handleSubmission(event) {
@@ -13,6 +14,7 @@ export default () => {
         await Router.push("/orders");
     }
 
+    // Extract the relevant information from local storage
     const { id, ticket, taxPercent, discount } = JSON.parse(localStorage.getItem("order"));
     const { name, email, address } = JSON.parse(localStorage.getItem("customer"));
 

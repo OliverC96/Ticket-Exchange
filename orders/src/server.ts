@@ -23,11 +23,13 @@ server.use(cookieSession({
 }));
 server.use(currentUser);
 
+// Attach all routers related to the orders service
 server.use(allOrdersRouter);
 server.use(oneOrderRouter);
 server.use(createOrderRouter);
 server.use(deleteOrderRouter);
 
+// Configure a wildcard catch-all route for invalid URLs (i.e., those not prefixed with /api/orders)
 server.all("*", async (req, res) => {
     throw new NotFoundError();
 });

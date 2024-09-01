@@ -6,12 +6,14 @@ import { MdDelete } from "react-icons/md";
 import TicketForm from "../components/TicketForm";
 import ActionButton from "../components/ActionButton";
 
+// Encapsulates a single ticket listing
 export default function Ticket({ id, title, price, userID, currUser }) {
 
     const isOwner = userID === currUser?.id;
     const containerRef = useRef(null);
     const [modalOpen, setModalOpen] = useState(false);
 
+    // DELETE /api/tickets
     const { performRequest, errors } = useRequest({
         url: `/api/tickets/${id}`,
         method: "delete",
@@ -20,14 +22,15 @@ export default function Ticket({ id, title, price, userID, currUser }) {
     });
 
     const onClick = async () => {
-        if (currUser) {
+        if (currUser) { // If the current user is authenticated, proceed with purchase process
             await Router.push(`/tickets/${id}`);
         }
-        else {
+        else { // Redirect unauthenticated users to the registration page
             await Router.push("/auth/register")
         }
     };
 
+    // Enable ticket deletion when user presses the 'backspace' or 'delete' key
     const onKeyDown = async ({ keyCode }) => {
         if (keyCode === 46 || keyCode === 8) {
             await performRequest();
@@ -36,6 +39,7 @@ export default function Ticket({ id, title, price, userID, currUser }) {
 
     return (
         <div className="flex flex-col justify-center gap-1.5">
+            {/* Ticket update modal window */}
             {
                 modalOpen &&
                     <TicketForm
@@ -44,6 +48,7 @@ export default function Ticket({ id, title, price, userID, currUser }) {
                         ticket={{ id, title, price }}
                     />
             }
+            {/* Displays all relevant ticket information */}
             <div
                 ref={containerRef}
                 onClick={onClick}
@@ -58,6 +63,7 @@ export default function Ticket({ id, title, price, userID, currUser }) {
                     ${price}
                     <span className="text-xs opacity-85">CAD</span>
                 </h3>
+                {/* Displays any errors encountered during the ticket deletion process */}
                 { errors &&
                     <ul className="card-error" >
                         { errors.map((err) => (
@@ -66,6 +72,7 @@ export default function Ticket({ id, title, price, userID, currUser }) {
                     </ul>
                 }
             </div>
+            {/* Restrict edit/delete privileges to the ticket owner */}
             {
                 isOwner &&
                     <div className="flex gap-1.5">

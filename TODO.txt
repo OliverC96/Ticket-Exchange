@@ -1,6 +1,8 @@
 1. Migrate from NATS Streaming Server to NATS JetStream [ref: https://docs.nats.io/nats-concepts/jetstream]
-2. [pending] Thoroughly document entire project [ref: https://google.github.io/styleguide/tsguide.html#comments-documentation]
-3. Implement randomly-generated discounts on ticket offerings
-4. [selected] Implement third-party OAuth for Google, Facebook, and Apple
-5. [selected] Ensure every route/listener/publisher has thorough testing
-6. Make Resend email recipient dynamic (only once the project is finished)
+2. Implement randomly-generated discounts on ticket offerings
+3. [selected] Implement third-party OAuth for Google, Facebook, and Apple
+4. [selected] Ensure every route/listener/publisher has thorough testing
+5. Make Resend email recipient dynamic (only once the project is finished)
+6. Implement dynamic tax charges?
+7. Add min/max validation on filter form
+9. Create checkout form input hook?

@@ -55,7 +55,7 @@ afterAll(async() => {
 });
 
 /**
- * Forges a JWT cookie (for testing purposes; to emulate user authentication within the ticketing service)
+ * Forges a JWT cookie (for testing purposes; to emulate user authentication)
  * @param {string} [id] An id corresponding to a ticket document
  * @returns {string[]} JWT session cookie
  */

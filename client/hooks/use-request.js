@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
+// Custom hook used to initiate a backend API request, and retrieve the resulting data (as well as any error messages)
 export default ({ url, method, body, onSuccess }) => {
     const [errors, setErrors] = useState(null);
     const performRequest = async() => {

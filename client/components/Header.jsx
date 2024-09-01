@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+// Header (i.e., navbar) component containing top-level page links
 export default function Header({ currentUser }) {
 
     // Conditionally rendered links based on the current user's authentication status
@@ -20,7 +21,7 @@ export default function Header({ currentUser }) {
                 >
                     { label }
                 </Link>
-            )
+            );
         });
 
     return (

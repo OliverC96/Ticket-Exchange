@@ -56,6 +56,7 @@ const orderSchema = new mongoose.Schema(
         }
 );
 
+// Enable optimistic concurrency control
 orderSchema.plugin(updateIfCurrentPlugin);
 
 /**

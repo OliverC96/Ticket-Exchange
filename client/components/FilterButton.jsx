@@ -1,5 +1,6 @@
 import { IoClose } from "react-icons/io5";
 
+// Filter button component (allowing users to view and/or delete current filters)
 export default function FilterButton({ filter, onClick }) {
     return (
         <div

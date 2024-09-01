@@ -3,6 +3,7 @@ import {
     FaSortDown
 } from "react-icons/fa6";
 
+// Represents a single sorting option (e.g., price-based sorting, title-based sorting)
 export default function SortButton({ type, isAscending, isEnabled, toggleDirection }) {
     return (
         <button

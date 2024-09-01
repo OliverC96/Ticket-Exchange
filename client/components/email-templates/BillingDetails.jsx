@@ -1,3 +1,4 @@
+// Displays billing information
 export default function BillingDetails({ name, address, forEmail }) {
     const { line1, line2, city, state, country, postal_code } = address;
     const sectionContent = [
@@ -11,6 +12,7 @@ export default function BillingDetails({ name, address, forEmail }) {
         <br />,
         country
     ];
+    // Browser UI
     if (!forEmail) {
         return (
             <div className="flex flex-col gap-3">
@@ -25,6 +27,7 @@ export default function BillingDetails({ name, address, forEmail }) {
             </div>
         );
     }
+    // Email UI
     return (
         <div className="mt-10">
             <p className="text-xl font-bold"> Billing Details </p>

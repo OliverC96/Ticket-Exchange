@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+// Custom hook to manage authentication form input
 export default ({ onSubmit }) => {
     const [input, setInput] = useState({
         email: "",

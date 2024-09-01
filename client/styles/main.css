@@ -30,6 +30,11 @@
     @apply text-blue-xlight w-fit h-fit pt-24;
 }
 
+.filter-form {
+    @apply bg-inherit text-blue-xlight mt-32 py-2 px-5;
+    @apply h-fit w-1/5 text-lg flex flex-col gap-5;
+}
+
 .order-confirm-header {
     @apply flex flex-col gap-2 items-center text-2xl text-center;
 }

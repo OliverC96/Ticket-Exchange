@@ -8,6 +8,7 @@ import {
     Tailwind
 } from "@react-email/components";
 
+// Template for order refund email update
 export default function OrderRefunded({ order, customer }) {
     const { id, ticket, taxPercent, discount, status } = order;
     return (

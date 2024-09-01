@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+// Custom hook to manage ticket edit/create form input
 export default ({ priceRef, ticket, onSubmit }) => {
     const [input, setInput] = useState({
         title: ticket?.title || "",

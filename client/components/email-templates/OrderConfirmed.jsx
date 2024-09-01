@@ -9,6 +9,7 @@ import {
     Tailwind
 } from "@react-email/components";
 
+// Template for order confirmation email
 export default function OrderConfirmed({ order, customer }) {
     const { id, ticket, taxPercent, discount, status } = order;
     return (

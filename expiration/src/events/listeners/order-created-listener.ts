@@ -7,6 +7,10 @@ import {
 import { Message } from "node-nats-streaming";
 import { expirationQueue } from "../../queues/expiration-queue";
 
+/**
+ * Listens for events pertaining to order creation
+ * @extends Listener
+ */
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     readonly subject = Subjects.OrderCreated;
     queueGroupName = QueueGroupNames.ExpirationService;
@@ -20,7 +24,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
                 orderID: data.id
             },
             {
-                delay: expirationTime - currentTime
+                delay: expirationTime - currentTime // Delay processing of the job until the expiration window has fully elapsed
             }
         );
         expirationQueue.client.bgsave(); // Asynchronously save the current state of the Redis dataset (i.e., create a point-in-time snapshot)

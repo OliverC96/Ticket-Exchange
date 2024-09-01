@@ -1,3 +1,4 @@
+// Action button component (allowing users to initiate ticket update or deletion)
 export default function ActionButton ({ Icon, onClick }) {
     return (
         <div

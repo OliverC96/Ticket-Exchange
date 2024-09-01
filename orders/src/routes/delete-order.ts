@@ -13,6 +13,7 @@ import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-pu
 
 const router = express.Router();
 
+// An API route encapsulating order deletion logic
 router.patch(
     "/api/orders/:id",
     requireAuth,
@@ -22,16 +23,18 @@ router.patch(
     validateRequest,
     async (req: Request, res: Response) => {
         const userID = req.currentUser!.id;
-        const orderID = req.params.id;
+        const orderID = req.params.id; // Extract the ID of the order which is to be deleted
 
+        // Attempt to retrieve the corresponding order document
         const order = await Order.findById(orderID).populate("ticket");
         if (!order) {
-            throw new NotFoundError();
+            throw new NotFoundError(); // The order does not exist
         }
         if (order.userID !== userID) {
-            throw new NotAuthorizedError();
+            throw new NotAuthorizedError(); // The order exists, but the current user is not authorized to delete it (i.e., they do not have ownership over the order)
         }
 
+        // Initiate a refund for the full order amount
         order.status = OrderStatus.Refunded;
         await order.save();
 

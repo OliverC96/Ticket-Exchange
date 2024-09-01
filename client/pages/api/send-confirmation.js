@@ -3,10 +3,12 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_KEY);
 
+// Sends an order confirmation email update to the current user
 export default async function (req, res) {
 
     const props = JSON.parse(req.body);
 
+    // Send the email via the Resend API
     const { data, error } = await resend.emails.send({
         from: process.env.SENDER_NAME + " <" + process.env.SENDER_EMAIL + ">",
         to: process.env.RECIPIENT_EMAIL,

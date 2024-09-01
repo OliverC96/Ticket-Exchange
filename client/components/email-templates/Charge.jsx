@@ -1,4 +1,6 @@
+// Encapsulates a single charge
 export default function Charge({ type, amount, forEmail }) {
+    // Browser UI
     if (!forEmail) {
         return (
             <div className={`flex justify-between ${type === "Order Total" && "text-lg"}`}>
@@ -11,6 +13,7 @@ export default function Charge({ type, amount, forEmail }) {
             </div>
         );
     }
+    // Email UI
     return (
         <div className={`flex -mt-5 justify-between ${type === "Order Total" && "text-lg font-bold"}`}>
             <p> { type }: </p>

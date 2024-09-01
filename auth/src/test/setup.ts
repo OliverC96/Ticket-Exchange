@@ -29,7 +29,11 @@ afterAll(async() => {
     await mongoose.connection.close();
 });
 
-global.getCookie = async() => {
+/**
+ * Forges a JWT cookie (for testing purposes; to emulate user authentication)
+ * @returns {string[]} JWT session cookie
+ */
+global.getCookie = async(): Promise<string[]> => {
     const email: string = "test@gmail.com";
     const password: string = "password";
     const authResponse = await request(server)
@@ -40,5 +44,5 @@ global.getCookie = async() => {
         })
         .expect(201)
     let cookie = authResponse.get("Set-Cookie");
-    return cookie === undefined ? [] : cookie;
+    return cookie || [];
 }

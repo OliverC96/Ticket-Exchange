@@ -6,6 +6,7 @@ import Router from "next/router";
 import { IoIosCreate } from "react-icons/io";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
+// Create/edit ticket form
 export default function TicketForm({ isModal, ticket, setModalVisible }) {
 
     const priceRef = useRef(null);
@@ -15,6 +16,7 @@ export default function TicketForm({ isModal, ticket, setModalVisible }) {
         onSubmit: async () => await performRequest()
     });
 
+    // POST /api/tickets (for ticket creation) or PUT /api/tickets (for ticket modification)
     const { performRequest, errors } = useRequest({
         url: isModal ? `/api/tickets/${ticket.id}` : "/api/tickets",
         method: isModal ? "put" : "post",
@@ -25,6 +27,7 @@ export default function TicketForm({ isModal, ticket, setModalVisible }) {
         onSuccess: async () => {
             if (isModal) {
                 setModalVisible(false);
+                return Router.reload();
             }
             await Router.push("/");
         }
@@ -82,6 +85,7 @@ export default function TicketForm({ isModal, ticket, setModalVisible }) {
                         />
                     </div>
 
+                    {/* Displays any errors encountered during the ticket creation/update process */}
                     { errors &&
                         <ul className="card-error" >
                             { errors.map((err) => (

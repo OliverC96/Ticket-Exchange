@@ -2,6 +2,7 @@ import { LuTicket } from "react-icons/lu";
 import { BsTicketPerforatedFill } from "react-icons/bs";
 import { FaTicket } from "react-icons/fa6";
 
+// Ticket decal for the order history page
 export default function TicketDecal() {
     return (
         <div className="text-blue-light flex flex-col gap-10 opacity-90 self-center">

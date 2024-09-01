@@ -57,7 +57,7 @@ afterAll(async() => {
 });
 
 /**
- * Forges a JWT cookie (for testing purposes; to emulate user authentication within the ticketing service)
+ * Forges a JWT cookie (for testing purposes; to emulate user authentication)
  * @returns {string[]} JWT session cookie
  */
 global.getCookie = (): string[] => {
@@ -93,7 +93,7 @@ global.createTicket = async ({ newTicket, cookie }: { newTicket?: TicketType, co
             price: 30
         };
     }
-    const c = cookie === undefined ? global.getCookie() : cookie;
+    const c = cookie || global.getCookie();
     const response = await request(server)
         .post("/api/tickets")
         .set("Cookie", c)

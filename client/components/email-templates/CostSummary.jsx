@@ -1,7 +1,9 @@
 import Charge from "./Charge";
 
+// Cost summary component; displays a breakdown of all charges, including discounts, taxes, and refunds
 export default function CostSummary({ charges, forEmail }) {
     const total = charges[charges.length - 1];
+    // Browser UI
     if (!forEmail) {
         return (
             <div className="flex flex-col gap-3">
@@ -20,6 +22,7 @@ export default function CostSummary({ charges, forEmail }) {
             </div>
         );
     }
+    // Email UI
     return (
         <div className="mt-10">
             <p className="text-xl font-bold"> Order Summary </p>

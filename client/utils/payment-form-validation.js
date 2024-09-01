@@ -2,6 +2,7 @@ const numDigits = (str) => {
     return str.match(/\d/g)?.length || 0;
 }
 
+// Payment form validation logic
 const validateInput = (name, value) => {
     switch (name) {
         case "cardNumber": {

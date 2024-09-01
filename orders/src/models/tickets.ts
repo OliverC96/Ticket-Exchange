@@ -43,9 +43,17 @@ const ticketSchema = new mongoose.Schema(
     }
 );
 
+// Enable optimistic concurrency control
 ticketSchema.plugin(updateIfCurrentPlugin);
 
-ticketSchema.statics.findByEvent = (event: { id: string, version: number }) => {
+/**
+ * Helper method which retrieves a ticket matching the provided id and version number
+ * @param {Object} event
+ * @param {string} event.id The id associated with the ticket
+ * @param {number} event.version The current version number of the ticket document
+ * @returns {OrderDocument|null} The matching ticket document (if it exists)
+ */
+ticketSchema.statics.findByEvent = (event: { id: string, version: number }): Promise<TicketDocument | null> => {
     return Ticket.findOne({
         _id: event.id,
         version: event.version - 1
@@ -60,7 +68,11 @@ ticketSchema.statics.build = (fields: TicketFields) => {
     });
 };
 
-ticketSchema.methods.isReserved = async function() {
+/**
+ * Helper method which determines whether the ticket is currently reserved (i.e., linked with a valid order)
+ * @returns {boolean} True if the ticket is reserved; false otherwise
+ */
+ticketSchema.methods.isReserved = async function(): Promise<boolean> {
     const existingOrder = await Order.findOne({
         ticket: this,
         status: {

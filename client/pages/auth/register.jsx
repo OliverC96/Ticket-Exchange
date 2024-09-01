@@ -32,6 +32,7 @@ export default () => {
                             Create an account
                         </h1>
 
+                        {/* Native registration section */}
                         <div className="form-field">
                             <label id="email"> Email address </label>
                             <input
@@ -77,6 +78,7 @@ export default () => {
                             Register
                         </button>
 
+                        {/* Redirect returning/existing users to the login page */}
                         <p className="">
                             Already have an account?
                             <Link
@@ -91,6 +93,7 @@ export default () => {
 
                     <Divider type="vertical" />
 
+                    {/* Third-party registration options */}
                     <div className="flex flex-col gap-5 justify-center w-[45%]">
                         <button className="btn-secondary icon-btn">
                             <FaApple className="text-2xl"/>
@@ -104,6 +107,7 @@ export default () => {
                             <FaFacebook className="text-2xl"/>
                             Continue with Facebook
                         </button>
+                        {/* Displays any errors encountered during the registration process */}
                         { errors &&
                             <ul className="card-error" >
                                 { errors.map((err) => (

@@ -1,6 +1,7 @@
 import Order from "../../components/Order";
 import TicketDecal from "../../components/TicketDecal";
 
+// Displays all orders associated with the current user (irrespective of their status)
 const OrderIndex = ({ orders }) => {
     return (
         <div className="flex p-8 justify-evenly h-screen -mt-[10vh] bg-blue-dark">
@@ -14,6 +15,7 @@ const OrderIndex = ({ orders }) => {
     );
 }
 
+// Fetch order history upon initial page load, and subsequent client-side navigations
 OrderIndex.getInitialProps = async (context, client) => {
     const { data } = await client.get("/api/orders");
     return { orders: data };

@@ -18,11 +18,13 @@ server.use(cookieSession({
     secure: process.env.NODE_ENV !== 'test' // Enable cookies in unsecure test environments (i.e., HTTP connections)
 }));
 
+// Attach all routers related to the auth service
 server.use(currentUserRouter);
 server.use(loginRouter);
 server.use(logoutRouter);
 server.use(registerRouter);
 
+// Configure a wildcard catch-all route for invalid URLs (i.e., those not prefixed with /api/users)
 server.all("*", async (req, res) => {
     throw new NotFoundError();
 });

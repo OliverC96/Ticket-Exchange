@@ -12,12 +12,14 @@ const initialize = async () => {
         throw new Error("NATS URL must be defined.");
     }
 
+    // Connect to NATS Streaming Server (i.e., the event bus)
     await natsWrapper.connect(
         process.env.NATS_CLUSTER_ID,
         process.env.NATS_CLIENT_ID,
         process.env.NATS_URL
     );
 
+    // Terminate the NATS connection upon receiving a shutdown signal
     natsWrapper.client.on("close", () => {
         console.log("Terminated connection to NATS Streaming server");
         process.exit();
@@ -25,6 +27,7 @@ const initialize = async () => {
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());
 
+    // Ensure the expiration service receives events pertaining to order creation
     new OrderCreatedListener(natsWrapper.client).listen();
 }
 

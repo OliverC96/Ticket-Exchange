@@ -6,6 +6,7 @@ interface Payload {
     orderID: string;
 }
 
+// Initialize a redis-based BullJS queue (for processing order expiration events)
 const expirationQueue = new Queue<Payload>(
     "order:expiration",
     {

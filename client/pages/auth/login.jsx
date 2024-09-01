@@ -8,12 +8,14 @@ import Router from "next/router";
 import Link from "next/link";
 import Divider from "../../components/Divider";
 
+// Displays the login form
 export default () => {
 
     const { input, handleChange, handleSubmission } = useFormInput({
         onSubmit: async () => await performRequest()
     });
 
+    // POST /api/users/login
     const { performRequest, errors } = useRequest({
         url: "/api/users/login",
         method: "post",
@@ -30,6 +32,7 @@ export default () => {
                         Login to your account
                     </h1>
 
+                    {/* Third-party login options */}
                     <div className="flex gap-5">
                         <button className="btn-secondary flex gap-2 items-center">
                             <FaApple className="text-2xl" />
@@ -43,6 +46,7 @@ export default () => {
 
                     <Divider type="horizontal" />
 
+                    {/* Native login section */}
                     <div className="form-field" >
                         <label id="email"> Email address </label>
                         <input
@@ -70,6 +74,7 @@ export default () => {
                         />
                     </div>
 
+                    {/* Displays any errors encountered during the login process */}
                     { errors &&
                         <ul className="card-error" >
                             { errors.map((err) => (
@@ -82,6 +87,7 @@ export default () => {
                         Login
                     </button>
 
+                    {/* Redirect new users to the registration page */}
                     <p className="">
                         Don't have an account?
                         <Link
