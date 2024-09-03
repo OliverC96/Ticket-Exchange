@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 // Custom hook to manage filter form input
-export default ({ minPriceRef, maxPriceRef, tickets, setTickets, resetSortingOptions }) => {
+export default ({ tickets, setTickets, resetSortingOptions }) => {
 
     // Keeps track of current form input (cleared upon form submission)
     const [input, setInput] = useState({
@@ -14,7 +14,12 @@ export default ({ minPriceRef, maxPriceRef, tickets, setTickets, resetSortingOpt
     const [filters, setFilters] = useState({
         keywords: [],
         minPrice: 0,
-        maxPrice: 0
+        maxPrice: Infinity
+    });
+
+    const [invalid, setInvalid] = useState({
+        minPrice: false,
+        maxPrice: false
     });
 
     // Title-based filter algorithm
@@ -41,7 +46,7 @@ export default ({ minPriceRef, maxPriceRef, tickets, setTickets, resetSortingOpt
             filteredCollection = filteredCollection.filter(t => t.price >= filters.minPrice);
         }
         // Maximum price filtering
-        if (filters.maxPrice > 0) {
+        if (filters.maxPrice < Infinity) {
             filteredCollection = filteredCollection.filter(t => t.price <= filters.maxPrice);
         }
         setTickets(filteredCollection);
@@ -56,31 +61,59 @@ export default ({ minPriceRef, maxPriceRef, tickets, setTickets, resetSortingOpt
 
     const handleChange = (event) => {
         let { name, value } = event.target;
+        // Update state to reflect the new value
         setInput((prev) => {
             return {
                 ...prev,
                 [name]: value
             }
         });
-    };
-
-    const onBlur = (event) => {
-        const { name } = event.target;
-        let value = input[name];
-        if (value.charAt(0) === '$') {
-            value = value.slice(1);
-        }
-        value = parseFloat(value);
-        if (isNaN(value)) {
+        // No form validation is performed on the keywords field; terminate early
+        if (name === "keywords") {
             return;
         }
-        setInput((prev) => {
-            return {
+        if (value === "") {
+            setInvalid((prev) => ({
                 ...prev,
-                [name]: "$" + value.toFixed(2)
-            };
-        });
-    }
+                [name]: false
+            }));
+            return;
+        }
+        if (name === "minPrice") {
+            const newMinPrice = parseFloat(value);
+            // Min price field is currently invalid
+            if ((newMinPrice < 0) || (newMinPrice > parseFloat(input.maxPrice)) || (newMinPrice > filters.maxPrice)) {
+                setInvalid({
+                    minPrice: true,
+                    maxPrice: false
+                });
+            }
+            // Min price field is currently valid
+            else {
+                setInvalid((prev) => ({
+                    minPrice: false,
+                    maxPrice: prev.maxPrice
+                }));
+            }
+        }
+        else if (name === "maxPrice") {
+            const newMaxPrice = parseFloat(value);
+            // Max price field is currently invalid
+            if ((newMaxPrice < 0) || (newMaxPrice < parseFloat(input.minPrice)) || (newMaxPrice < filters.minPrice)) {
+                setInvalid({
+                    minPrice: false,
+                    maxPrice: true
+                });
+            }
+            // Max price field is currently valid
+            else {
+                setInvalid((prev) => ({
+                    minPrice: prev.minPrice,
+                    maxPrice: false
+                }));
+            }
+        }
+    };
 
     // Eliminates a particular filter from the filter list
     const removeFilter = (type, value) => {
@@ -101,7 +134,11 @@ export default ({ minPriceRef, maxPriceRef, tickets, setTickets, resetSortingOpt
         setFilters({
             keywords: [],
             minPrice: 0,
-            maxPrice: 0
+            maxPrice: Infinity
+        });
+        setInvalid({
+            minPrice: false,
+            maxPrice: false
         });
     };
 
@@ -112,26 +149,22 @@ export default ({ minPriceRef, maxPriceRef, tickets, setTickets, resetSortingOpt
         setFilters((prev) => {
             return {
                 keywords: input.keywords === "" ? prev.keywords : prev.keywords.concat(input.keywords.split(" ")),
-                minPrice: input.minPrice === "" ? prev.minPrice : parseFloat(input.minPrice.slice(1)),
-                maxPrice: input.maxPrice === "" ? prev.maxPrice : parseFloat(input.maxPrice.slice(1)),
+                minPrice: input.minPrice === "" ? prev.minPrice : parseFloat(input.minPrice),
+                maxPrice: input.maxPrice === "" ? prev.maxPrice : parseFloat(input.maxPrice),
             }
         });
     }
 
     async function handleSubmission(event) {
         event.preventDefault();
-        minPriceRef.current.focus();
-        minPriceRef.current.blur();
-        maxPriceRef.current.focus();
-        maxPriceRef.current.blur();
         updateFilters();
     }
 
     return {
         input,
         filters,
+        invalid,
         handleChange,
-        onBlur,
         handleSubmission,
         removeFilter,
         resetFilters

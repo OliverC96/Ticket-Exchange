@@ -10,14 +10,12 @@ export default function FilterForm({ tickets, setTickets, resetSortingOptions })
     const {
         input,
         filters,
+        invalid,
         handleChange,
-        onBlur,
         handleSubmission,
         removeFilter,
         resetFilters
     } = useFilter({
-        minPriceRef,
-        maxPriceRef,
         tickets,
         setTickets,
         resetSortingOptions
@@ -61,11 +59,10 @@ export default function FilterForm({ tickets, setTickets, resetSortingOptions })
                     {/* Minimum price boundary (inclusive) */}
                     <div className="w-1/2 flex flex-col gap-2">
                         <input
-                            className="form-input !py-1 w-full"
+                            className={`form-input !py-1 w-full ${invalid.minPrice && "invalid"}`}
                             name="minPrice"
                             placeholder="Min"
                             onChange={handleChange}
-                            onBlur={onBlur}
                             value={input.minPrice}
                             ref={minPriceRef}
                         />
@@ -79,18 +76,17 @@ export default function FilterForm({ tickets, setTickets, resetSortingOptions })
                     {/* Maximum price boundary (inclusive) */}
                     <div className="w-1/2 flex flex-col gap-2">
                         <input
-                            className="form-input !py-1 w-full"
+                            className={`form-input !py-1 w-full ${invalid.maxPrice && "invalid"}`}
                             name="maxPrice"
                             placeholder="Max"
                             onChange={handleChange}
-                            onBlur={onBlur}
                             value={input.maxPrice}
                             ref={maxPriceRef}
                         />
-                        {filters.maxPrice !== 0 &&
+                        {filters.maxPrice !== Infinity &&
                             <FilterButton
                                 filter={"$ " + filters.maxPrice.toString()}
-                                onClick={() => removeFilter("maxPrice", 0)}
+                                onClick={() => removeFilter("maxPrice", Infinity)}
                             />
                         }
                     </div>
@@ -101,7 +97,7 @@ export default function FilterForm({ tickets, setTickets, resetSortingOptions })
                 <button
                     type="submit"
                     className="btn-primary w-1/2 !py-1.5 !text-base"
-                    disabled={input.keywords === "" && input.minPrice === "" && input.maxPrice === ""}
+                    disabled={(input.keywords === "" && input.minPrice === "" && input.maxPrice === "") || invalid.minPrice || invalid.maxPrice }
                 >
                     Apply
                 </button>

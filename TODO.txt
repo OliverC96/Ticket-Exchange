@@ -3,6 +3,4 @@
 3. [selected] Implement third-party OAuth for Google, Facebook, and Apple
 4. [selected] Ensure every route/listener/publisher has thorough testing
 5. Make Resend email recipient dynamic (only once the project is finished)
-6. Implement dynamic tax charges?
-7. Add min/max validation on filter form
-9. Create checkout form input hook?
+6. Implement dynamic (i.e., location-based) tax charges
