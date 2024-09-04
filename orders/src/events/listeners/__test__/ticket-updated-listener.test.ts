@@ -28,7 +28,7 @@ const setup = async() => {
 };
 
 it("Successfully updates an existing ticket document", async() => {
-    const { listener, originalTicket, data, msg } = await setup();
+    const { listener, data, msg } = await setup();
     await listener.onMessage(data, msg);
 
     const updatedTicket = await Ticket.findById(data.id);
