@@ -1,18 +1,43 @@
 import {
-    FaApple,
+    FaGithub,
     FaGoogle
 } from "react-icons/fa";
 import useRequest from "../../hooks/use-request";
 import useFormInput from "../../hooks/use-form-input/auth";
+import useGoogle from "../../hooks/use-google";
+import useGithub from "../../hooks/use-github";
 import Router from "next/router";
 import Link from "next/link";
 import Divider from "../../components/Divider";
+import { useState } from "react";
 
 // Displays the login form
 export default () => {
 
-    const { input, handleChange, handleSubmission } = useFormInput({
-        onSubmit: async () => await performRequest()
+    const [input, setInput] = useState({
+        email: "",
+        password: ""
+    });
+
+    const {
+        setSubmitted,
+        populateForm,
+        handleChange
+    } = useFormInput({
+        onSubmit: async () => await performRequest(),
+        setInput
+    });
+
+    const { googleAuth } = useGoogle({
+        setSubmitted,
+        populateForm,
+        mode: "login"
+    });
+
+    const { githubAuth } = useGithub({
+        setSubmitted,
+        populateForm,
+        mode: "login"
     });
 
     // POST /api/users/login
@@ -26,7 +51,10 @@ export default () => {
     return (
         <div className="page-wrapper">
             <div className="card p-8">
-                <form className="flex flex-col gap-5" onSubmit={handleSubmission} >
+                <form className="flex flex-col gap-5" onSubmit={(e) => {
+                    e.preventDefault();
+                    setSubmitted(true);
+                }}>
 
                     <h1 className="text-2xl font-bold">
                         Login to your account
@@ -34,13 +62,21 @@ export default () => {
 
                     {/* Third-party login options */}
                     <div className="flex gap-5">
-                        <button className="btn-secondary flex gap-2 items-center">
-                            <FaApple className="text-2xl" />
-                            Continue with Apple
-                        </button>
-                        <button className="btn-secondary flex gap-2 items-center">
-                            <FaGoogle className="text-xl" />
+                        {/* Google OAuth 2.0 */}
+                        <button
+                            className="btn-secondary flex gap-2 items-center"
+                            onClick={googleAuth}
+                        >
+                            <FaGoogle className="text-2xl" />
                             Continue with Google
+                        </button>
+                        {/* GitHub OAuth 2.0 */}
+                        <button
+                            className="btn-secondary flex gap-2 items-center"
+                            onClick={githubAuth}
+                        >
+                            <FaGithub className="text-xl" />
+                            Continue with GitHub
                         </button>
                     </div>
 

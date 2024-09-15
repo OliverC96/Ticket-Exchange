@@ -1,20 +1,48 @@
 import {
-    FaApple,
     FaGoogle,
-    FaFacebook
+    FaGithub
 } from "react-icons/fa";
 import useRequest from "../../hooks/use-request";
 import useFormInput from "../../hooks/use-form-input/auth";
 import Router from "next/router";
 import Link from "next/link";
 import Divider from "../../components/Divider";
+import useGoogle from "../../hooks/use-google";
+import useGithub from "../../hooks/use-github";
+import { useRef, useState } from "react";
 
 export default () => {
 
-    const { input, confirm, handleChange, handleSubmission } = useFormInput({
-        onSubmit: async () => await performRequest()
-    })
+    const checkboxRef = useRef(null);
+    const [input, setInput] = useState({
+        email: "",
+        password: ""
+    });
 
+    const {
+        confirm,
+        setSubmitted,
+        populateForm,
+        handleChange
+    } = useFormInput({
+        onSubmit: async () => await performRequest(),
+        setInput,
+        checkboxRef
+    });
+
+    const { googleAuth } = useGoogle({
+        setSubmitted,
+        populateForm,
+        mode: "register"
+    });
+
+    const { githubAuth } = useGithub({
+        setSubmitted,
+        populateForm,
+        mode: "register"
+    });
+
+    // POST /api/users/register
     const { performRequest, errors } = useRequest({
         url: "/api/users/register",
         method: "post",
@@ -25,7 +53,10 @@ export default () => {
     return (
         <div className="page-wrapper">
             <div className="card p-8 w-1/2">
-                <form className="flex gap-5" onSubmit={handleSubmission}>
+                <form className="flex gap-5" onSubmit={(e) => {
+                    e.preventDefault();
+                    setSubmitted(true);
+                }}>
 
                     <div className="flex flex-col gap-5 w-[55%]">
                         <h1 className="text-2xl font-bold">
@@ -69,7 +100,12 @@ export default () => {
                         </div>
 
                         <div className="flex gap-1 items-center">
-                            <input name="terms" type="checkbox" required />
+                            <input
+                                name="terms"
+                                type="checkbox"
+                                ref={checkboxRef}
+                                required
+                            />
                             <label id="terms"/> I accept the <a href="" className="text-blue-500 font-medium"> Terms and
                             Conditions </a>
                         </div>
@@ -95,23 +131,27 @@ export default () => {
 
                     {/* Third-party registration options */}
                     <div className="flex flex-col gap-5 justify-center w-[45%]">
-                        <button className="btn-secondary icon-btn">
-                            <FaApple className="text-2xl"/>
-                            Continue with Apple
-                        </button>
-                        <button className="btn-secondary icon-btn">
+                        {/* Google OAuth 2.0 */}
+                        <button
+                            className="btn-secondary icon-btn"
+                            onClick={googleAuth}
+                        >
                             <FaGoogle className="text-xl"/>
                             Continue with Google
                         </button>
-                        <button className="btn-secondary icon-btn">
-                            <FaFacebook className="text-2xl"/>
-                            Continue with Facebook
+                        {/* GitHub OAuth 2.0 */}
+                        <button
+                            className="btn-secondary icon-btn"
+                            onClick={githubAuth}
+                        >
+                            <FaGithub className="text-2xl"/>
+                            Continue with GitHub
                         </button>
                         {/* Displays any errors encountered during the registration process */}
-                        { errors &&
-                            <ul className="card-error" >
-                                { errors.map((err) => (
-                                    <li key={err.message} > { err.message } </li>
+                        {errors &&
+                            <ul className="card-error">
+                                {errors.map((err) => (
+                                    <li key={err.message}> {err.message} </li>
                                 ))}
                             </ul>
                         }

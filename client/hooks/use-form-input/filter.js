@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
 
 // Custom hook to manage filter form input
-export default ({ tickets, setTickets, resetSortingOptions }) => {
+export default ({ discountID, tickets, setTickets, resetSortingOptions }) => {
 
     // Keeps track of current form input (cleared upon form submission)
     const [input, setInput] = useState({
         keywords: "",
         minPrice: "",
-        maxPrice: ""
+        maxPrice: "",
+        discountOnly: false
     });
 
     // Keeps track of current filters (persists beyond form submission)
     const [filters, setFilters] = useState({
         keywords: [],
         minPrice: 0,
-        maxPrice: Infinity
+        maxPrice: Infinity,
+        discountOnly: false
     });
 
     const [invalid, setInvalid] = useState({
@@ -49,12 +51,17 @@ export default ({ tickets, setTickets, resetSortingOptions }) => {
         if (filters.maxPrice < Infinity) {
             filteredCollection = filteredCollection.filter(t => t.price <= filters.maxPrice);
         }
+        // Discount-based filtering
+        if (filters.discountOnly) {
+            filteredCollection = filteredCollection.filter(t => t.id === discountID);
+        }
         setTickets(filteredCollection);
         // Clear form input
         setInput({
             keywords: "",
             minPrice: "",
-            maxPrice: ""
+            maxPrice: "",
+            discountOnly: false
         });
         resetSortingOptions();
     }, [filters]);
@@ -134,7 +141,8 @@ export default ({ tickets, setTickets, resetSortingOptions }) => {
         setFilters({
             keywords: [],
             minPrice: 0,
-            maxPrice: Infinity
+            maxPrice: Infinity,
+            discountOnly: false
         });
         setInvalid({
             minPrice: false,
@@ -151,8 +159,17 @@ export default ({ tickets, setTickets, resetSortingOptions }) => {
                 keywords: input.keywords === "" ? prev.keywords : prev.keywords.concat(input.keywords.split(" ")),
                 minPrice: input.minPrice === "" ? prev.minPrice : parseFloat(input.minPrice),
                 maxPrice: input.maxPrice === "" ? prev.maxPrice : parseFloat(input.maxPrice),
+                discountOnly: input.discountOnly
             }
         });
+    }
+
+    // Toggles the discount-only filter
+    const toggleDiscountFilter = () => {
+        setInput((prev) => ({
+            ...prev,
+            discountOnly: !prev.discountOnly
+        }));
     }
 
     async function handleSubmission(event) {
@@ -167,6 +184,7 @@ export default ({ tickets, setTickets, resetSortingOptions }) => {
         handleChange,
         handleSubmission,
         removeFilter,
-        resetFilters
+        resetFilters,
+        toggleDiscountFilter
     };
 }

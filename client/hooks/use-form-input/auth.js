@@ -1,13 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-// Custom hook to manage authentication form input
-export default ({ onSubmit }) => {
-    const [input, setInput] = useState({
-        email: "",
-        password: ""
-    });
+// Custom hook to manage authentication form input (used for both registration and login forms)
+export default ({ onSubmit, setInput, checkboxRef }) => {
+
     const [confirm, setConfirm] = useState("");
+    const [submitted, setSubmitted] = useState(false);
 
+    // Helper method which resets the contents of the authentication form
+    const resetForm = () => {
+        setInput({
+            email: "",
+            password: ""
+        });
+        setConfirm("");
+        if (checkboxRef) {
+            checkboxRef.current.checked = false;
+        }
+    }
+
+    // Helper method which populates the authentication form with the given attributes
+    const populateForm = (email, password) => {
+        setInput({
+            email,
+            password: password.slice(15)
+        });
+        setConfirm(password.slice(15));
+        if (checkboxRef) {
+            checkboxRef.current.checked = true;
+        }
+    }
+
+    // Updates the input state with the current contents of a form field
     function handleChange(event) {
         const { name, value } = event.target;
         if (name === "confirm-password") {
@@ -23,10 +46,19 @@ export default ({ onSubmit }) => {
         }
     }
 
-    async function handleSubmission(event) {
-        event.preventDefault();
-        await onSubmit();
-    }
+    useEffect(() => {
+        if (submitted) {
+            onSubmit();     // Initiate the backend API request
+            resetForm();    // Clear the contents of the form
+        }
+    }, [submitted]);
 
-    return { input, confirm, handleChange, handleSubmission };
+    return {
+        confirm,
+        setConfirm,
+        setSubmitted,
+        populateForm,
+        handleChange
+    };
+
 }

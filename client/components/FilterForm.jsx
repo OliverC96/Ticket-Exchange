@@ -1,10 +1,19 @@
 import useFilter from "../hooks/use-form-input/filter";
 import FilterButton from "../components/FilterButton";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { FaCodeBranch } from "react-icons/fa6";
+import { ToggleSlider } from "react-toggle-slider";
 
 // Filter form component; allows users to filter ticket listings based on price or title keywords
 export default function FilterForm({ tickets, setTickets, resetSortingOptions }) {
+
+    // Retrieve the ID(s) corresponding to the discounted ticket(s) from local browser storage
+    const [discountID, setDiscountID] = useState("");
+    useEffect(() => {
+        const { discountID } = JSON.parse(localStorage.getItem("discount"));
+        setDiscountID(discountID);
+    }, []);
+
     const minPriceRef = useRef(null);
     const maxPriceRef = useRef(null);
     const {
@@ -14,12 +23,15 @@ export default function FilterForm({ tickets, setTickets, resetSortingOptions })
         handleChange,
         handleSubmission,
         removeFilter,
-        resetFilters
+        resetFilters,
+        toggleDiscountFilter
     } = useFilter({
+        discountID,
         tickets,
         setTickets,
         resetSortingOptions
     });
+
     return (
         <form className="filter-form" onSubmit={handleSubmission}>
             <div className="flex gap-3">
@@ -92,12 +104,26 @@ export default function FilterForm({ tickets, setTickets, resetSortingOptions })
                     </div>
                 </div>
             </div>
+            {/* Discount-based filtering */}
+            <div className="flex gap-3 items-center">
+                <label id="discounted"> Discounted? </label>
+                <ToggleSlider
+                    active={filters.discountOnly}
+                    onToggle={toggleDiscountFilter}
+                    transitionDuration="200ms"
+                    draggable={false}
+                    barBackgroundColorActive="#A61657"
+                    barBackgroundColor="#003049"
+                    barStyles={{outline: "1px solid #669bbc"}}
+                    barStylesActive={{outline: "1px solid #A61657"}}
+                />
+            </div>
             <div className="w-full flex gap-2 mt-2">
                 {/* Allows user to apply new filters, i.e., further narrow results */}
                 <button
                     type="submit"
                     className="btn-primary w-1/2 !py-1.5 !text-base"
-                    disabled={(input.keywords === "" && input.minPrice === "" && input.maxPrice === "") || invalid.minPrice || invalid.maxPrice }
+                    disabled={(input.keywords === "" && input.minPrice === "" && input.maxPrice === "" && input.discountOnly === filters.discountOnly) || invalid.minPrice || invalid.maxPrice }
                 >
                     Apply
                 </button>

@@ -1,17 +1,26 @@
 import Router from "next/router";
 import useRequest from "../hooks/use-request";
-import { useRef, useState} from "react";
+import { useRef, useState, useEffect } from "react";
 import { IoMdCreate } from "react-icons/io";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdDiscount } from "react-icons/md";
 import TicketForm from "../components/TicketForm";
 import ActionButton from "../components/ActionButton";
 
 // Encapsulates a single ticket listing
-export default function Ticket({ id, title, price, userID, currUser }) {
+export default function Ticket({ id, title, price, userID, currUser, discount }) {
 
     const isOwner = userID === currUser?.id;
     const containerRef = useRef(null);
     const [modalOpen, setModalOpen] = useState(false);
+
+    const { originalPrice, discountID } = discount;
+    const discounted = discountID === id;
+
+    useEffect(() => {
+        if (discounted) {
+            localStorage.setItem("discount", JSON.stringify(discount));
+        }
+    }, []);
 
     // DELETE /api/tickets
     const { performRequest, errors } = useRequest({
@@ -38,7 +47,7 @@ export default function Ticket({ id, title, price, userID, currUser }) {
     };
 
     return (
-        <div className="flex flex-col justify-center gap-1.5">
+        <div className="flex flex-col justify-center gap-1.5 relative">
             {/* Ticket update modal window */}
             {
                 modalOpen &&
@@ -47,6 +56,9 @@ export default function Ticket({ id, title, price, userID, currUser }) {
                         setModalVisible={setModalOpen}
                         ticket={{ id, title, price }}
                     />
+            }
+            { discounted &&
+                <MdDiscount size={32} className="absolute z-10 -right-3 -top-3 text-green-400"/>
             }
             {/* Displays all relevant ticket information */}
             <div
@@ -60,7 +72,8 @@ export default function Ticket({ id, title, price, userID, currUser }) {
             >
                 <h1 className="text-lg"> {title} </h1>
                 <h3 className="text-xl flex gap-1 items-center">
-                    ${price}
+                    <p className={`${discounted && "line-through decoration-2"}`}> ${ discounted ? originalPrice : price } </p>
+                    { discounted && <p className="text-green-400"> ${ price } </p>}
                     <span className="text-xs opacity-85">CAD</span>
                 </h3>
                 {/* Displays any errors encountered during the ticket deletion process */}

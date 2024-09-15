@@ -53,6 +53,11 @@ export default function CheckoutForm({ order, currentUser }) {
 
         setLoading(true);
 
+        // Apply ticket discount (when applicable)
+        const { discountPercent, discountID } = JSON.parse(localStorage.getItem("discount"));
+        const discounted = discountID === order.ticket.id;
+        const originalPrice = discounted ? (order.ticket.price / (1 - discountPercent)) : order.ticket.price;
+
         // Access the secure Stripe components
         const card = elements.getElement(CardNumberElement);
         const address = elements.getElement(AddressElement);
@@ -72,7 +77,7 @@ export default function CheckoutForm({ order, currentUser }) {
                             id: order.id,
                             ticket: order.ticket,
                             taxPercent: 5,
-                            discount: 0,
+                            discount: discounted ? order.ticket.price : 0,
                             status: "complete"
                         },
                         customer: {
@@ -87,7 +92,7 @@ export default function CheckoutForm({ order, currentUser }) {
             localStorage.setItem("order", JSON.stringify({
                 ...order,
                 taxPercent: 5,
-                discount: 0
+                discount: discounted ? order.ticket.price : 0,
             }));
             localStorage.setItem("customer", JSON.stringify({
                 name,

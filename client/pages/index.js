@@ -4,17 +4,45 @@ import { RiExchange2Fill } from "react-icons/ri";
 import { CgSortAz } from "react-icons/cg";
 import useSorting from "../hooks/use-sorting";
 import FilterForm from "../components/FilterForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Landing page component which displays all currently available listings
 export default function LandingPage({ currentUser, originalTickets }) {
+
+    const DISCOUNTS = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5];
+    const discountPercent = DISCOUNTS[Math.floor(Math.random() * DISCOUNTS.length)];
+
     const [tickets, setTickets] = useState(originalTickets);
+    const [discount, setDiscount] = useState({
+        originalPrice: 0,
+        discountID: ""
+    });
+
+    // Randomly discount a ticket listing upon initial render
+    useEffect(() => {
+        const randIndex = Math.floor(Math.random() *  tickets.length);
+        const t = tickets[randIndex];
+        setTickets((prev) => [
+            ...prev.slice(0, randIndex),
+            {
+                ...prev[randIndex],
+                price: t.price * (1 - discountPercent)
+            },
+            ...prev.slice(randIndex + 1)
+        ]);
+        setDiscount({
+            originalPrice: t.price,
+            discountID: t.id
+        });
+    }, []);
+
     const {
         title,
         price,
         updateSortingOptions,
         resetSortingOptions
     } = useSorting({ tickets, setTickets });
+
     return (
         <div className="w-screen -mt-[10vh] flex justify-center h-screen decal gap-4">
             {/* Logo image */}
@@ -42,7 +70,12 @@ export default function LandingPage({ currentUser, originalTickets }) {
                 {tickets.length > 0
                     ?
                         tickets.map((ticket) => {
-                            return <Ticket key={ticket.id} currUser={currentUser} {...ticket} />;
+                            return <Ticket
+                                key={ticket.id}
+                                currUser={currentUser}
+                                discount={discount}
+                                {...ticket}
+                            />;
                         })
                     :
                         <p

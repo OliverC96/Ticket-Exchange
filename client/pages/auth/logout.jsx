@@ -5,7 +5,7 @@ import Router from "next/router";
 export default function Logout() {
 
     // POST /api/users/logout
-    const { performRequest, errors } = useRequest({
+    const { performRequest } = useRequest({
         url: "/api/users/logout",
         method: "post",
         body: {},
@@ -15,4 +15,5 @@ export default function Logout() {
     useEffect(() => {
         performRequest();
     }, []);
+
 }
