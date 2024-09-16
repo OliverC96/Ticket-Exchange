@@ -20,20 +20,22 @@ export default function LandingPage({ currentUser, originalTickets }) {
 
     // Randomly discount a ticket listing upon initial render
     useEffect(() => {
-        const randIndex = Math.floor(Math.random() *  tickets.length);
-        const t = tickets[randIndex];
-        setTickets((prev) => [
-            ...prev.slice(0, randIndex),
-            {
-                ...prev[randIndex],
-                price: t.price * (1 - discountPercent)
-            },
-            ...prev.slice(randIndex + 1)
-        ]);
-        setDiscount({
-            originalPrice: t.price,
-            discountID: t.id
-        });
+        if (tickets.length > 0) {
+            const randIndex = Math.floor(Math.random() *  tickets.length);
+            const t = tickets[randIndex];
+            setTickets((prev) => [
+                ...prev.slice(0, randIndex),
+                {
+                    ...prev[randIndex],
+                    price: t.price * (1 - discountPercent)
+                },
+                ...prev.slice(randIndex + 1)
+            ]);
+            setDiscount({
+                originalPrice: t.price,
+                discountID: t.id
+            });
+        }
     }, []);
 
     const {

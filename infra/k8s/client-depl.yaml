@@ -16,6 +16,16 @@ spec:
         - name: client
           image: oliverc96/client
           env:
+            - name: GITHUB_KEY_LOGIN
+              valueFrom:
+                secretKeyRef:
+                  name: github-secret-login
+                  key: GITHUB_KEY_LOGIN
+            - name: GITHUB_KEY_REGISTER
+              valueFrom:
+                secretKeyRef:
+                  name: github-secret-register
+                  key: GITHUB_KEY_REGISTER
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:

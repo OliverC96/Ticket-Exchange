@@ -6,7 +6,7 @@ export default async function (req, res) {
     // Define query params
     const params = new URLSearchParams({
         client_id: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID_LOGIN,
-        client_secret: process.env.GITHUB_CLIENT_SECRET_LOGIN,
+        client_secret: process.env.GITHUB_KEY_LOGIN,
         code: req.query.code
     }).toString();
 

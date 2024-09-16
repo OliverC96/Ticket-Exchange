@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: client-config
-data:
-  BASE_URL: "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local"
