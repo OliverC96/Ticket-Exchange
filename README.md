@@ -52,7 +52,7 @@
 
 ## User Authentication
 
-Un-authenticated users are only able to view listings. Users must be authenticated in order to create, edit, delete, or purchase listings. Returning users can login to their existing accounts by providing valid credentials. New users must complete the registration form to create an account with the application (note: the supplied email address must be unique, i.e., it cannot be tied to another account in the system).
+Un-authenticated users are only able to view listings. Users must be authenticated in order to create, edit, delete, or purchase listings. Returning users can login to their existing accounts by providing valid credentials. New users must complete the registration form to create an account with the application (note: the supplied email address must be unique, i.e., it cannot be tied to another account in the system). Alternatively, users can choose to login/register through one of the supported third-party sign-in partners (at this time, only Google and GitHub are available).
 
 ![Registration form for new users](./images/registration_form.png)
 ![Login form for returning users](./images/login_form.png)
