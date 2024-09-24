@@ -1,26 +1,17 @@
 import Router from "next/router";
 import useRequest from "../hooks/use-request";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { IoMdCreate } from "react-icons/io";
-import { MdDelete, MdDiscount } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import TicketForm from "../components/TicketForm";
 import ActionButton from "../components/ActionButton";
 
 // Encapsulates a single ticket listing
-export default function Ticket({ id, title, price, userID, currUser, discount }) {
+export default function Ticket({ id, title, price, userID, currUser }) {
 
     const isOwner = userID === currUser?.id;
     const containerRef = useRef(null);
     const [modalOpen, setModalOpen] = useState(false);
-
-    const { originalPrice, discountID } = discount;
-    const discounted = discountID === id;
-
-    useEffect(() => {
-        if (discounted) {
-            localStorage.setItem("discount", JSON.stringify(discount));
-        }
-    }, []);
 
     // DELETE /api/tickets
     const { performRequest, errors } = useRequest({
@@ -57,9 +48,6 @@ export default function Ticket({ id, title, price, userID, currUser, discount })
                         ticket={{ id, title, price }}
                     />
             }
-            { discounted &&
-                <MdDiscount size={32} className="absolute z-10 -right-3 -top-3 text-green-400"/>
-            }
             {/* Displays all relevant ticket information */}
             <div
                 ref={containerRef}
@@ -70,10 +58,9 @@ export default function Ticket({ id, title, price, userID, currUser, discount })
                 className="card gap-2 p-5 h-fit hover:outline-2 hover:cursor-pointer"
                 tabIndex={-1}
             >
-                <h1 className="text-lg"> {title} </h1>
+                <h1 className="text-lg"> { title } </h1>
                 <h3 className="text-xl flex gap-1 items-center">
-                    <p className={`${discounted && "line-through decoration-2"}`}> ${ discounted ? originalPrice : price } </p>
-                    { discounted && <p className="text-green-400"> ${ price } </p>}
+                    <p> ${ price } </p>
                     <span className="text-xs opacity-85">CAD</span>
                 </h3>
                 {/* Displays any errors encountered during the ticket deletion process */}

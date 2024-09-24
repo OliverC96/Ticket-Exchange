@@ -1,25 +1,28 @@
-import useRequest from "../hooks/use-request";
-import Router from "next/router";
 import { useState, useEffect } from "react";
 import {
-    useStripe,
-    useElements,
     CardNumberElement,
     CardExpiryElement,
     CardCvcElement,
-    AddressElement
+    AddressElement,
+    useStripe,
+    useElements
 } from "@stripe/react-stripe-js";
 import { elementStyle } from "../styles/stripe-form";
 import { FaRegCreditCard } from "react-icons/fa";
 import { addressOptions, countryMapping } from "../utils/address_config";
 import { ThreeDots } from "react-loader-spinner";
+import useRequest from "../hooks/use-request";
+import Router from "next/router";
 
 // Checkout form component; allows users to securely purchase a listing via the StripeJS API
 export default function CheckoutForm({ order, currentUser }) {
 
     const [timeRemaining, setTimeRemaining] = useState(0);
-    const [tokenID, setTokenID] = useState("");
     const [loading, setLoading] = useState(false);
+    const [tokenID, setTokenID] = useState("");
+
+    const stripe = useStripe();
+    const elements = useElements();
 
     // POST /api/payments
     const { performRequest, errors } = useRequest({
@@ -35,15 +38,31 @@ export default function CheckoutForm({ order, currentUser }) {
         }
     });
 
-    const stripe = useStripe();
-    const elements = useElements();
-
     // Initiate the backend request upon token creation (i.e., when a valid token ID is defined)
     useEffect(() => {
         if (tokenID !== "") {
             performRequest();
         }
     }, [tokenID]);
+
+    useEffect(() => {
+        if (errors) {
+            setLoading(false);
+        }
+    }, [errors]);
+
+    // Display the order expiration window countdown (updated every second)
+    useEffect(() => {
+        const getTimeRemaining = () => {
+            const timeRemainingMS = new Date(order.expiresAt) - new Date();
+            setTimeRemaining(Math.round(timeRemainingMS / 1000));
+        };
+        getTimeRemaining();
+        const timerID = setInterval(getTimeRemaining, 1000);
+        return () => {
+            clearInterval(timerID); // Clear the interval on component unmount
+        };
+    }, [order]);
 
     async function handleSubmission(event) {
         event.preventDefault();
@@ -53,18 +72,13 @@ export default function CheckoutForm({ order, currentUser }) {
 
         setLoading(true);
 
-        // Apply ticket discount (when applicable)
-        const { discountPercent, discountID } = JSON.parse(localStorage.getItem("discount"));
-        const discounted = discountID === order.ticket.id;
-        const originalPrice = discounted ? (order.ticket.price / (1 - discountPercent)) : order.ticket.price;
-
         // Access the secure Stripe components
         const card = elements.getElement(CardNumberElement);
         const address = elements.getElement(AddressElement);
         const billingDetails = await address.getValue();
         if (billingDetails.complete) {
 
-            const { name, address } = billingDetails.value;
+            const { name, address} = billingDetails.value;
             address.country = countryMapping[address.country]; // Convert ISO Alpha-2 country code to full country name
 
             // Initiate order confirmation email update
@@ -76,8 +90,7 @@ export default function CheckoutForm({ order, currentUser }) {
                         order: {
                             id: order.id,
                             ticket: order.ticket,
-                            taxPercent: 5,
-                            discount: discounted ? order.ticket.price : 0,
+                            discount: 0,
                             status: "complete"
                         },
                         customer: {
@@ -91,8 +104,7 @@ export default function CheckoutForm({ order, currentUser }) {
             // Persist order and customer details via browser local storage
             localStorage.setItem("order", JSON.stringify({
                 ...order,
-                taxPercent: 5,
-                discount: discounted ? order.ticket.price : 0,
+                discount: 0
             }));
             localStorage.setItem("customer", JSON.stringify({
                 name,
@@ -109,21 +121,7 @@ export default function CheckoutForm({ order, currentUser }) {
             }
 
         }
-
     }
-
-    // Display the order expiration window countdown (updated every second)
-    useEffect(() => {
-        const getTimeRemaining = () => {
-            const timeRemainingMS = new Date(order.expiresAt) - new Date();
-            setTimeRemaining(Math.round(timeRemainingMS / 1000));
-        };
-        getTimeRemaining();
-        const timerID = setInterval(getTimeRemaining, 1000);
-        return () => {
-            clearInterval(timerID); // Clear the interval on component unmount
-        };
-    }, [order]);
 
     return (
         <div className="page-wrapper">
@@ -137,7 +135,7 @@ export default function CheckoutForm({ order, currentUser }) {
                     }
                     {/* Order summary */}
                     <h1 className="text-2xl font-bold">
-                        Purchase <i>{ order.ticket.title  }</i> - ${ order.ticket.price  } CAD
+                        Purchase <i>{ order.ticket.title }</i> - ${ order.ticket.price } CAD
                     </h1>
                 </div>
 

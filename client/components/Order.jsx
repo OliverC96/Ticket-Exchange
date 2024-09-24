@@ -15,7 +15,7 @@ export default function Order({ status, ticket, id }) {
 
     // Handle order refund request
     const processRefund = async () => {
-        const { id, ticket, taxPercent, discount } = JSON.parse(localStorage.getItem("order"));
+        const { id, ticket, discount } = JSON.parse(localStorage.getItem("order"));
         const { name, address } = JSON.parse(localStorage.getItem("customer"));
 
         // Initiate email update to notify current user of the successful refund operation
@@ -27,7 +27,6 @@ export default function Order({ status, ticket, id }) {
                     order: {
                         id,
                         ticket,
-                        taxPercent,
                         discount,
                         status: "refunded"
                     },

@@ -1,5 +1,1 @@
 1. Migrate from NATS Streaming Server to NATS JetStream [ref: https://docs.nats.io/nats-concepts/jetstream]
-2. Make Resend email recipient dynamic (only once the project is finished)
-3. Implement dynamic (i.e., location-based) tax charges
-4. Add welcome message in navbar based on current user?
-5. Change logout page to API route?

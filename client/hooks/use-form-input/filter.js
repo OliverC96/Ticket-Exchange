@@ -1,22 +1,20 @@
 import { useEffect, useState } from "react";
 
 // Custom hook to manage filter form input
-export default ({ discountID, tickets, setTickets, resetSortingOptions }) => {
+export default ({ tickets, setTickets, resetSortingOptions }) => {
 
     // Keeps track of current form input (cleared upon form submission)
     const [input, setInput] = useState({
         keywords: "",
         minPrice: "",
-        maxPrice: "",
-        discountOnly: false
+        maxPrice: ""
     });
 
     // Keeps track of current filters (persists beyond form submission)
     const [filters, setFilters] = useState({
         keywords: [],
         minPrice: 0,
-        maxPrice: Infinity,
-        discountOnly: false
+        maxPrice: Infinity
     });
 
     const [invalid, setInvalid] = useState({
@@ -51,17 +49,12 @@ export default ({ discountID, tickets, setTickets, resetSortingOptions }) => {
         if (filters.maxPrice < Infinity) {
             filteredCollection = filteredCollection.filter(t => t.price <= filters.maxPrice);
         }
-        // Discount-based filtering
-        if (filters.discountOnly) {
-            filteredCollection = filteredCollection.filter(t => t.id === discountID);
-        }
         setTickets(filteredCollection);
         // Clear form input
         setInput({
             keywords: "",
             minPrice: "",
-            maxPrice: "",
-            discountOnly: false
+            maxPrice: ""
         });
         resetSortingOptions();
     }, [filters]);
@@ -141,8 +134,7 @@ export default ({ discountID, tickets, setTickets, resetSortingOptions }) => {
         setFilters({
             keywords: [],
             minPrice: 0,
-            maxPrice: Infinity,
-            discountOnly: false
+            maxPrice: Infinity
         });
         setInvalid({
             minPrice: false,
@@ -158,18 +150,9 @@ export default ({ discountID, tickets, setTickets, resetSortingOptions }) => {
             return {
                 keywords: input.keywords === "" ? prev.keywords : prev.keywords.concat(input.keywords.split(" ")),
                 minPrice: input.minPrice === "" ? prev.minPrice : parseFloat(input.minPrice),
-                maxPrice: input.maxPrice === "" ? prev.maxPrice : parseFloat(input.maxPrice),
-                discountOnly: input.discountOnly
+                maxPrice: input.maxPrice === "" ? prev.maxPrice : parseFloat(input.maxPrice)
             }
         });
-    }
-
-    // Toggles the discount-only filter
-    const toggleDiscountFilter = () => {
-        setInput((prev) => ({
-            ...prev,
-            discountOnly: !prev.discountOnly
-        }));
     }
 
     async function handleSubmission(event) {
@@ -184,7 +167,6 @@ export default ({ discountID, tickets, setTickets, resetSortingOptions }) => {
         handleChange,
         handleSubmission,
         removeFilter,
-        resetFilters,
-        toggleDiscountFilter
+        resetFilters
     };
 }

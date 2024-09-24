@@ -1,7 +1,7 @@
 import StatusMessage from "./StatusMessage";
 import Metadata from "./Metadata";
 import CostSummary from "./CostSummary";
-import { getCharges } from "../../utils/calculate_charges";
+import ChargeManager from "../../utils/ChargeManager";
 import {
     Body,
     Html,
@@ -10,7 +10,16 @@ import {
 
 // Template for order refund email update
 export default function OrderRefunded({ order, customer }) {
-    const { id, ticket, taxPercent, discount, status } = order;
+    const { id, ticket, discount, status } = order;
+    const provinceCode = customer.address.state;
+    const chargeManager = new ChargeManager(
+        ticket.price,
+        discount,
+        provinceCode,
+        true,
+        true
+    );
+
     return (
         <Html>
             <Tailwind
@@ -36,7 +45,7 @@ export default function OrderRefunded({ order, customer }) {
                         title={ticket.title}
                     />
                     <CostSummary
-                        charges={getCharges(ticket.price, taxPercent, discount, true)}
+                        charges={chargeManager.getCharges()}
                         forEmail={true}
                     />
                 </Body>

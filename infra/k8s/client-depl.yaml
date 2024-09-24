@@ -36,11 +36,6 @@ spec:
                 secretKeyRef:
                   name: resend-secret
                   key: RESEND_KEY
-            - name: BASE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: client-config
-                  key: BASE_URL
 ---
 apiVersion: v1
 kind: Service

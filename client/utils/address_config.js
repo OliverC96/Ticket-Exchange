@@ -6,13 +6,13 @@ const addressOptions = {
         apiKey: process.env.NEXT_PUBLIC_GOOGLE_PLACES_KEY
     },
     allowedCountries: [
-        "AU",
         "CA",
-        "DE",
-        "NZ",
-        "SG",
-        "AE",
-        "US"
+        // "AU",
+        // "DE",
+        // "NZ",
+        // "SG",
+        // "AE",
+        // "US"
     ],
     fields: {
         phone: "never"
@@ -21,13 +21,13 @@ const addressOptions = {
 
 // Maps ISO Alpha-2 country codes to full country names
 const countryMapping = {
-    "AU": "Australia",
     "CA": "Canada",
-    "DE": "Germany",
-    "NZ": "New Zealand",
-    "SG": "Singapore",
-    "AE": "United Arab Emirates",
-    "US": "United States"
+    // "AU": "Australia",
+    // "DE": "Germany",
+    // "NZ": "New Zealand",
+    // "SG": "Singapore",
+    // "AE": "United Arab Emirates",
+    // "US": "United States"
 };
 
 export {

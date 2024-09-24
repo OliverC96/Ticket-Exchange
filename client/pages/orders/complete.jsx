@@ -4,7 +4,7 @@ import CostSummary from "../../components/email-templates/CostSummary";
 import { parseDate } from "../../utils/parse_date";
 import { IoReceiptOutline } from "react-icons/io5";
 import { RiArrowRightDoubleFill } from "react-icons/ri";
-import { getCharges } from "../../utils/calculate_charges";
+import ChargeManager from "../../utils/ChargeManager";
 
 // Displays an order confirmation summary
 export default () => {
@@ -15,11 +15,17 @@ export default () => {
     }
 
     // Extract the relevant information from local storage
-    const { id, ticket, taxPercent, discount } = JSON.parse(localStorage.getItem("order"));
+    const { id, ticket, discount } = JSON.parse(localStorage.getItem("order"));
     const { name, email, address } = JSON.parse(localStorage.getItem("customer"));
 
     const d = parseDate();
-    const charges = getCharges(ticket.price, taxPercent, discount, false);
+    const chargeManager = new ChargeManager(
+        ticket.price,
+        discount,
+        address.state,
+        false,
+        false
+    );
 
     return (
         <div className="page-wrapper">
@@ -37,7 +43,7 @@ export default () => {
                         <p className="text-lg"> Confirmation email sent to <span className="underline"> { email } </span> </p>
 
                         <div className="order-confirm-summary">
-                            <CostSummary charges={charges} forEmail={false} />
+                            <CostSummary charges={chargeManager.getCharges()} forEmail={false} />
                             <div className="flex justify-between items-center">
                                 <BillingDetails name={name} address={address} forEmail={false} />
                                 <IoReceiptOutline size={58} />
