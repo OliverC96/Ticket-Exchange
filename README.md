@@ -1,5 +1,8 @@
 # Ticket Exchange
 
+![Auth service test workflow]
+(https://github.com/OliverC96/Ticket-Exchange/actions/workflows/tests-auth.yml/badge.svg)
+
 ## Overview
 
 ### Core Functionality
