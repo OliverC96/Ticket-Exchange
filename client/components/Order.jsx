@@ -3,7 +3,7 @@ import useRequest from "../hooks/use-request";
 import Router from "next/router";
 
 // Encapsulates a single order document
-export default function Order({ status, ticket, id }) {
+export default function Order({ status, ticket, id, currentUser }) {
 
     // PATCH /api/orders
     const { performRequest, errors } = useRequest({
@@ -32,7 +32,8 @@ export default function Order({ status, ticket, id }) {
                     },
                     customer: {
                         name,
-                        address
+                        address,
+                        email: currentUser.email
                     }
                 })
             }

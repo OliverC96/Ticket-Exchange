@@ -7,11 +7,12 @@ const resend = new Resend(process.env.RESEND_KEY);
 export default async function (req, res) {
 
     const props = JSON.parse(req.body);
+    const recipientEmail = props.customer.email;
 
     // Send the email via the Resend API
     const { data, error } = await resend.emails.send({
         from: process.env.SENDER_NAME + " <" + process.env.SENDER_EMAIL + ">",
-        to: process.env.RECIPIENT_EMAIL,
+        to: recipientEmail || process.env.RECIPIENT_EMAIL,
         subject: `Order #${props.order.id} - REFUNDED`,
         react: OrderRefunded(props)
     });

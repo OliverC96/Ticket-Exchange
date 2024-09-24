@@ -20,7 +20,7 @@ export default ({ url, method, body, onSuccess }) => {
             return response.data;
         }
         catch (err) {
-            setErrors(err.response.data.errors);
+            setErrors(err.response ? err.response.data.errors : null);
         }
     }
     return { performRequest, errors };

@@ -95,7 +95,8 @@ export default function CheckoutForm({ order, currentUser }) {
                         },
                         customer: {
                             name,
-                            address
+                            address,
+                            email: currentUser.email
                         }
                     })
                 }

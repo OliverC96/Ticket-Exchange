@@ -38,7 +38,7 @@ export default function Ticket({ id, title, price, userID, currUser }) {
     };
 
     return (
-        <div className="flex flex-col justify-center gap-1.5 relative">
+        <div className="flex flex-col justify-center gap-1.5">
             {/* Ticket update modal window */}
             {
                 modalOpen &&
