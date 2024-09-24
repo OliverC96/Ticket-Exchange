@@ -1,6 +1,6 @@
 # Ticket Exchange
 
-![Auth service test workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/tests-auth.yml/badge.svg) ![Tickets service test workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/tests-tickets.yml/badge.svg) ![Orders service test workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/tests-orders.yml/badge.svg) ![Payments service test workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/tests-payments.yml/badge.svg)
+![Auth service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-auth.yml/badge.svg) ![Tickets service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-tickets.yml/badge.svg) ![Orders service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-orders.yml/badge.svg) ![Payments service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-payments.yml/badge.svg)
 
 ## Overview
 
