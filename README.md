@@ -29,6 +29,7 @@
 
 - Authenticated users are redirected to the landing page, which displays all currently available listings
   - On this page, users are able to edit or delete their listings (but not other users' listings)
+  - Additionally, users can filter and sort listings by price and/or title
 - Authenticated users can create listings by clicking on the "Create" link and filling out the subsequent form
 
 ### Purchase a Listing (Ticket)
@@ -46,6 +47,7 @@
 - If the refund was successful, the user will receive a notification by email (see [Email Updates](#email-updates))
 
 ![Landing page containing all current listings on the platform](./images/landing_page.png)
+![Visualization of price-based and keyword-based filtering/sorting on the landing page](./images/listing_filters.png)
 ![Create a new ticket form](./images/create_form.png)
 ![Intent to purchase page](./images/purchase_page.png)
 ![Payment method and billing address form](./images/checkout_form.png)
