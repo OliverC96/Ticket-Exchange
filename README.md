@@ -1,6 +1,6 @@
 # Ticket Exchange
 
-![Auth service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-auth.yml/badge.svg) ![Tickets service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-tickets.yml/badge.svg) ![Orders service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-orders.yml/badge.svg) ![Payments service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-payments.yml/badge.svg)
+![Auth service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-auth.yml/badge.svg) ![Tickets service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-tickets.yml/badge.svg) ![Orders service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-orders.yml/badge.svg) ![Payments service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-payments.yml/badge.svg) ![Expiration service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-expiration.yml/badge.svg) ![Client service deployment workflow](https://github.com/OliverC96/Ticket-Exchange/actions/workflows/deploy-client.yml/badge.svg)
 
 ## Overview
 
