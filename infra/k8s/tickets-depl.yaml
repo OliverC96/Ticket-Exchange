@@ -31,6 +31,8 @@ spec:
                   key: JWT_KEY
             - name: MONGO_URI
               value: 'mongodb://tickets-mongo-srv:27017/tickets'
+            - name: ADMIN_EMAIL
+              value: 'admin@gmail.com'
 ---
 apiVersion: v1
 kind: Service

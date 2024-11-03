@@ -31,6 +31,7 @@ router.put(
     validateRequest,
     async (req: Request, res: Response) => {
         const userID = req.currentUser!.id;
+        const userEmail = req.currentUser!.email;
         const ticketID = req.params.id;
         const ticket = await Ticket.findById(ticketID); // Retrieve the ticket
         if (!ticket) {
@@ -39,7 +40,7 @@ router.put(
         if (ticket.orderID) {
             throw new BadRequestError("Cannot update a reserved ticket."); // Ticket is currently reserved (i.e., tied to an order)
         }
-        if (userID !== ticket.userID) {
+        if ((userID !== ticket.userID) && (userEmail !== process.env.ADMIN_EMAIL)) {
             throw new NotAuthorizedError(); // Cannot update another user's ticket
         }
 
