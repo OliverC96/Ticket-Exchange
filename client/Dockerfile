@@ -11,5 +11,4 @@ CMD ["npm", "run", "dev"]
 
 # Run deployment script for prod environment (i.e., DigitalOcean)
 FROM base AS image-prod
-RUN npm run build
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "build"]
