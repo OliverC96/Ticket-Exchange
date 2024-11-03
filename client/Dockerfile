@@ -2,7 +2,8 @@ FROM node:alpine AS base
 
 WORKDIR /app
 COPY ./package.json ./
-RUN npm install --force
+RUN rm -rf ./node_modules
+RUN npm install
 COPY ./ ./
 
 # Run deployment script for dev environment (i.e., Skaffold on localhost)
