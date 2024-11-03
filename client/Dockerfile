@@ -2,8 +2,6 @@ FROM node:alpine AS base
 
 WORKDIR /app
 COPY ./package.json ./
-RUN rm -rf node_modules
-RUN rm -rf .next
 RUN npm install
 COPY ./ ./
 
