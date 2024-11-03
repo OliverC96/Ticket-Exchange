@@ -11,4 +11,5 @@ CMD ["npm", "run", "dev"]
 
 # Run deployment script for prod environment (i.e., DigitalOcean)
 FROM base AS image-prod
+RUN rm -rf .next/cache
 CMD ["npm", "run", "build"]
