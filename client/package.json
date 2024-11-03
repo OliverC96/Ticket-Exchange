@@ -7,7 +7,7 @@
     "start": "next start",
     "test": "clear && npx playwright test tickets",
     "test:ci": "npx playwright test",
-    "build": "next build --debug && next start",
+    "build": "next build && next start",
     "pub": "docker build --target image-dev -t oliverc96/client . && docker push oliverc96/client"
   },
   "dependencies": {
