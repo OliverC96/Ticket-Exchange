@@ -9,7 +9,7 @@ import ActionButton from "../components/ActionButton";
 // Encapsulates a single ticket listing
 export default function Ticket({ id, title, price, userID, currUser }) {
 
-    const isOwner = userID === currUser?.id;
+    const isOwner = (userID === currUser?.id) || (currUser?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL);
     const containerRef = useRef(null);
     const [modalOpen, setModalOpen] = useState(false);
 
