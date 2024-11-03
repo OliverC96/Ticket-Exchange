@@ -8,7 +8,7 @@ it("Successfully retrieves current user", async() => {
        .set("Cookie", cookie)
        .send({})
        .expect(200);
-   expect(response.body.currentUser.email).toEqual("test@gmail.com");
+   expect(response.body.currentUser.email).toEqual("tests@gmail.com");
 });
 
 it("currentUser = null if the user is not authenticated", async() => {

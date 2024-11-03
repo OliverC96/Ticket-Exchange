@@ -1,0 +1,110 @@
+Internal Architecture
+-> Two important dependencies: V8, and Libuv
+    -> V8 is a JavaScript engine which enables the execution of JavaScript code outside the browser
+    -> Libuv provides access to the filesystem, and enables networking and concurrency control
+-> By default, NodeJS (more specifically, the event loop) is single-threaded - that is, all code executes within a singular thread
+    -> However, some functions within the NodeJS framework run outside of the event loop thread
+        -> Libuv uses a 4-thread (by default) thread pool to delegate/offload expensive tasks
+        -> Thus, NodeJS is not truly single-threaded
+-> The event loop allows NodeJS to perform non-blocking I/O operations
+    -> At each iteration of the event loop, NodeJS checks for the following:
+        -> Pending timers (setTimeout, setInterval, setImmediate)
+        -> Pending operating system tasks (e.g., HTTP server listening to a port; tasks using the underlying OS)
+        -> Pending operations (e.g., those associated with the filesystem module; thread pool operations)
+    -> If all the above checks pass, the event loop continues executing for another iteration
+    -> Otherwise, the NodeJS program terminates, and returns back to the terminal
+-> At a high-level, the event loop consists of the following steps:
+    1) Expired setTimeout and setInterval functions are invoked
+    2) Callbacks associated with complete operating system tasks or operations are invoked
+    3) Execution is suspended until a new task/operation is finished, or a timer is about to expire
+    4) setImmediate functions are invoked
+    5) Cleanup code associated with 'close' events is executed
+
+Performance Optimizations
+Approach #1) Running NodeJS in "cluster" mode (i.e., clustering)
+-> Multiple instances (threads) of the NodeJS program
+-> A cluster manager (parent process) monitors the health of the running processes
+    -> Has the ability to start-up/terminate instances, and perform other administrative functions
+    -> Uses the <cluster> module from the NodeJS standard library to fork into multiple worker threads
+-> By default, every child (i.e., worker) process in the cluster has access to a dedicated thread pool of size 4
+    -> process.env.UV_THREADPOOL_SIZE can be used to restrict the size of each thread pool
+-> Diminishing returns: arbitrarily increasing the number of workers does not necessarily yield greater performance
+    -> E.g., more worker threads allows for the server to respond to more requests simultaneously
+        -> However, the overall performance (i.e., response time) is hindered due to hardware limitations
+        -> All worker threads are in competition for CPU resources at the same time
+        -> Therefore, the execution time for ALL threads is pushed back
+    -> Sweet spot: create n workers, where n is the number of logical cores on the computer running the program
+        -> Allows all threads to execute concurrently, without competing for the same CPU(s)
+-> PM2 is open-source process management software which can be used to effectively execute NodeJS in cluster mode [ref: https://pm2.keymetrics.io/docs/usage/quick-start/]
+    -> Allows for easy creation/termination/monitoring of instances (worker threads) of a clustered application
+Approach #2) Using worker threads
+-> Utilize the NodeJS worker_threads module to manually create worker threads
+-> The parent (i.e., worker interface) and worker threads communicate through asynchronous message passing
+    -> onMessage, and postMessage functions enable data transfer between the worker threads, and the main application
+-> Expensive computations can be delegated to worker threads to enhance overall performance
+
+Data Caching Techniques
+-> Caching techniques can be utilized to drastically improve the read-only performance of a data store
+-> Indices are used to quickly gain access to a particular record without manually searching through the entire database
+-> Note: adding more indices to a collection negatively impacts write performance
+    -> Moreover, index files consume important resources - namely, disk space and memory
+-> A cache server/layer can be used to store recent queries (and their corresponding responses)
+    -> Repeated queries result in an immediate response; circumventing the need for index files or comprehensive scans
+    -> Cache servers are essentially key-value stores used to improve the performance of read operations
+    -> Query keys should be consistent, but unique between query executions
+        -> Solution: combine the collection name and query options to form the basis for query keys
+        -> e.g., const queryKey = JSON.stringify({
+                    ...this.getQuery(),
+                    collectionName: this.mongooseCollection.name
+                 });
+-> Redis is an in-memory data store which can be used to implement a caching layer [ref: https://redis.io/docs/latest/develop/connect/clients/nodejs/]
+    -> Adding data: await redisClient.set("name", "Oliver");
+    -> Fetching data: const value = await redisClient.get("name");
+    -> Setting expiration timers: await redisClient.expire("name", 10) // Expires after 10 seconds have elapsed
+-> High-level caching architecture:
+    1) Determine whether the incoming query has previously been executed
+    2) If it has, retrieve the corresponding result from the Redis cache, and bypass MongoDB entirely
+    3) Otherwise, issue the query to MongoDB and save the subsequent response in the Redis cache
+-> Forced cache expiration: expire a particular slice of the cache when the underlying data store is changed
+    -> Forces the application to retrieve the fresh data from MongoDB instead of accessing the cache (which, at the moment, contains stale/incomplete data)
+    -> Use a nested hash structure to expire all items associated with a given top-level key
+    -> Create an ExpressJS middleware to automate the cache expiration process, and make it easily extendable to different routes
+
+Software Testing Strategies
+I) Common Testing Approaches
+-> Unit testing: verifying the functionality of individual components (e.g., functions, modules, middlewares) in isolation
+    -> Forms the basis of test-driven development (TDD), wherein tests directly drive the implementation process
+-> Integration testing: verifying the functionality of components in relation to one another
+    -> Ensures that components are working together in the desired manner
+    -> Investigates the nature of interactions between system components
+-> Functional testing: validates the software against functional requirements
+    -> Black-box testing; disregards intermediate internal states - only examines the generated output
+-> Acceptance testing: validates the software against business requirements
+    -> Evaluates the functionality of common end user behaviours
+II) Automated Headless Browser Testing
+-> Puppeteer (or Playwright) can be used to instantiate a headless (i.e., non-interactive) version of Chromium
+-> Browser-based testing enables an end-to-end evaluation of components from a user-facing perspective
+-> Authentication strategies in the context of automation testing:
+    -> Strategy #1: artificially generate a session to bypass the normal authentication process (best option)
+    -> Strategy #2: implement an additional route to automate the authentication process (bad practice to modify code for the purpose of passing tests)
+    -> Strategy #3: automate authentication by interacting with UI elements (not ideal; could result in unsolvable CAPTCHAs)
+-> Test factories are centralized helper methods that encapsulate the production of key resources in the testing process
+-> Note: test files do not have access to external configurations, e.g., pre-defined database models
+    -> Solution: incorporate all necessary configuration in global setup/teardown files (which are visible to the test suites)
+-> Proxies can be used to intercept and redefine the fundamental operations of an object (without directly modifying the object itself)
+    -> syntax: const proxy = new Proxy(target, handler);
+    -> The handler contains a set of functions which are executed everytime the target object is accessed
+    -> Commonly used to extend the functionality of a class within a third-party library
+        -> e.g., add additional (custom) methods to the existing Page class in Playwright (such as a login method)
+-> Construct a diagram to visualize the different flows being tested, and help ensure 100% test coverage
+    -> Use the "describe" feature to organize tests into logical groups based on their preconditions
+-> The "execute" method of the Page object can be utilized to execute arbitrary JavaScript code within a Chromium browser
+    -> syntax: const result = await page.evaluate(function, [args]);
+    -> e.g., pass in a pre-configured fetch request to interact with the server-side API and validate the subsequent response
+    -> Alternatively, APIRequestContexts can be used to initiate server-side API calls on-the-fly within active browser-side tests
+
+Continuous Integration & Continuous Deployment (CI/CD)
+->
+
+Scalable Image/File Upload
+->

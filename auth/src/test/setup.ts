@@ -34,7 +34,7 @@ afterAll(async() => {
  * @returns {string[]} JWT session cookie
  */
 global.getCookie = async(): Promise<string[]> => {
-    const email: string = "test@gmail.com";
+    const email: string = "tests@gmail.com";
     const password: string = "password";
     const authResponse = await request(server)
         .post("/api/users/register")

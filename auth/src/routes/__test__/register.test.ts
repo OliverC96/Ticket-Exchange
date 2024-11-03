@@ -5,7 +5,7 @@ it("Attaches a cookie upon successful registration", async() => {
     const response = await request(server)
         .post("/api/users/register")
         .send({
-            email: "test@gmail.com",
+            email: "tests@gmail.com",
             password: "password"
         })
         .expect(201);
@@ -26,7 +26,7 @@ it("StatusCode = 400 with invalid password", async() => {
     return request(server)
         .post("/api/users/register")
         .send({
-            email: "test@gmail.com",
+            email: "tests@gmail.com",
             password: "p"
         })
         .expect(400);
@@ -36,7 +36,7 @@ it("StatusCode = 400 with missing email and/or password", async() => {
     await request(server)
         .post("/api/users/register")
         .send({
-            email: "test@gmail.com"
+            email: "tests@gmail.com"
         })
         .expect(400);
     await request(server)
@@ -51,14 +51,14 @@ it("Does not allow duplicate email addresses", async() => {
     await request(server)
         .post("/api/users/register")
         .send({
-            email: "test@gmail.com",
+            email: "tests@gmail.com",
             password: "password"
         })
         .expect(201);
     await request(server)
         .post("/api/users/register")
         .send({
-            email: "test@gmail.com",
+            email: "tests@gmail.com",
             password: "password"
         })
         .expect(400);

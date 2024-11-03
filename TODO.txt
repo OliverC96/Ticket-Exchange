@@ -1,1 +1,7 @@
 1. Migrate from NATS Streaming Server to NATS JetStream [ref: https://docs.nats.io/nats-concepts/jetstream]
+2. Implement data caching via Redis (for the orders collection)
+3. [selected] Design, and implement comprehensive integration (e2e) tests (via Playwright)
+4. Implement "forgot password" email functionality via Resend API
+5. Implement lorem ipsum "terms and conditions" page
+6. Create an admin user (e.g., admin@gmail.com) with ability to edit/delete any listing
+7. Configure Sentry (for continuous error-monitoring) and PostHog (for comprehensive web analytics)

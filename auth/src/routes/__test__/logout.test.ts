@@ -5,7 +5,7 @@ it("Removes cookie upon successful logout", async() => {
     await request(server)
         .post("/api/users/register")
         .send({
-            email: "test@gmail.com",
+            email: "tests@gmail.com",
             password: "password"
         })
         .expect(201)
