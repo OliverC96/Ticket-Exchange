@@ -23,11 +23,12 @@ router.delete(
     async (req: Request, res: Response) => {
         const ticketID = req.params.id;
         const userID = req.currentUser!.id;
+        const userEmail = req.currentUser!.id;
         const ticket = await Ticket.findById(ticketID); // Retrieving the desired ticket document
         if (!ticket) {
             throw new NotFoundError(); // Cannot delete a ticket which does not exist
         }
-        if (userID !== ticket.userID) {
+        if ((userID !== ticket.userID) && (userEmail !== process.env.ADMIN_EMAIL)) {
             throw new NotAuthorizedError(); // Cannot delete another user's ticket
         }
 
