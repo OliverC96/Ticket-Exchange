@@ -5,19 +5,38 @@ import buildClient from "../api/build-client";
 import posthog from "posthog-js"
 import { PostHogProvider } from 'posthog-js/react'
 import Head from "next/head";
-
-if (typeof window !== 'undefined') { // checks that we are client-side
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-        api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com',
-        person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
-        loaded: (posthog) => {
-            if (process.env.NODE_ENV === 'development') posthog.debug() // debug mode in development
-        },
-    })
-}
-
+import { useEffect, useRef } from "react";
+import { Router, useRouter } from 'next/router'
 
 export default function AppComponent({Component, pageProps, currentUser}) {
+
+    const router = useRouter()
+    const oldUrlRef = useRef('')
+
+    useEffect(() => {
+        posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+            api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com',
+            person_profiles: 'always',
+            // Enable debug mode in development
+            loaded: (posthog) => {
+                if (process.env.NODE_ENV === 'development') posthog.debug()
+            }
+        })
+
+        const handleRouteChange = () => posthog?.capture('$pageview')
+        const handleRouteChangeStart = () => posthog?.capture('$pageleave', {
+            $current_url: oldUrlRef.current
+        });
+
+        Router.events.on('routeChangeComplete', handleRouteChange);
+        Router.events.on('routeChangeStart', handleRouteChangeStart);
+
+        return () => {
+            Router.events.off('routeChangeComplete', handleRouteChange);
+            Router.events.off('routeChangeStart', handleRouteChangeStart);
+        }
+    }, [])
+
     return (
         <>
             <Head>
