@@ -144,7 +144,7 @@ export default function CheckoutForm({ order, currentUser }) {
                 <form className="flex gap-5" onSubmit={handleSubmission}>
 
                     {/* Billing address */}
-                    <AddressElement options={addressOptions} className="w-3/5" />
+                    <AddressElement options={addressOptions} className="w-3/5 ph-no-capture" />
 
                     <div className="vertical-line" />
 
@@ -168,7 +168,7 @@ export default function CheckoutForm({ order, currentUser }) {
                                     Card Number
                                     <FaRegCreditCard />
                                 </label>
-                                <CardNumberElement className="form-input" options={elementStyle} />
+                                <CardNumberElement className="form-input ph-no-capture" options={elementStyle} />
                             </div>
 
                             <div className="flex justify-between">
@@ -176,13 +176,13 @@ export default function CheckoutForm({ order, currentUser }) {
                                     <label>
                                         Expiry Date
                                     </label>
-                                    <CardExpiryElement className="form-input" options={elementStyle} />
+                                    <CardExpiryElement className="form-input ph-no-capture" options={elementStyle} />
                                 </div>
                                 <div className="form-field w-[48%]" id="securityCode">
                                     <label>
                                         Security Code
                                     </label>
-                                    <CardCvcElement className="form-input" options={elementStyle} />
+                                    <CardCvcElement className="form-input ph-no-capture" options={elementStyle} />
                                 </div>
                             </div>
                         </div>

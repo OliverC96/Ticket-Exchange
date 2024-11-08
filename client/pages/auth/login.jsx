@@ -18,6 +18,7 @@ export default () => {
         email: "",
         password: ""
     });
+    const [resetMessage, setResetMessage] = useState("");
 
     const {
         setSubmitted,
@@ -47,6 +48,30 @@ export default () => {
         body: input,
         onSuccess: () => Router.push("/")
     });
+
+    const resetPassword = async () => {
+        if (input.email === "" || !input.email.match(/^\S+@\S+\.\S+$/)) {
+            setResetMessage("Please enter a valid email address.");
+        }
+        else {
+            setResetMessage(`Success! Reset password link sent to ${input.email}`);
+            await fetch(
+                "/api/reset-password",
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        customer: {
+                            email: input.email
+                        }
+                    })
+                }
+            );
+            setInput({
+                email: "",
+                password: ""
+            });
+        }
+    }
 
     return (
         <div className="page-wrapper">
@@ -93,12 +118,24 @@ export default () => {
                             onChange={handleChange}
                             placeholder="name@company.ca"
                         />
+                        {/* Reset password status message */}
+                        {
+                            resetMessage !== "" &&
+                                <p className={`${resetMessage.includes("Success!") ? "text-green-400" : "text-red-400"}`}>
+                                    { resetMessage }
+                                </p>
+                        }
                     </div>
 
                     <div className="form-field" >
                         <div className="flex justify-between">
                             <label id="password"> Password </label>
-                            <a href="" className="text-blue-500"> Forgot password? </a>
+                            <a
+                                className="text-blue-500 hover:cursor-pointer"
+                                onClick={resetPassword}
+                            >
+                                Forgot password?
+                            </a>
                         </div>
                         <input
                             className="form-input"

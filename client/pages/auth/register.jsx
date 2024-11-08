@@ -10,7 +10,9 @@ import Divider from "../../components/Divider";
 import useGoogle from "../../hooks/use-google";
 import useGithub from "../../hooks/use-github";
 import { useRef, useState } from "react";
+import posthog from "posthog-js";
 
+// Displays the register form
 export default () => {
 
     const checkboxRef = useRef(null);
@@ -55,6 +57,9 @@ export default () => {
             <div className="card p-8 w-1/2">
                 <form className="flex gap-5" onSubmit={(e) => {
                     e.preventDefault();
+                    posthog.capture("user_registered", {
+                        email: input.email
+                    });
                     setSubmitted(true);
                 }}>
 
@@ -106,8 +111,15 @@ export default () => {
                                 ref={checkboxRef}
                                 required
                             />
-                            <label id="terms"/> I accept the <a href="" className="text-blue-500 font-medium"> Terms and
-                            Conditions </a>
+                            <label id="terms"/> I accept the
+                            {/* Terms and conditions link */}
+                            <Link
+                                href="/auth/terms"
+                                className="text-blue-500 font-medium"
+                                target="_blank"
+                            >
+                                Terms and Conditions
+                            </Link>
                         </div>
 
                         <button className={`btn-primary ${input.password !== confirm && "cursor-not-allowed"}`} disabled={input.password !== confirm}>

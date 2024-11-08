@@ -2,8 +2,8 @@ import "../styles/globals.css";
 import "../styles/main.css";
 import Header from "../components/Header";
 import buildClient from "../api/build-client";
-import posthog from "posthog-js"
-import { PostHogProvider } from 'posthog-js/react'
+import posthog from "posthog-js";
+import { PostHogProvider } from 'posthog-js/react';
 import Head from "next/head";
 import { useEffect, useRef } from "react";
 import { Router, useRouter } from 'next/router'
