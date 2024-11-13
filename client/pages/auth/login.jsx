@@ -10,6 +10,7 @@ import Router from "next/router";
 import Link from "next/link";
 import Divider from "../../components/Divider";
 import { useState } from "react";
+import posthog from "posthog-js";
 
 // Displays the login form
 export default () => {
@@ -22,6 +23,8 @@ export default () => {
 
     const {
         setSubmitted,
+        method,
+        setMethod,
         populateForm,
         handleChange
     } = useFormInput({
@@ -31,12 +34,14 @@ export default () => {
 
     const { googleAuth } = useGoogle({
         setSubmitted,
+        setMethod,
         populateForm,
         mode: "login"
     });
 
     const { githubAuth } = useGithub({
         setSubmitted,
+        setMethod,
         populateForm,
         mode: "login"
     });
@@ -46,7 +51,12 @@ export default () => {
         url: "/api/users/login",
         method: "post",
         body: input,
-        onSuccess: () => Router.push("/")
+        onSuccess: async (data) => {
+            posthog.identify(data.id, {
+                email: data.email
+            });
+            await Router.push("/");
+        }
     });
 
     const resetPassword = async () => {
@@ -78,6 +88,10 @@ export default () => {
             <div className="card p-8">
                 <form className="flex flex-col gap-5" onSubmit={(e) => {
                     e.preventDefault();
+                    posthog.capture("user_logged_in", {
+                        email: input.email,
+                        method
+                    });
                     setSubmitted(true);
                 }}>
 

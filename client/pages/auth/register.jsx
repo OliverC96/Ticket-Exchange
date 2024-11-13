@@ -23,6 +23,8 @@ export default () => {
 
     const {
         confirm,
+        method,
+        setMethod,
         setSubmitted,
         populateForm,
         handleChange
@@ -34,12 +36,14 @@ export default () => {
 
     const { googleAuth } = useGoogle({
         setSubmitted,
+        setMethod,
         populateForm,
         mode: "register"
     });
 
     const { githubAuth } = useGithub({
         setSubmitted,
+        setMethod,
         populateForm,
         mode: "register"
     });
@@ -49,7 +53,12 @@ export default () => {
         url: "/api/users/register",
         method: "post",
         body: input,
-        onSuccess: () => Router.push("/")
+        onSuccess: async (data) => {
+            posthog.identify(data.id, {
+                email: data.email
+            });
+            await Router.push("/");
+        }
     });
 
     return (
@@ -58,7 +67,8 @@ export default () => {
                 <form className="flex gap-5" onSubmit={(e) => {
                     e.preventDefault();
                     posthog.capture("user_registered", {
-                        email: input.email
+                        email: input.email,
+                        method
                     });
                     setSubmitted(true);
                 }}>

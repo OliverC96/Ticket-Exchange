@@ -3,7 +3,7 @@ import { md5 } from "hash-wasm";
 import Router from "next/router";
 
 // Google OAuth 2.0 custom hook
-export default ({ setSubmitted, populateForm, mode }) => {
+export default ({ setSubmitted, setMethod, populateForm, mode }) => {
 
     // Authenticates a user via Google OAuth 2.0
     const googleAuth = async () => {
@@ -56,6 +56,7 @@ export default ({ setSubmitted, populateForm, mode }) => {
                         const email = await extractEmail(response);
                         const password = await md5(email);
                         populateForm(email, password); // Fill the form with the obtained credentials
+                        setMethod("google"); // Set the authentication method for analytics monitoring
                         setSubmitted(true); // Submit the form
                     });
             }

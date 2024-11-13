@@ -4,6 +4,7 @@ import useRequest from "../../hooks/use-request";
 import Router from "next/router";
 import { useSearchParams } from "next/navigation";
 import { PiArrowBendRightDownBold } from "react-icons/pi";
+import posthog from "posthog-js";
 
 // Displays the password reset form
 export default () => {
@@ -43,6 +44,9 @@ export default () => {
             <div className="card p-8 w-1/3 -mt-6">
                 <form className="flex flex-col gap-5" onSubmit={(e) => {
                     e.preventDefault();
+                    posthog.capture("password_reset_requested", {
+                        email: input.email
+                    });
                     setSubmitted(true);
                 }}>
 

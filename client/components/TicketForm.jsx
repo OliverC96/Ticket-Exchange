@@ -5,6 +5,7 @@ import useFormInput from "../hooks/use-form-input/ticket";
 import Router from "next/router";
 import { IoIosCreate } from "react-icons/io";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import posthog from "posthog-js";
 
 // Create/edit ticket form
 export default function TicketForm({ isModal, ticket, setModalVisible }) {
@@ -27,9 +28,17 @@ export default function TicketForm({ isModal, ticket, setModalVisible }) {
         onSuccess: async () => {
             if (isModal) {
                 setModalVisible(false);
+                posthog.capture("ticket_updated", {
+                    ticket
+                });
                 return Router.reload();
             }
-            await Router.push("/");
+            else {
+                posthog.capture("ticket_created", {
+                    ticket
+                });
+                await Router.push("/");
+            }
         }
     });
 

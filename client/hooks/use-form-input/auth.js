@@ -5,6 +5,7 @@ export default ({ onSubmit, setInput, checkboxRef }) => {
 
     const [confirm, setConfirm] = useState("");
     const [submitted, setSubmitted] = useState(false);
+    const [method, setMethod] = useState("native");
 
     // Helper method which resets the contents of the authentication form
     const resetForm = () => {
@@ -57,6 +58,8 @@ export default ({ onSubmit, setInput, checkboxRef }) => {
         confirm,
         setConfirm,
         setSubmitted,
+        method,
+        setMethod,
         populateForm,
         handleChange
     };
