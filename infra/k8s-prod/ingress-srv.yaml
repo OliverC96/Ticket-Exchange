@@ -10,7 +10,7 @@ spec:
   tls:
     - hosts:
         - www.ticket-exchange.ca
-      secretName: tls-cert
+      secretName: prod-tls-cert
   rules:
     - host: www.ticket-exchange.ca
       http:
