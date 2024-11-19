@@ -1,8 +1,6 @@
 1. Migrate from NATS Streaming Server to NATS JetStream [ref: https://docs.nats.io/nats-concepts/jetstream]
 2. Implement data caching via Redis (only for the orders collection)
 3. [selected] Design, and implement comprehensive integration (e2e) tests (via Playwright)
-4. [selected] Configure backend custom events/actions + user identification on PostHog
-5. [selected] Add unit testing for /api/users/reset/:email route + Google/GitHub OAuth 2.0 workflows
-6. Migrate application to new DigitalOcean account
-7. [selected] Change Metadata date to local date time - test password reset link in prod
-8. [selected] Make application more responsive on different screen sizes
+4. [selected] Add unit testing for /api/users/reset/:email route + Google/GitHub OAuth 2.0 workflows
+5. [selected] Change Metadata date to local date time - test password reset link in prod
+6. [selected] Make application more responsive on different screen sizes

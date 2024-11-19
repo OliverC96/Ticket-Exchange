@@ -5,18 +5,26 @@ import { parseDate } from "../../utils/parse_date";
 import { IoReceiptOutline } from "react-icons/io5";
 import { RiArrowRightDoubleFill } from "react-icons/ri";
 import ChargeManager from "../../utils/ChargeManager";
+import posthog from "posthog-js";
 
 // Displays an order confirmation summary
 export default () => {
 
-    async function handleSubmission(event) {
-        event.preventDefault();
-        await Router.push("/orders");
-    }
-
     // Extract the relevant information from local storage
     const { id, ticket, discount } = JSON.parse(localStorage.getItem("order"));
     const { name, email, address } = JSON.parse(localStorage.getItem("customer"));
+
+    async function handleSubmission(event) {
+        event.preventDefault();
+        posthog.capture("order_complete", {
+            order: {
+                id,
+                ticket,
+                discount
+            }
+        });
+        await Router.push("/orders");
+    }
 
     const d = parseDate();
     const chargeManager = new ChargeManager(

@@ -25,17 +25,17 @@ export default function TicketForm({ isModal, ticket, setModalVisible }) {
             title: input.title,
             price: parseFloat(input.price.toString().slice(1))
         },
-        onSuccess: async () => {
+        onSuccess: async (t) => {
             if (isModal) {
                 setModalVisible(false);
                 posthog.capture("ticket_updated", {
-                    ticket
+                    ticket: t
                 });
                 return Router.reload();
             }
             else {
                 posthog.capture("ticket_created", {
-                    ticket
+                    ticket: t
                 });
                 await Router.push("/");
             }
