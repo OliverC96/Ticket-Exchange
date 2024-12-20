@@ -2,9 +2,11 @@ import { useEffect } from "react";
 import useRequest from "../../hooks/use-request";
 import Router from "next/router";
 import { RiExchange2Fill } from "react-icons/ri";
-import posthog from "posthog-js";
+import { usePostHog } from "posthog-js/react";
 
 export default function Logout({ currentUser }) {
+
+    const posthog = usePostHog();
 
     // POST /api/users/logout
     const { performRequest } = useRequest({
@@ -12,8 +14,8 @@ export default function Logout({ currentUser }) {
         method: "post",
         body: {},
         onSuccess: async () => {
-            posthog.capture("user_logged_out");
-            posthog.reset();
+            posthog?.capture("user_logged_out");
+            posthog?.reset();
             await Router.push("/");
         }
     });

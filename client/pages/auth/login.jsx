@@ -10,10 +10,12 @@ import Router from "next/router";
 import Link from "next/link";
 import Divider from "../../components/Divider";
 import { useState } from "react";
-import posthog from "posthog-js";
+import { usePostHog } from "posthog-js/react";
 
 // Displays the login form
 export default () => {
+
+    const posthog = usePostHog();
 
     const [input, setInput] = useState({
         email: "",
@@ -52,8 +54,11 @@ export default () => {
         method: "post",
         body: input,
         onSuccess: async (data) => {
-            posthog.identify(data.id, {
+            posthog?.identify(data.id, {
                 email: data.email
+            });
+            posthog?.capture("user_logged_in", {
+                method
             });
             await Router.push("/");
         }
@@ -88,10 +93,6 @@ export default () => {
             <div className="card p-8">
                 <form className="flex flex-col gap-5" onSubmit={(e) => {
                     e.preventDefault();
-                    posthog.capture("user_logged_in", {
-                        email: input.email,
-                        method
-                    });
                     setSubmitted(true);
                 }}>
 

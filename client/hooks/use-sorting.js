@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+import { usePostHog } from "posthog-js/react";
 
 // Custom hook to manage the sorting of ticket listings
 export default ({ tickets, setTickets }) => {
+
+    const posthog = usePostHog();
 
     const [priceEnabled, setPriceEnabled] = useState(false);
     const [priceAscending, setPriceAscending] = useState(true);
@@ -46,6 +49,10 @@ export default ({ tickets, setTickets }) => {
         // Apply title-based sorting
         if (titleEnabled) {
             let sortedCollection;
+            posthog?.capture("tickets_sorted", {
+                type: "title",
+                ascending: titleAscending
+            });
             if (titleAscending) {
                 sortedCollection = tickets.toSorted(titleSort); // Ascending order
             }
@@ -57,6 +64,10 @@ export default ({ tickets, setTickets }) => {
         // Apply price-based sorting
         else if (priceEnabled) {
             let sortedCollection;
+            posthog?.capture("tickets_sorted", {
+                type: "price",
+                ascending: priceAscending
+            });
             if (priceAscending) {
                 sortedCollection = tickets.toSorted(priceSort); // Ascending order
             }

@@ -10,10 +10,12 @@ import Divider from "../../components/Divider";
 import useGoogle from "../../hooks/use-google";
 import useGithub from "../../hooks/use-github";
 import { useRef, useState } from "react";
-import posthog from "posthog-js";
+import { usePostHog } from "posthog-js/react";
 
 // Displays the register form
 export default () => {
+
+    const posthog = usePostHog();
 
     const checkboxRef = useRef(null);
     const [input, setInput] = useState({
@@ -54,8 +56,11 @@ export default () => {
         method: "post",
         body: input,
         onSuccess: async (data) => {
-            posthog.identify(data.id, {
+            posthog?.identify(data.id, {
                 email: data.email
+            });
+            posthog?.capture("user_registered", {
+                method
             });
             await Router.push("/");
         }
@@ -66,10 +71,6 @@ export default () => {
             <div className="card p-8 w-1/2">
                 <form className="flex gap-5" onSubmit={(e) => {
                     e.preventDefault();
-                    posthog.capture("user_registered", {
-                        email: input.email,
-                        method
-                    });
                     setSubmitted(true);
                 }}>
 

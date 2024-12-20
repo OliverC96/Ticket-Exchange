@@ -1,16 +1,24 @@
 import { HiOutlineReceiptRefund } from "react-icons/hi";
 import useRequest from "../hooks/use-request";
 import Router from "next/router";
+import { usePostHog } from "posthog-js/react";
 
 // Encapsulates a single order document
 export default function Order({ status, ticket, id, currentUser }) {
+
+    const posthog = usePostHog();
 
     // PATCH /api/orders
     const { performRequest, errors } = useRequest({
         url: `/api/orders/${id}`,
         method: "patch",
         body: {},
-        onSuccess: () => Router.reload()
+        onSuccess: (order) => {
+            posthog?.capture("order_refunded", {
+                order
+            });
+            Router.reload();
+        }
     });
 
     // Handle order refund request

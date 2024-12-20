@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { usePostHog } from "posthog-js/react";
 
 // Custom hook to manage filter form input
 export default ({ tickets, setTickets, resetSortingOptions }) => {
+
+    const posthog = usePostHog();
 
     // Keeps track of current form input (cleared upon form submission)
     const [input, setInput] = useState({
@@ -157,6 +160,9 @@ export default ({ tickets, setTickets, resetSortingOptions }) => {
 
     async function handleSubmission(event) {
         event.preventDefault();
+        posthog?.capture("tickets_filtered", {
+            filters
+        });
         updateFilters();
     }
 

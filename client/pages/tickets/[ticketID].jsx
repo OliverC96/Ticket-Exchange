@@ -1,10 +1,12 @@
 import useRequest from "../../hooks/use-request";
 import Router from "next/router";
 import { TbReceiptDollar } from "react-icons/tb";
-import posthog from "posthog-js";
+import { usePostHog } from "posthog-js/react";
 
 // Displays all information corresponding to the selected ticket
 const ViewTicket = ({ ticket }) => {
+
+    const posthog = usePostHog();
 
     // POST /api/orders
     const { performRequest, errors } = useRequest({
@@ -12,7 +14,7 @@ const ViewTicket = ({ ticket }) => {
         method: "post",
         body: { ticketID: ticket.id },
         onSuccess: async (order) => {
-            posthog.capture("order_created", {
+            posthog?.capture("order_created", {
                 order
             });
             await Router.push(`/orders/${order.id}`);

@@ -5,9 +5,12 @@ import { IoMdCreate } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import TicketForm from "../components/TicketForm";
 import ActionButton from "../components/ActionButton";
+import { usePostHog } from "posthog-js/react";
 
 // Encapsulates a single ticket listing
 export default function Ticket({ id, title, price, userID, currUser }) {
+
+    const posthog = usePostHog();
 
     const isOwner = (userID === currUser?.id) || (currUser?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL);
     const containerRef = useRef(null);
@@ -17,7 +20,15 @@ export default function Ticket({ id, title, price, userID, currUser }) {
     const { performRequest, errors } = useRequest({
         url: `/api/tickets/${id}`,
         method: "delete",
-        body: {}
+        body: {},
+        onSuccess: () => {
+            posthog?.capture("ticket_deleted", {
+                id,
+                title,
+                price,
+                userID
+            });
+        }
     });
 
     const onClick = async () => {
