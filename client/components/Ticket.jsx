@@ -17,8 +17,7 @@ export default function Ticket({ id, title, price, userID, currUser }) {
     const { performRequest, errors } = useRequest({
         url: `/api/tickets/${id}`,
         method: "delete",
-        body: {},
-        onSuccess: () => Router.reload()
+        body: {}
     });
 
     const onClick = async () => {
@@ -77,7 +76,10 @@ export default function Ticket({ id, title, price, userID, currUser }) {
                 isOwner &&
                     <div className="flex gap-1.5">
                         <ActionButton Icon={IoMdCreate} onClick={() => setModalOpen(true)}/>
-                        <ActionButton Icon={MdDelete} onClick={async () => await performRequest()}/>
+                        <ActionButton Icon={MdDelete} onClick={async () => {
+                            await Router.reload();
+                            await performRequest();
+                        }} />
                     </div>
             }
         </div>

@@ -6,9 +6,14 @@ const OrderIndex = ({ orders, currentUser }) => {
     return (
         <div className="flex p-8 justify-evenly h-screen -mt-[10vh] bg-blue-dark">
             <div className="order-grid">
-                { orders.map((order) => {
-                    return <Order key={order.id} currentUser={currentUser} {...order} />;
-                })}
+                { orders.length > 0
+                    ?
+                        orders.map((order) => {
+                            return <Order key={order.id} currentUser={currentUser} {...order} />;
+                        })
+                    :
+                        <p> You have no prior orders. </p>
+                }
             </div>
             <TicketDecal />
         </div>

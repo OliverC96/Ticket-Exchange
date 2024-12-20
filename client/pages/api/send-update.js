@@ -13,7 +13,7 @@ export default async function (req, res) {
     const { data, error } = await resend.emails.send({
         from: process.env.SENDER_NAME + " <" + process.env.SENDER_EMAIL + ">",
         to: recipientEmail || process.env.RECIPIENT_EMAIL,
-        subject: `Order #${props.order.id} - REFUNDED`,
+        subject: "Order Refunded",
         react: OrderRefunded(props)
     });
 
