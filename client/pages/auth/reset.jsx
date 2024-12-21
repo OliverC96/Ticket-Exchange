@@ -34,7 +34,8 @@ export default () => {
             return;
         }
         if (redirectSeconds === 0) {
-            return Router.push("/")
+            Router.push("/");
+            return;
         }
         setTimeout(() => {
             setRedirectSeconds((redirectSeconds) => redirectSeconds - 1);
@@ -47,7 +48,8 @@ export default () => {
         method: "post",
         body: { password: input.password },
         onSuccess: async (data) => {
-            setSuccessMessage("Successfully reset password!")
+            setRedirectSeconds(5);
+            setSuccessMessage("Successfully reset password!");
             // PostHog user identification
             posthog?.identify(data._id, {
                 email: data.email
@@ -65,7 +67,6 @@ export default () => {
                 method: data.auth_method,
                 source: "frontend"
             });
-            setRedirectSeconds(5);
         }
     });
 
