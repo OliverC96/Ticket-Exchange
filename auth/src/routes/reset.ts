@@ -21,6 +21,8 @@ router.post(
         const { password: newPassword } = req.body;
         const { email: userEmail } = req.params;
         const user = await User.findOne({ email: userEmail }); // Retrieve the user
+
+        console.log("User before password reset: ", user);
         if (!user) {
             throw new NotFoundError(); // User does not exist
         }

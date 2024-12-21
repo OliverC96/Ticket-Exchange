@@ -47,24 +47,25 @@ export default () => {
         url: `/api/users/reset/${input.email}`,
         method: "post",
         body: { password: input.password },
-        onSuccess: async (data) => {
+        onSuccess: async (user) => {
             setRedirectSeconds(5);
             setSuccessMessage("Successfully reset password!");
             // PostHog user identification
-            posthog?.identify(data._id, {
-                email: data.email
+            posthog?.identify(user._id, {
+                email: user.email
             });
+            console.log(`User after password reset: ${user}`);
             // Automatically login the user with their updated password
             await axios.post(
                 "/api/users/login",
                 {
-                    email: data.email,
-                    password: data.password
+                    email: user.email,
+                    password: user.password
                 }
             );
             // Notify PostHog of the successful login
             posthog?.capture("user_logged_in", {
-                method: data.auth_method,
+                method: user.auth_method,
                 source: "frontend"
             });
         }
@@ -146,11 +147,11 @@ export default () => {
                         </ul>
                     }
 
-                    {/* Displays success message if the password reset was successful  */}
+                    {/* Displays success message if the password reset was successful */}
                     {successMessage !== "" &&
                         <ul className="card-success">
                             <li> {successMessage} </li>
-                            <li> Redirecting to homepage in {redirectSeconds} seconds</li>
+                            <li> Redirecting to homepage in {redirectSeconds} seconds </li>
                         </ul>
                     }
 
