@@ -5,23 +5,35 @@ import buildClient from "../api/build-client";
 import posthog from "posthog-js";
 import { PostHogProvider } from 'posthog-js/react';
 import Head from "next/head";
+import { useEffect } from "react";
+import { Router } from 'next/router'
 
 export default function AppComponent({Component, pageProps, currentUser}) {
 
-    // Initialize PostHog analytics
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-        api_host: "/ingest", // Use reverse proxy (Next.js rewrites)
-        ui_host: 'https://us.posthog.com',
-        person_profiles: 'always',
-        // Enable debug mode in development
-        loaded: (posthog) => {
-            if (process.env.NODE_ENV === 'development') posthog.debug()
-        },
-        autocapture: false,
-        capture_pageview: false,
-        capture_pageleave: false,
-        capture_dead_clicks: false
-    });
+    useEffect(() => {
+        // Initialize PostHog analytics
+        posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+            api_host: "/ingest", // Use reverse proxy (Next.js rewrites)
+            ui_host: 'https://us.posthog.com',
+            person_profiles: 'always',
+            // Enable debug mode in development
+            loaded: (posthog) => {
+                if (process.env.NODE_ENV === 'development') posthog.debug()
+            },
+            autocapture: false,
+            capture_pageleave: false,
+            capture_dead_clicks: false,
+            capture_performance: false
+        });
+
+        const handleRouteChange = () => posthog?.capture('$pageview')
+
+        Router.events.on('routeChangeComplete', handleRouteChange);
+
+        return () => {
+            Router.events.off('routeChangeComplete', handleRouteChange);
+        }
+    }, []);
 
     return (
         <>
