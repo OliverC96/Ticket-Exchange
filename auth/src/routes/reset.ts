@@ -26,7 +26,7 @@ router.post(
         }
         // Users authenticated with GitHub or Google cannot reset their password (only natively-authenticated users can)
         if (user.auth_method !== AuthMethod.Native) {
-            throw new BadRequestError(`User ${user.email} authenticated with ${user.auth_method} - cannot reset password`);
+            throw new BadRequestError(`User authenticated with ${user.auth_method} - cannot reset password`);
         }
         user.set({
             password: newPassword // Update the user's password

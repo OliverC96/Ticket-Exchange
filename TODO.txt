@@ -4,3 +4,4 @@
 4. [selected] Add unit testing for /api/users/reset/:email route + Google/GitHub OAuth 2.0 workflows
 5. [selected] Change Metadata date to local date time - test password reset link in prod
 6. [selected] Make application more responsive on different screen sizes
+7. Add admin-only dashboard (with quick links to Resend, DigitalOcean, GitHub, etc..)

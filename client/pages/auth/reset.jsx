@@ -17,6 +17,7 @@ export default () => {
         password: ""
     });
     const searchParams = useSearchParams();
+    const [successMessage, setSuccessMessage] = useState("");
 
     // Update state upon initial page load
     useEffect(() => {
@@ -49,10 +50,17 @@ export default () => {
                 method: data.auth_method,
                 source: "frontend"
             });
-            // Redirect user to the homepage
-            await Router.push("/");
+            // Redirect user to the homepage after a 5s delay
+            setTimeout(() => Router.push("/"), 5000);
         }
     });
+
+    // If the password reset was unsuccessful, redirect user to the homepage after a 5s delay
+    useEffect(()=> {
+        if (errors) {
+            setTimeout(() => Router.push("/"),5000);
+        }
+    },[errors]);
 
     const {
         confirm,
@@ -119,6 +127,13 @@ export default () => {
                             {errors.map((err) => (
                                 <li key={err.message}> {err.message} </li>
                             ))}
+                        </ul>
+                    }
+
+                    {/* Displays success message if the password reset was successful  */}
+                    {successMessage !== "" &&
+                        <ul className="card-success">
+                            <li> {successMessage} </li>
                         </ul>
                     }
 

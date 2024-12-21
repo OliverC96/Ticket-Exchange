@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 import { DatabaseConnectionError } from "@ojctickets/common";
 import { server } from "./server";
 

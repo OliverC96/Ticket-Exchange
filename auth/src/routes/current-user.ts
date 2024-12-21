@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { currentUser } from "@ojctickets/common";
+import { PostHog } from "posthog-node";
 
 const router = express.Router();
 

@@ -21,6 +21,10 @@
     @apply bg-red-300 text-red-dark p-5 rounded-lg list-disc list-inside;
 }
 
+.card-success {
+    @apply bg-green-300 text-green-700 p-5 rounded-lg list-disc list-inside;
+}
+
 .ticket-grid {
     @apply grid grid-cols-4 gap-4 text-blue-xlight pt-32 h-fit items-start w-1/2;
 }
