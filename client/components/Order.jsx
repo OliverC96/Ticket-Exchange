@@ -17,7 +17,8 @@ export default function Order({ status, ticket, id, currentUser }) {
             posthog?.capture("order_refunded", {
                 id: order.id,
                 ticketID: order.ticket.id,
-                status: order.status
+                status: order.status,
+                source: "frontend"
             });
             Router.reload();
         }

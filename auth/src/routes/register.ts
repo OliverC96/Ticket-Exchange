@@ -25,14 +25,14 @@ router.post("/api/users/register", [
     async (req: Request, res: Response) => {
 
         // Ensuring the provided email address is unique (i.e. no other user in the system currently has the same address)
-        const { email, password } = req.body;
+        const { email, password, auth_method } = req.body;
         const match = await User.findOne({ email });
         if (match) {
             throw new BadRequestError("Email already in use - please enter a unique email address to register.");
         }
 
         // Creating a new user document, and saving the user to the users database
-        const newUser = User.build({ email, password });
+        const newUser = User.build({ email, password, auth_method });
         await newUser.save();
 
         // Generating a JWT encoding the user's id and email address in the payload

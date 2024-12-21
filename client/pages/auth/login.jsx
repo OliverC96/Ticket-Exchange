@@ -54,7 +54,8 @@ export default () => {
                 email: data.email
             });
             posthog?.capture("user_logged_in", {
-                method: data.auth_method
+                method: data.auth_method,
+                source: "frontend"
             });
             await Router.push("/");
         }

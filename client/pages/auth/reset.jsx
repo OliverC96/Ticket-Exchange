@@ -46,7 +46,8 @@ export default () => {
             );
             // Notify PostHog of the successful login
             posthog?.capture("user_logged_in", {
-                method: data.auth_method
+                method: data.auth_method,
+                source: "frontend"
             });
             // Redirect user to the homepage
             await Router.push("/");

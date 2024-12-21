@@ -14,7 +14,9 @@ export default function Logout({ currentUser }) {
         method: "post",
         body: {},
         onSuccess: async () => {
-            posthog?.capture("user_logged_out");
+            posthog?.capture("user_logged_out", {
+                source: "frontend"
+            });
             posthog?.reset();
             await Router.push("/");
         }
