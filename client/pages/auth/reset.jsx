@@ -18,6 +18,7 @@ export default () => {
     });
     const searchParams = useSearchParams();
     const [successMessage, setSuccessMessage] = useState("");
+    const [redirectSeconds, setRedirectSeconds] = useState(-1);
 
     // Update state upon initial page load
     useEffect(() => {
@@ -26,6 +27,19 @@ export default () => {
             password: input.password
         });
     }, []);
+
+    // Once password reset process is complete, redirect to homepage after 5s delay
+    useEffect(() => {
+        if (redirectSeconds < 0) {
+            return;
+        }
+        if (redirectSeconds === 0) {
+            return Router.push("/")
+        }
+        setTimeout(() => {
+            setRedirectSeconds((redirectSeconds) => redirectSeconds - 1);
+        }, 1000);
+    }, [redirectSeconds]);
 
     // POST /api/users/reset/:email
     const { performRequest, errors } = useRequest({
@@ -51,15 +65,14 @@ export default () => {
                 method: data.auth_method,
                 source: "frontend"
             });
-            // Redirect user to the homepage after a 5s delay
-            setTimeout(() => window.location.replace("https://www.ticket-exchange.ca"), 5000);
+            setRedirectSeconds(5);
         }
     });
 
     // If the password reset was unsuccessful, redirect user to the homepage after a 5s delay
     useEffect(()=> {
         if (errors) {
-            setTimeout(() => Router.push("/"),5000);
+            setRedirectSeconds(5);
         }
     },[errors]);
 
@@ -128,6 +141,7 @@ export default () => {
                             {errors.map((err) => (
                                 <li key={err.message}> {err.message} </li>
                             ))}
+                            <li> Redirecting to homepage in {redirectSeconds} seconds</li>
                         </ul>
                     }
 
@@ -135,6 +149,7 @@ export default () => {
                     {successMessage !== "" &&
                         <ul className="card-success">
                             <li> {successMessage} </li>
+                            <li> Redirecting to homepage in {redirectSeconds} seconds</li>
                         </ul>
                     }
 

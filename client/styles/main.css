@@ -22,7 +22,7 @@
 }
 
 .card-success {
-    @apply bg-green-300 text-green-700 p-5 rounded-lg list-disc list-inside;
+    @apply bg-green-300 text-green-800 p-5 rounded-lg list-disc list-inside;
 }
 
 .ticket-grid {
