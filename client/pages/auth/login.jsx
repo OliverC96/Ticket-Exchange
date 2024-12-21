@@ -62,6 +62,7 @@ export default () => {
                 id: data.id,
                 email: data.email
             });
+            console.log(data);
             await Router.push("/");
         }
     });
