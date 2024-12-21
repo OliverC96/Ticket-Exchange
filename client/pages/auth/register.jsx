@@ -56,7 +56,7 @@ export default () => {
         method: "post",
         body: input,
         onSuccess: async (data) => {
-            posthog?.identify(data.id, {
+            posthog?.identify(data._id, {
                 email: data.email
             });
             posthog?.capture("user_registered", {
