@@ -33,6 +33,7 @@ export default () => {
         method: "post",
         body: { password: input.password },
         onSuccess: async (data) => {
+            setSuccessMessage("Successfully reset password!")
             // PostHog user identification
             posthog?.identify(data._id, {
                 email: data.email
@@ -51,7 +52,7 @@ export default () => {
                 source: "frontend"
             });
             // Redirect user to the homepage after a 5s delay
-            setTimeout(() => Router.push("/"), 5000);
+            setTimeout(() => window.location.replace("https://www.ticket-exchange.ca"), 5000);
         }
     });
 
