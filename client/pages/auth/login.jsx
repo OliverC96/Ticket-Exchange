@@ -60,7 +60,6 @@ export default () => {
             posthog?.capture("user_logged_in", {
                 method
             });
-            console.log(data);
             await Router.push("/");
         }
     });
@@ -70,6 +69,9 @@ export default () => {
             setResetMessage("Please enter a valid email address.");
         }
         else {
+            posthog?.capture("password_reset_requested", {
+                email: input.email
+            });
             setResetMessage(`Success! Reset password link sent to ${input.email}`);
             await fetch(
                 "/api/reset-password",

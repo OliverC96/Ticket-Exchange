@@ -31,13 +31,17 @@ export default function TicketForm({ isModal, ticket, setModalVisible }) {
             if (isModal) {
                 setModalVisible(false);
                 posthog?.capture("ticket_updated", {
-                    ticket: t
+                    id: t.id,
+                    updated_price: t.price,
+                    updated_title: t.title
                 });
                 return Router.reload();
             }
             else {
                 posthog?.capture("ticket_created", {
-                    ticket: t
+                    id: t.id,
+                    price: t.price,
+                    title: t.title
                 });
                 await Router.push("/");
             }

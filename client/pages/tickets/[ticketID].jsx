@@ -15,7 +15,10 @@ const ViewTicket = ({ ticket }) => {
         body: { ticketID: ticket.id },
         onSuccess: async (order) => {
             posthog?.capture("order_created", {
-                order
+                id: order.id,
+                ticketID: order.ticket.id,
+                expiresAt: order.expiresAt,
+                status: order.status
             });
             await Router.push(`/orders/${order.id}`);
         }

@@ -19,11 +19,9 @@ export default () => {
     async function handleSubmission(event) {
         event.preventDefault();
         posthog?.capture("order_complete", {
-            order: {
-                id,
-                ticket,
-                discount
-            }
+            id,
+            discount,
+            ticketID: ticket.id
         });
         await Router.push("/orders");
     }

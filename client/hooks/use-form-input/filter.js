@@ -156,13 +156,13 @@ export default ({ tickets, setTickets, resetSortingOptions }) => {
                 maxPrice: input.maxPrice === "" ? prev.maxPrice : parseFloat(input.maxPrice)
             }
         });
+        posthog?.capture("tickets_filtered", {
+            ...filters
+        });
     }
 
     async function handleSubmission(event) {
         event.preventDefault();
-        posthog?.capture("tickets_filtered", {
-            filters
-        });
         updateFilters();
     }
 

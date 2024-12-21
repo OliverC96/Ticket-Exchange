@@ -30,10 +30,11 @@ export default () => {
         url: `/api/users/reset/${input.email}`,
         method: "post",
         body: { password: input.password },
-        onSuccess: async () => {
-            posthog?.capture("password_reset_requested", {
-                email: input.email
+        onSuccess: async (data) => {
+            posthog?.identify(data._id, {
+                email: data.email
             });
+            posthog?.capture("password_reset_successful");
             await Router.push("/");
         }
     });
