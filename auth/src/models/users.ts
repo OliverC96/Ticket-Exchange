@@ -4,10 +4,17 @@ import bcrypt from "bcrypt";
 // Number of salt rounds
 const SALT_FACTOR = 10;
 
+export enum AuthMethod {
+    Native = "native",
+    Google = "google",
+    GitHub = "github",
+}
+
 // Describes the fields/properties required to create a new user document
 interface UserFields {
     email: string;
     password: string;
+    auth_method?: AuthMethod;
 }
 
 // Describes the fields/properties of a user model
@@ -19,6 +26,7 @@ interface UserModel extends mongoose.Model<UserDocument> {
 interface UserDocument extends mongoose.Document {
     email: string;
     password: string;
+    auth_method?: AuthMethod;
     validatePassword(password: string): Promise<boolean>;
 }
 
@@ -31,6 +39,12 @@ const userSchema: mongoose.Schema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    auth_method: {
+        type: String,
+        required: false,
+        enum: Object.values(AuthMethod),
+        default: AuthMethod.Native
     }
 });
 

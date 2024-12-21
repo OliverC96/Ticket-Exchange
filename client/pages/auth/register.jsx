@@ -54,13 +54,16 @@ export default () => {
     const { performRequest, errors } = useRequest({
         url: "/api/users/register",
         method: "post",
-        body: input,
+        body: {
+            ...input,
+            auth_method: method
+        },
         onSuccess: async (data) => {
             posthog?.identify(data._id, {
                 email: data.email
             });
             posthog?.capture("user_registered", {
-                method
+                method: data.auth_method
             });
             await Router.push("/");
         }

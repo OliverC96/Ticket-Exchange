@@ -1,11 +1,12 @@
 import express, { Request, Response } from "express";
 import { User } from "../models/users";
 import { param, body } from "express-validator";
-import { NotFoundError, validateRequest } from "@ojctickets/common";
+import { NotFoundError, validateRequest, BadRequestError } from "@ojctickets/common";
+import { AuthMethod } from "../models/users";
 
 const router = express.Router();
 
-// Defining a route to encapsulate the reset password process
+// Defining a route to encapsulate the reset password process (caveat: incompatible with GitHub- and Google-authenticated users)
 router.post(
     "/api/users/reset/:email",
     param("email")
@@ -22,6 +23,10 @@ router.post(
         const user = await User.findOne({ email: userEmail }); // Retrieve the user
         if (!user) {
             throw new NotFoundError(); // User does not exist
+        }
+        // Users authenticated with GitHub or Google cannot reset their password (only natively-authenticated users can)
+        if (user.auth_method !== AuthMethod.Native) {
+            throw new BadRequestError(`User ${user.email} authenticated with ${user.auth_method} - cannot reset password`);
         }
         user.set({
             password: newPassword // Update the user's password

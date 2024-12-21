@@ -5,6 +5,7 @@ import Router from "next/router";
 import { useSearchParams } from "next/navigation";
 import { PiArrowBendRightDownBold } from "react-icons/pi";
 import { usePostHog } from "posthog-js/react";
+import axios from "axios";
 
 // Displays the password reset form
 export default () => {
@@ -31,10 +32,23 @@ export default () => {
         method: "post",
         body: { password: input.password },
         onSuccess: async (data) => {
+            // PostHog user identification
             posthog?.identify(data._id, {
                 email: data.email
             });
-            posthog?.capture("password_reset_successful");
+            // Automatically login the user with their updated password
+            await axios.post(
+                "/api/users/login",
+                {
+                    email: data.email,
+                    password: data.password
+                }
+            );
+            // Notify PostHog of the successful login
+            posthog?.capture("user_logged_in", {
+                method: data.auth_method
+            });
+            // Redirect user to the homepage
             await Router.push("/");
         }
     });

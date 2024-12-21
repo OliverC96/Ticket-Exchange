@@ -22,7 +22,10 @@ export default function AppComponent({Component, pageProps, currentUser}) {
             // Enable debug mode in development
             loaded: (posthog) => {
                 if (process.env.NODE_ENV === 'development') posthog.debug()
-            }
+            },
+            autocapture: false,
+            capture_pageleave: false,
+            capture_dead_clicks: false
         })
 
         const handleRouteChange = () => posthog?.capture('$pageview')

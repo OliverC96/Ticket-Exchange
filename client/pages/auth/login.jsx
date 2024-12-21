@@ -25,8 +25,6 @@ export default () => {
 
     const {
         setSubmitted,
-        method,
-        setMethod,
         populateForm,
         handleChange
     } = useFormInput({
@@ -36,14 +34,12 @@ export default () => {
 
     const { googleAuth } = useGoogle({
         setSubmitted,
-        setMethod,
         populateForm,
         mode: "login"
     });
 
     const { githubAuth } = useGithub({
         setSubmitted,
-        setMethod,
         populateForm,
         mode: "login"
     });
@@ -58,13 +54,14 @@ export default () => {
                 email: data.email
             });
             posthog?.capture("user_logged_in", {
-                method
+                method: data.auth_method
             });
             await Router.push("/");
         }
     });
 
     const resetPassword = async () => {
+        // Ensures the provided email address is valid
         if (input.email === "" || !input.email.match(/^\S+@\S+\.\S+$/)) {
             setResetMessage("Please enter a valid email address.");
         }
@@ -73,6 +70,7 @@ export default () => {
                 email: input.email
             });
             setResetMessage(`Success! Reset password link sent to ${input.email}`);
+            // Send email to the user with a password reset link
             await fetch(
                 "/api/reset-password",
                 {

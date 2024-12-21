@@ -3,6 +3,7 @@ import { User } from "../models/users";
 import { body } from "express-validator";
 import { validateRequest, BadRequestError } from "@ojctickets/common";
 import jwt from "jsonwebtoken";
+import { AuthMethod } from "../models/users";
 
 const router = express.Router();
 
@@ -14,7 +15,11 @@ router.post("/api/users/register", [
         body('password')
             .trim()
             .isLength({min: 4, max: 20})
-            .withMessage("Password must be between 4 and 20 characters in length")
+            .withMessage("Password must be between 4 and 20 characters in length"),
+        body("auth_method")
+            .trim()
+            .isIn(Object.values(AuthMethod))
+            .withMessage("Invalid authentication method.")
     ],
     validateRequest,
     async (req: Request, res: Response) => {

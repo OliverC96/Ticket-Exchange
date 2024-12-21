@@ -39,18 +39,29 @@ export default ({ tickets, setTickets, resetSortingOptions }) => {
 
     // Apply filters to listings whenever the filter list is changed
     useEffect(() => {
+
+        let eventPayload = {};
         let filteredCollection = tickets;
         // Title-based (keyword) filtering
         if (filters.keywords.length !== 0) {
+            eventPayload.keywords = filters.keywords;
             filteredCollection = filteredCollection.filter(titleFilter);
         }
         // Minimum price filtering
         if (filters.minPrice > 0) {
+            eventPayload.minPrice = filters.minPrice;
             filteredCollection = filteredCollection.filter(t => t.price >= filters.minPrice);
         }
         // Maximum price filtering
         if (filters.maxPrice < Infinity) {
+            eventPayload.maxPrice = filters.maxPrice;
             filteredCollection = filteredCollection.filter(t => t.price <= filters.maxPrice);
+        }
+        // Send an event to PostHog when the filters are changed (but not reset)
+        if (Object.keys(eventPayload).length !== 0) {
+            posthog?.capture("tickets_filtered", {
+                ...filters
+            });
         }
         setTickets(filteredCollection);
         // Clear form input
@@ -155,9 +166,6 @@ export default ({ tickets, setTickets, resetSortingOptions }) => {
                 minPrice: input.minPrice === "" ? prev.minPrice : parseFloat(input.minPrice),
                 maxPrice: input.maxPrice === "" ? prev.maxPrice : parseFloat(input.maxPrice)
             }
-        });
-        posthog?.capture("tickets_filtered", {
-            ...filters
         });
     }
 

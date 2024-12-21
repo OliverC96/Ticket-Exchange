@@ -53,7 +53,7 @@ export default ({ setSubmitted, setMethod, populateForm, mode }) => {
                         const email = await extractEmail(response);
                         const password = await md5(email);
                         populateForm(email, password); // Fill the form with the obtained credentials
-                        setMethod("github"); // Set the authentication method for analytics monitoring
+                        mode === "register" && setMethod("github"); // Set the authentication method for analytics monitoring
                         setSubmitted(true); // Submit the form
                     });
             }
