@@ -60,7 +60,7 @@ export default ({ tickets, setTickets, resetSortingOptions }) => {
         // Send an event to PostHog when the filters are changed (but not reset)
         if (Object.keys(eventPayload).length !== 0) {
             posthog?.capture("tickets_filtered", {
-                ...filters
+                ...eventPayload
             });
         }
         setTickets(filteredCollection);
