@@ -18,8 +18,7 @@ const ViewTicket = ({ ticket }) => {
                 id: order.id,
                 ticketID: order.ticket.id,
                 expiresAt: order.expiresAt,
-                status: order.status,
-                source: "frontend"
+                status: order.status
             });
             await Router.push(`/orders/${order.id}`);
         }

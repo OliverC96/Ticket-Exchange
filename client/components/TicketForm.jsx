@@ -33,8 +33,7 @@ export default function TicketForm({ isModal, ticket, setModalVisible }) {
                 posthog?.capture("ticket_updated", {
                     id: t.id,
                     updated_price: t.price,
-                    updated_title: t.title,
-                    source: "frontend"
+                    updated_title: t.title
                 });
                 return Router.reload();
             }
@@ -42,8 +41,7 @@ export default function TicketForm({ isModal, ticket, setModalVisible }) {
                 posthog?.capture("ticket_created", {
                     id: t.id,
                     price: t.price,
-                    title: t.title,
-                    source: "frontend"
+                    title: t.title
                 });
                 await Router.push("/");
             }

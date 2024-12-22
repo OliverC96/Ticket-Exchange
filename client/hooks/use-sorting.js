@@ -51,8 +51,7 @@ export default ({ tickets, setTickets }) => {
             let sortedCollection;
             posthog?.capture("tickets_sorted", {
                 type: "title",
-                ascending: titleAscending,
-                source: "frontend"
+                ascending: titleAscending
             });
             if (titleAscending) {
                 sortedCollection = tickets.toSorted(titleSort); // Ascending order
@@ -67,8 +66,7 @@ export default ({ tickets, setTickets }) => {
             let sortedCollection;
             posthog?.capture("tickets_sorted", {
                 type: "price",
-                ascending: priceAscending,
-                source: "frontend"
+                ascending: priceAscending
             });
             if (priceAscending) {
                 sortedCollection = tickets.toSorted(priceSort); // Ascending order

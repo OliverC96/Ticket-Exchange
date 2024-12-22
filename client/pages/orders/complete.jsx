@@ -21,8 +21,7 @@ export default () => {
         posthog?.capture("order_complete", {
             id,
             discount,
-            ticketID: ticket.id,
-            source: "frontend"
+            ticketID: ticket.id
         });
         await Router.push("/orders");
     }

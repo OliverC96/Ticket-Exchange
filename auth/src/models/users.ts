@@ -42,7 +42,7 @@ const userSchema: mongoose.Schema = new mongoose.Schema({
     },
     auth_method: {
         type: String,
-        required: false,
+        required: true,
         enum: Object.values(AuthMethod),
         default: AuthMethod.Native
     }

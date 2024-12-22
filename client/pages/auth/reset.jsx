@@ -64,8 +64,7 @@ export default () => {
             );
             // Notify PostHog of the successful login
             posthog?.capture("user_logged_in", {
-                method: user.auth_method,
-                source: "frontend"
+                method: user.auth_method
             });
         }
     });
