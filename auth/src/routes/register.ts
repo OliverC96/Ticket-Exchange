@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { User } from "../models/users";
 import { body } from "express-validator";
-import { validateRequest, BadRequestError } from "@ojctickets/common";
+import { validateRequest, BadRequestError, posthogClient } from "@ojctickets/common";
 import jwt from "jsonwebtoken";
 import { AuthMethod } from "../models/users";
 
@@ -47,6 +47,11 @@ router.post("/api/users/register", [
         req.session = {
             jwt: userJWT
         };
+
+        posthogClient.capture({
+            distinctId: newUser.id,
+            event: "user:created"
+        });
 
         res.status(201).send(newUser);
 

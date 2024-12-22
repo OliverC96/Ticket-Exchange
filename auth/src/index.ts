@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { DatabaseConnectionError } from "@ojctickets/common";
+import { DatabaseConnectionError, posthogClient } from "@ojctickets/common";
 import { server } from "./server";
 
 const initialize = async () => {
@@ -8,6 +8,9 @@ const initialize = async () => {
     }
     if (!process.env.MONGO_URI) {
         throw new Error("Mongo URI must be defined.");
+    }
+    if (!posthogClient) {
+        throw new Error("Failed to connect to PostHog analytics.");
     }
     try {
         // Establish a connection to MongoDB
@@ -21,6 +24,7 @@ const initialize = async () => {
     server.listen(3001, () => {
         console.log("Successfully launched on port 3001");
     });
+    await posthogClient.shutdown();
 }
 
 initialize();

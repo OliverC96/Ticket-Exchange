@@ -2,6 +2,7 @@
 2. Implement data caching via Redis (only for the orders collection)
 3. [selected] Design, and implement comprehensive integration (e2e) tests (via Playwright)
 4. [selected] Add unit testing for /api/users/reset/:email route + Google/GitHub OAuth 2.0 workflows
-5. [selected] Change Metadata date to local date time - test password reset link in prod
+5. [selected] Change Metadata date to local date time on password reset email
 6. [selected] Make application more responsive on different screen sizes
-7. Add admin-only dashboard (with quick links to Resend, DigitalOcean, GitHub, etc..)
+7. Add admin-only dashboard (with quick links to Resend, DigitalOcean, GitHub, etc.)
+8. Extend ticket model to include additional information (such as time on market, number of viewers, price movement, etc.)

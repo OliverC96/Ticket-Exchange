@@ -1,7 +1,12 @@
 import express, { Request, Response } from "express";
 import { User } from "../models/users";
 import { param, body } from "express-validator";
-import { NotFoundError, validateRequest, BadRequestError } from "@ojctickets/common";
+import {
+    NotFoundError,
+    validateRequest,
+    BadRequestError,
+    posthogClient
+} from "@ojctickets/common";
 import { AuthMethod } from "../models/users";
 
 const router = express.Router();
@@ -32,6 +37,11 @@ router.post(
             password: newPassword // Update the user's password
         });
         await user.save();
+
+        posthogClient.capture({
+            distinctId: user.id,
+            event: "user:reset_password"
+        });
 
         return res.status(200).send(user);
     }

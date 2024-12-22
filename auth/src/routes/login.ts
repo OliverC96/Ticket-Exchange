@@ -1,6 +1,6 @@
 import express, { Request , Response } from "express";
 import { body } from "express-validator";
-import { validateRequest, BadRequestError } from "@ojctickets/common";
+import { validateRequest, BadRequestError, posthogClient } from "@ojctickets/common";
 import { User } from "../models/users";
 import jwt from "jsonwebtoken";
 
@@ -45,6 +45,11 @@ router.post("/api/users/login",
         req.session = {
             jwt: userJWT
         };
+
+        posthogClient.capture({
+            distinctId: existingUser.id,
+            event: "user:authenticated"
+        });
 
         res.status(200).send(existingUser);
 
