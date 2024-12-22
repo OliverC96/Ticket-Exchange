@@ -54,12 +54,15 @@ export default () => {
             posthog?.identify(user._id, {
                 email: user.email
             });
+            console.log("Email: ", user.email);
+            console.log("Password: ", user.password);
+            console.log("Input password: ", input.password);
             // Automatically login the user with their updated password
             await axios.post(
                 "/api/users/login",
                 {
                     email: user.email,
-                    password: user.password
+                    password: input.password
                 }
             );
             // Notify PostHog of the successful login

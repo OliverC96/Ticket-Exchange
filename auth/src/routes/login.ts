@@ -14,8 +14,8 @@ router.post("/api/users/login",
             .withMessage("Invalid email address"),
         body("password")
             .trim()
-            .notEmpty()
-            .withMessage("Invalid password")
+            .isLength({min: 4, max: 20})
+            .withMessage("Password must be between 4 and 20 characters in length.")
     ],
     validateRequest,
     async (req: Request, res: Response) => {
@@ -30,8 +30,6 @@ router.post("/api/users/login",
         // Ensuring the provided password is correct (i.e., matches the one currently stored in the database)
         const validPassword = await existingUser.validatePassword(password);
         if (!validPassword) {
-            console.log("Current password: ", existingUser.password);
-            console.log("Login attempt password: ", password);
             throw new BadRequestError("Invalid login credentials.");
         }
 
