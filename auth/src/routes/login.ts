@@ -30,6 +30,8 @@ router.post("/api/users/login",
         // Ensuring the provided password is correct (i.e., matches the one currently stored in the database)
         const validPassword = await existingUser.validatePassword(password);
         if (!validPassword) {
+            console.log("Current password: ", existingUser.password);
+            console.log("Login attempt password: ", password);
             throw new BadRequestError("Invalid login credentials.");
         }
 

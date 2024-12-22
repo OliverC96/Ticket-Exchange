@@ -62,7 +62,7 @@ userSchema.set("toJSON", {
 
 /**
  * Implementing a pre hook to execute before saving or updating a document in the users database
- * The specified callback hashes the plaintext password (using bcrypt) if the password field has not yet been modified
+ * The specified callback hashes the plaintext password (using bcrypt) if the password field has been modified
  */
 userSchema.pre(["save", "updateOne", "findOneAndUpdate"], async function (next) {
     const thisDocument = this as UserDocument;

@@ -54,7 +54,6 @@ export default () => {
             posthog?.identify(user._id, {
                 email: user.email
             });
-            console.log(`User after password reset: ${user}`);
             // Automatically login the user with their updated password
             await axios.post(
                 "/api/users/login",

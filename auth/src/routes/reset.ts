@@ -15,14 +15,12 @@ router.post(
     body("password")
         .trim()
         .isLength({min: 4, max: 20})
-        .withMessage("Password must be between 4 and 20 characters in length"),
+        .withMessage("Password must be between 4 and 20 characters in length."),
     validateRequest,
     async (req: Request, res: Response) => {
         const { password: newPassword } = req.body;
         const { email: userEmail } = req.params;
         const user = await User.findOne({ email: userEmail }); // Retrieve the user
-
-        console.log("User before password reset: ", user);
         if (!user) {
             throw new NotFoundError(); // User does not exist
         }
