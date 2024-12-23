@@ -12,11 +12,11 @@ const initialize = async () => {
     if (!process.env.MONGO_URI) {
         throw new Error("Mongo URI must be defined.");
     }
-    if (!process.env.POSTHOG_API_KEY) {
+    if (!process.env.POSTHOG_KEY) {
         throw new Error("PostHog API key must be defined.");
     }
     posthogClient = new PostHog(
-        process.env.POSTHOG_KEY!,
+        process.env.POSTHOG_KEY,
         {
             host: "https://us.i.posthog.com",
             flushAt: 1 // Flush the event queue after every event
