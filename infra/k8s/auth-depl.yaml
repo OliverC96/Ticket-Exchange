@@ -16,6 +16,11 @@ spec:
         - name: auth
           image: oliverc96/auth
           env:
+            - name: POSTHOG_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: posthog-secret
+                  key: POSTHOG_KEY
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
