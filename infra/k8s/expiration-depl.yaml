@@ -16,6 +16,11 @@ spec:
         - name: expiration
           image: oliverc96/expiration
           env:
+            - name: POSTHOG_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: posthog-secret
+                  key: POSTHOG_KEY
             - name: REDIS_HOST
               value: expiration-redis-srv
             - name: NATS_URL

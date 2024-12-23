@@ -9,6 +9,7 @@ import {
 import { param } from "express-validator";
 import { Ticket } from "../models/tickets";
 import { TicketDeletedPublisher } from "../events/publishers/ticket-deleted-publisher";
+import { posthogClient } from "../index";
 
 const router = express.Router();
 
@@ -23,7 +24,7 @@ router.delete(
     async (req: Request, res: Response) => {
         const ticketID = req.params.id;
         const userID = req.currentUser!.id;
-        const userEmail = req.currentUser!.id;
+        const userEmail = req.currentUser!.email;
         const ticket = await Ticket.findById(ticketID); // Retrieving the desired ticket document
         if (!ticket) {
             throw new NotFoundError(); // Cannot delete a ticket which does not exist
@@ -33,6 +34,15 @@ router.delete(
         }
 
         await Ticket.findByIdAndDelete(ticket.id); // Deleting the ticket
+
+        posthogClient!.capture({
+            distinctId: userID,
+            event: "ticket:deleted",
+            properties: {
+                source: "tickets-srv"
+            }
+        });
+
         await new TicketDeletedPublisher(natsWrapper.client).publish({
             id: ticket.id,
             version: ticket.version + 1

@@ -49,7 +49,10 @@ router.post("/api/users/login",
 
         posthogClient!.capture({
             distinctId: existingUser.id,
-            event: "user:authenticated"
+            event: "user:authenticated",
+            properties: {
+                source: "auth-srv"
+            }
         });
 
         res.status(200).send(existingUser);

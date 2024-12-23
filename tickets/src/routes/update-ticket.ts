@@ -10,6 +10,7 @@ import {
     BadRequestError
 } from "@ojctickets/common";
 import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
+import { posthogClient } from "../index";
 
 const router = express.Router();
 
@@ -56,6 +57,14 @@ router.put(
             title: ticket.title,
             price: ticket.price,
             userID: ticket.userID
+        });
+        posthogClient!.capture({
+            distinctId: userID,
+            event: "ticket:updated",
+            properties: {
+                ...ticket,
+                source: "tickets-srv"
+            }
         });
 
         return res.status(200).send(ticket);

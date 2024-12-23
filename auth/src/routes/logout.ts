@@ -5,11 +5,14 @@ const router = express.Router();
 
 // Defining a route to encapsulate the logout process
 router.post("/api/users/logout", (req: Request, res: Response) => {
-    req.session = null; // Clear the JWT from the cookie object on the user's browser
     posthogClient!.capture({
         distinctId: req.currentUser!.id,
-        event: "user:deauthenticated"
+        event: "user:deauthenticated",
+        properties: {
+            source: "auth-srv"
+        }
     });
+    req.session = null; // Clear the JWT from the cookie object on the user's browser
     res.send({});
 });
 

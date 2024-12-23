@@ -51,7 +51,10 @@ router.post("/api/users/register", [
 
         posthogClient!.capture({
             distinctId: newUser.id,
-            event: "user:created"
+            event: "user:created",
+            properties: {
+                source: "auth-srv"
+            }
         });
 
         res.status(201).send(newUser);

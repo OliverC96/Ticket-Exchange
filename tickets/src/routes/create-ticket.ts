@@ -8,6 +8,7 @@ import {
 import { body } from "express-validator";
 import { Ticket } from "../models/tickets";
 import { TicketCreatedPublisher } from "../events/publishers/ticket-created-publisher";
+import { posthogClient } from "../index";
 import mongoose from "mongoose";
 
 const router = express.Router();
@@ -42,6 +43,18 @@ router.post(
             // Executing all ticket creation logic within a single transaction
             session.startTransaction();
             await newTicket.save();
+            posthogClient!.capture({
+                distinctId: newTicket.userID,
+                event: "ticket:created",
+                properties: {
+                    id: newTicket.id,
+                    version: newTicket.version,
+                    title: newTicket.title,
+                    price: newTicket.price,
+                    userID: newTicket.userID,
+                    source: "tickets-srv"
+                }
+            });
             await new TicketCreatedPublisher(natsWrapper.client).publish({
                 id: newTicket.id,
                 version: newTicket.version,

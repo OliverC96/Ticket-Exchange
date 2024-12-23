@@ -40,7 +40,10 @@ router.post(
 
         posthogClient!.capture({
             distinctId: user.id,
-            event: "user:reset_password"
+            event: "user:reset_password",
+            properties: {
+                source: "auth-srv"
+            }
         });
 
         return res.status(200).send(user);
