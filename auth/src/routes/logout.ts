@@ -1,10 +1,14 @@
 import express, { Request, Response } from "express";
 import { posthogClient } from "../index";
+import { requireAuth } from "@ojctickets/common";
 
 const router = express.Router();
 
 // Defining a route to encapsulate the logout process
-router.post("/api/users/logout", (req: Request, res: Response) => {
+router.post(
+    "/api/users/logout",
+    requireAuth,
+    (req: Request, res: Response) => {
     posthogClient!.capture({
         distinctId: req.currentUser!.id,
         event: "user:deauthenticated",
