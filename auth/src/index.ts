@@ -16,7 +16,7 @@ const initialize = async () => {
         throw new Error("PostHog API key must be defined.");
     }
     posthogClient = new PostHog(
-        process.env.POSTHOG_API_KEY!,
+        process.env.POSTHOG_KEY!,
         {
             host: "https://us.i.posthog.com",
             flushAt: 1 // Flush the event queue after every event
