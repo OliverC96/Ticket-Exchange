@@ -4,10 +4,10 @@ import { param, body } from "express-validator";
 import {
     NotFoundError,
     validateRequest,
-    BadRequestError,
-    posthogClient
+    BadRequestError
 } from "@ojctickets/common";
 import { AuthMethod } from "../models/users";
+import { posthogClient } from "../index";
 
 const router = express.Router();
 
@@ -38,7 +38,7 @@ router.post(
         });
         await user.save();
 
-        posthogClient.capture({
+        posthogClient!.capture({
             distinctId: user.id,
             event: "user:reset_password"
         });

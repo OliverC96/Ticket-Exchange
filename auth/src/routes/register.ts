@@ -1,9 +1,10 @@
 import express, { Request, Response } from "express";
 import { User } from "../models/users";
 import { body } from "express-validator";
-import { validateRequest, BadRequestError, posthogClient } from "@ojctickets/common";
+import { validateRequest, BadRequestError } from "@ojctickets/common";
 import jwt from "jsonwebtoken";
 import { AuthMethod } from "../models/users";
+import { posthogClient } from "../index";
 
 const router = express.Router();
 
@@ -48,7 +49,7 @@ router.post("/api/users/register", [
             jwt: userJWT
         };
 
-        posthogClient.capture({
+        posthogClient!.capture({
             distinctId: newUser.id,
             event: "user:created"
         });
