@@ -51,7 +51,6 @@ router.post(
                     version: newTicket.version,
                     title: newTicket.title,
                     price: newTicket.price,
-                    userID: newTicket.userID,
                     source: "tickets-srv"
                 }
             });

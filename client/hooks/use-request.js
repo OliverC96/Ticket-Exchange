@@ -20,6 +20,7 @@ export default ({ url, method, body, onSuccess }) => {
             return response.data;
         }
         catch (err) {
+            console.log("ERROR: ", err);
             setErrors(err.response ? err.response.data.errors : null);
         }
     }

@@ -23,9 +23,7 @@ export default function Ticket({ id, title, price, userID, currUser }) {
         body: {},
         onSuccess: () => {
             posthog?.capture("ticket_deleted", {
-                id,
-                title,
-                price
+                id
             });
         }
     });

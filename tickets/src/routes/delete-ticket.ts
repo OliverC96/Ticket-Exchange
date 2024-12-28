@@ -39,6 +39,7 @@ router.delete(
             distinctId: userID,
             event: "ticket:deleted",
             properties: {
+                id: ticketID,
                 source: "tickets-srv"
             }
         });

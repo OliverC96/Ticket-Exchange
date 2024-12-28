@@ -62,7 +62,10 @@ router.put(
             distinctId: userID,
             event: "ticket:updated",
             properties: {
-                ...ticket,
+                id: ticket.id,
+                updated_price: ticket.price,
+                updated_title: ticket.title,
+                version: ticket.version,
                 source: "tickets-srv"
             }
         });

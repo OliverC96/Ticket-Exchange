@@ -8,8 +8,8 @@ const router = express.Router();
 router.post(
     "/api/users/logout",
     requireAuth,
-    async (req: Request, res: Response) => {
-    await posthogClient!.capture({
+    (req: Request, res: Response) => {
+    posthogClient!.capture({
         distinctId: req.currentUser!.id,
         event: "user:deauthenticated",
         properties: {
