@@ -9,6 +9,7 @@ router.post(
     "/api/users/logout",
     requireAuth,
     (req: Request, res: Response) => {
+    console.log(req.currentUser);
     posthogClient!.capture({
         distinctId: req.currentUser!.id,
         event: "user:deauthenticated",
