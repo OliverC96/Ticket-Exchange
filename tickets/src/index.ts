@@ -28,6 +28,7 @@ const initialize = async () => {
         throw new Error("PostHog API key must be defined.");
     }
 
+    // Initialize a PostHog client
     posthogClient = new PostHog(
         process.env.POSTHOG_KEY,
         {

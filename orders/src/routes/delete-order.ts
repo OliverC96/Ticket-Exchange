@@ -10,6 +10,7 @@ import {
 } from "@ojctickets/common";
 import { Order } from "../models/orders";
 import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-publisher";
+import { posthogClient } from "../index";
 
 const router = express.Router();
 
@@ -37,6 +38,15 @@ router.patch(
         // Initiate a refund for the full order amount
         order.status = OrderStatus.Refunded;
         await order.save();
+
+        posthogClient!.capture({
+            distinctId: userID,
+            event: "order:refunded",
+            properties: {
+                id: order.id,
+                ticketID: order.ticket.id
+            }
+        });
 
         await new OrderCancelledPublisher(natsWrapper.client).publish({
             id: order.id,

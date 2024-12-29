@@ -13,6 +13,7 @@ import { Ticket } from "../models/tickets";
 import { Order } from "../models/orders";
 import { OrderCreatedPublisher } from "../events/publishers/order-created-publisher";
 import mongoose from "mongoose";
+import { posthogClient } from "../index";
 
 const router = express.Router();
 
@@ -62,6 +63,15 @@ router.post(
             // Executing all order creation logic within a single transaction
             session.startTransaction();
             await newOrder.save();
+            posthogClient!.capture({
+                distinctId: newOrder.userID,
+                event: "order:created",
+                properties: {
+                   id: newOrder.id,
+                   ticketID: newOrder.ticket.id,
+                   expiresAt: newOrder.expiresAt,
+                }
+            });
             await new OrderCreatedPublisher(natsWrapper.client).publish({
                 id: newOrder.id,
                 version: newOrder.version,

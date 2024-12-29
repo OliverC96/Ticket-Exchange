@@ -11,6 +11,9 @@ const initialize = async () => {
     if (!process.env.NATS_URL) {
         throw new Error("NATS URL must be defined.");
     }
+    if (!process.env.POSTHOG_KEY) {
+        throw new Error("PostHog API key must be defined.");
+    }
 
     // Connect to NATS Streaming Server (i.e., the event bus)
     await natsWrapper.connect(

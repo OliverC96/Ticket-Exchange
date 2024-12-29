@@ -6,7 +6,4 @@
 6. [selected] Make application more responsive on different screen sizes
 7. Add admin-only dashboard (with quick links to Resend, DigitalOcean, GitHub, etc.)
 8. Extend ticket model to include additional information (such as time on market, number of viewers, price movement, etc.)
-10. Remove posthog-node dependency from backend services?
-11. Refactor order and customer local storage for order complete page?
-12. Add posthog key secret to dev Kubernetes context
-13. Test logout and admin functionality
+9. Refactor order and customer local storage for order complete page?

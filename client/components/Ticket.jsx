@@ -1,6 +1,6 @@
 import Router from "next/router";
 import useRequest from "../hooks/use-request";
-import { useRef, useState } from "react";
+import { useRef, useState} from "react";
 import { IoMdCreate } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import TicketForm from "../components/TicketForm";
@@ -20,12 +20,7 @@ export default function Ticket({ id, title, price, userID, currUser }) {
     const { performRequest, errors } = useRequest({
         url: `/api/tickets/${id}`,
         method: "delete",
-        body: {},
-        onSuccess: () => {
-            posthog?.capture("ticket_deleted", {
-                id
-            });
-        }
+        body: {}
     });
 
     const onClick = async () => {
@@ -85,6 +80,9 @@ export default function Ticket({ id, title, price, userID, currUser }) {
                     <div className="flex gap-1.5">
                         <ActionButton Icon={IoMdCreate} onClick={() => setModalOpen(true)}/>
                         <ActionButton Icon={MdDelete} onClick={async () => {
+                            posthog?.capture("ticket_deleted", {
+                                id
+                            });
                             await Router.reload();
                             await performRequest();
                         }} />

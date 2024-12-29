@@ -4,7 +4,7 @@ import { RiExchange2Fill } from "react-icons/ri";
 import { CgSortAz } from "react-icons/cg";
 import useSorting from "../hooks/use-sorting";
 import FilterForm from "../components/FilterForm";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
 // Landing page component which displays all currently available listings
 export default function LandingPage({ currentUser, originalTickets }) {

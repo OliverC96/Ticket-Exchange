@@ -13,6 +13,7 @@ import { body } from "express-validator";
 import { stripe } from "../stripe";
 import { Payment } from "../models/payments";
 import { PaymentCreatedPublisher } from "../events/publishers/payment-created-publisher";
+import { posthogClient } from "../index";
 
 const router = express.Router();
 
@@ -75,6 +76,16 @@ router.post(
         // Update the order's status to "completed"
         order.status = OrderStatus.Complete;
         await order.save();
+
+        posthogClient!.capture({
+            distinctId: userID,
+            event: "payment:created",
+            properties: {
+                id: payment.id,
+                orderID: order.id,
+                chargeID: charge.id
+            }
+        });
 
         // Inform other services of the newly-completed order
         await new PaymentCreatedPublisher(natsWrapper.client).publish({

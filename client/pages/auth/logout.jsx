@@ -4,7 +4,7 @@ import Router from "next/router";
 import { RiExchange2Fill } from "react-icons/ri";
 import { usePostHog } from "posthog-js/react";
 
-export default function Logout({ currentUser }) {
+export default function Logout() {
 
     const posthog = usePostHog();
 
