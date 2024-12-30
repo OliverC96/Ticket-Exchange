@@ -16,8 +16,7 @@ export default function Order({ status, ticket, id, currentUser }) {
         onSuccess: (order) => {
             posthog?.capture("order_refunded", {
                 id: order.id,
-                ticketID: order.ticket.id,
-                status: order.status
+                ticketID: order.ticket.id
             });
             Router.reload();
         }

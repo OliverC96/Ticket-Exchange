@@ -12,17 +12,23 @@ import { FaRegCreditCard } from "react-icons/fa";
 import { addressOptions, countryMapping } from "../utils/address_config";
 import { ThreeDots } from "react-loader-spinner";
 import useRequest from "../hooks/use-request";
+import useExpiration from "../hooks/use-expiration";
 import Router from "next/router";
+import { usePostHog } from "posthog-js/react";
 
 // Checkout form component; allows users to securely purchase a listing via the StripeJS API
 export default function CheckoutForm({ order, currentUser }) {
 
-    const [timeRemaining, setTimeRemaining] = useState(0);
     const [loading, setLoading] = useState(false);
     const [tokenID, setTokenID] = useState("");
+    const [errorMessage, setErrorMessage] = useState(""); // Client-side error tracking
 
     const stripe = useStripe();
     const elements = useElements();
+    const posthog = usePostHog();
+
+    // 15-minute order expiration timer
+    const { timeRemaining } = useExpiration({ order });
 
     // POST /api/payments
     const { performRequest, errors } = useRequest({
@@ -46,23 +52,10 @@ export default function CheckoutForm({ order, currentUser }) {
     }, [tokenID]);
 
     useEffect(() => {
-        if (errors) {
+        if ((errors) || (errorMessage !== "")) {
             setLoading(false);
         }
     }, [errors]);
-
-    // Display the order expiration window countdown (updated every second)
-    useEffect(() => {
-        const getTimeRemaining = () => {
-            const timeRemainingMS = new Date(order.expiresAt) - new Date();
-            setTimeRemaining(Math.round(timeRemainingMS / 1000));
-        };
-        getTimeRemaining();
-        const timerID = setInterval(getTimeRemaining, 1000);
-        return () => {
-            clearInterval(timerID); // Clear the interval on component unmount
-        };
-    }, [order]);
 
     async function handleSubmission(event) {
         event.preventDefault();
@@ -119,6 +112,15 @@ export default function CheckoutForm({ order, currentUser }) {
             // Update the token ID upon successful token creation
             if (res.token) {
                 setTokenID(res.token.id);
+            }
+            else {
+                posthog?.capture("payment_failed", {
+                    orderID: order.id,
+                    errorCode: res.error.code,
+                    errorMessage: res.error.message,
+                    errorType: res.error.type
+                });
+                setErrorMessage(`Payment failed - ${res.error.message}`);
             }
 
         }
@@ -187,12 +189,19 @@ export default function CheckoutForm({ order, currentUser }) {
                             </div>
                         </div>
 
-                        {/* Displays any errors encountered during the payment process */}
+                        {/* Displays any server-side errors encountered during the payment process */}
                         { errors &&
-                            <ul className="card-error" >
+                            <ul className="card-error">
                                 { errors.map((err) => (
                                     <li key={err.message} > { err.message } </li>
                                 ))}
+                            </ul>
+                        }
+
+                        {/* Displays any client-side errors encountered during the payment process */}
+                        { errorMessage !== "" &&
+                            <ul className="card-error">
+                                <li> { errorMessage } </li>
                             </ul>
                         }
 

@@ -17,8 +17,7 @@ const ViewTicket = ({ ticket }) => {
             posthog?.capture("order_created", {
                 id: order.id,
                 ticketID: order.ticket.id,
-                expiresAt: order.expiresAt,
-                status: order.status
+                expiresAt: order.expiresAt
             });
             await Router.push(`/orders/${order.id}`);
         }

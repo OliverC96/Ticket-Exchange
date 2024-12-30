@@ -70,6 +70,7 @@ router.post(
                    id: newOrder.id,
                    ticketID: newOrder.ticket.id,
                    expiresAt: newOrder.expiresAt,
+                   source: "orders-srv"
                 }
             });
             await new OrderCreatedPublisher(natsWrapper.client).publish({

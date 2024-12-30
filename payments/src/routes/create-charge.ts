@@ -42,10 +42,10 @@ router.post(
             throw new NotAuthorizedError(); // Cannot charge one user for another user's order
         }
         if (order.status === OrderStatus.Cancelled) {
-            throw new BadRequestError(`Cannot create charge - order ${orderID} is cancelled.`); // Order is cancelled
+            throw new BadRequestError(`Cannot create charge - order is cancelled.`); // Order is cancelled
         }
         if (order.status === OrderStatus.Refunded) {
-            throw new BadRequestError(`Cannot create charge - order ${orderID} has been refunded.`); // Order has been refunded
+            throw new BadRequestError(`Cannot create charge - order has been refunded.`); // Order has been refunded
         }
 
         order.status = OrderStatus.AwaitingPayment; // Payment is pending
@@ -63,7 +63,17 @@ router.post(
 
         if (charge.status !== "succeeded") { // Failed to create charge
             await order.save();
-            throw new BadRequestError(`Failed to charge user ${userID} for order ${order.id}.`)
+            posthogClient!.capture({
+                distinctId: userID,
+                event: "payment:failed",
+                properties: {
+                    orderID: order.id,
+                    failureMessage: charge.failure_message,
+                    failureCode: charge.failure_code,
+                    source: "payments-srv"
+                }
+            });
+            throw new BadRequestError(`Failed to charge user for the order.`);
         }
 
         // Construct a payment document reflecting the newly-completed order
@@ -83,7 +93,8 @@ router.post(
             properties: {
                 id: payment.id,
                 orderID: order.id,
-                chargeID: charge.id
+                chargeID: charge.id,
+                source: "payments-srv"
             }
         });
 

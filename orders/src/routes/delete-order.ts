@@ -44,7 +44,8 @@ router.patch(
             event: "order:refunded",
             properties: {
                 id: order.id,
-                ticketID: order.ticket.id
+                ticketID: order.ticket.id,
+                source: "orders-srv"
             }
         });
 

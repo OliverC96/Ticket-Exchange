@@ -8,6 +8,7 @@ import {
 import { OrderCancelledPublisher } from "../publishers/order-cancelled-publisher";
 import { Message } from "node-nats-streaming";
 import { Order } from "../../models/orders";
+import { posthogClient } from "../../index";
 
 /**
  * Listens for events pertaining to order expiration
@@ -31,6 +32,15 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
         // Otherwise, proceed to cancel the order
         order.status = OrderStatus.Cancelled
         await order.save();
+
+        posthogClient!.capture({
+            distinctId: order.userID,
+            event: "order:expired",
+            properties: {
+                id: order.id,
+                source: "orders-srv"
+            }
+        });
 
         // Inform other services of the newly-cancelled order
         await new OrderCancelledPublisher(this.client).publish({

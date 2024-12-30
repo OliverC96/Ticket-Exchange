@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useFormInput from "../../hooks/use-form-input/auth";
 import useRequest from "../../hooks/use-request";
-import Router from "next/router";
+import useDelayedRedirect from "../../hooks/use-delayed-redirect";
 import { useSearchParams } from "next/navigation";
 import { PiArrowBendRightDownBold } from "react-icons/pi";
 import { usePostHog } from "posthog-js/react";
@@ -17,8 +17,15 @@ export default () => {
         password: ""
     });
     const searchParams = useSearchParams();
-    const [successMessage, setSuccessMessage] = useState("");
-    const [redirectSeconds, setRedirectSeconds] = useState(-1);
+
+    const {
+        redirectSeconds,
+        redirectMessage,
+        setRedirectSeconds,
+        setRedirectMessage
+    } = useDelayedRedirect({
+        redirectURL: "/"
+    });
 
     // Update state upon initial page load
     useEffect(() => {
@@ -28,28 +35,15 @@ export default () => {
         });
     }, []);
 
-    // Once password reset process is complete, redirect to homepage after 5s delay
-    useEffect(() => {
-        if (redirectSeconds < 0) {
-            return;
-        }
-        if (redirectSeconds === 0) {
-            Router.push("/");
-            return;
-        }
-        setTimeout(() => {
-            setRedirectSeconds((redirectSeconds) => redirectSeconds - 1);
-        }, 1000);
-    }, [redirectSeconds]);
-
     // POST /api/users/reset/:email
     const { performRequest, errors } = useRequest({
         url: `/api/users/reset/${input.email}`,
         method: "post",
         body: { password: input.password },
         onSuccess: async (user) => {
+            // If the password reset was successful, redirect user to the homepage after a 5s delay
             setRedirectSeconds(5);
-            setSuccessMessage("Successfully reset password!");
+            setRedirectMessage("Successfully reset password!");
             // PostHog user identification
             posthog?.identify(user._id, {
                 email: user.email
@@ -135,7 +129,7 @@ export default () => {
                         />
                     </div>
 
-                    {/* Displays any errors encountered during the password reset process */}
+                    {/* Displays any server-side errors encountered during the password reset process */}
                     {errors &&
                         <ul className="card-error">
                             {errors.map((err) => (
@@ -146,9 +140,9 @@ export default () => {
                     }
 
                     {/* Displays success message if the password reset was successful */}
-                    {successMessage !== "" &&
+                    {redirectMessage !== "" &&
                         <ul className="card-success">
-                            <li> {successMessage} </li>
+                            <li> {redirectMessage} </li>
                             <li> Redirecting to homepage in {redirectSeconds} seconds </li>
                         </ul>
                     }
