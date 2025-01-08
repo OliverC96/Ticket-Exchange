@@ -20,13 +20,13 @@ const createTicket = (id, title) => {
     };
 };
 
-let testTickets = [];
+let tickets = [];
 let i = 1;
 
 titles.forEach((title) => {
     const ticket = createTicket(i, title);
-    testTickets.push(ticket);
+    tickets.push(ticket);
     i++;
 });
 
-export { testTickets };
+export { tickets };

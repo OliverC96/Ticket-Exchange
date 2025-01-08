@@ -55,7 +55,7 @@ export default function CheckoutForm({ order, currentUser }) {
         if ((errors) || (errorMessage !== "")) {
             setLoading(false);
         }
-    }, [errors]);
+    }, [errors, errorMessage]);
 
     async function handleSubmission(event) {
         event.preventDefault();
@@ -94,6 +94,12 @@ export default function CheckoutForm({ order, currentUser }) {
                     })
                 }
             );
+
+            posthog?.capture("email_sent", {
+                recipientEmail: currentUser.email,
+                type: "order_confirmed",
+                subject: "Order Confirmed!"
+            });
 
             // Persist order and customer details via browser local storage
             localStorage.setItem("order", JSON.stringify({

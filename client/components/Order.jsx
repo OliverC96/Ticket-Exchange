@@ -47,6 +47,13 @@ export default function Order({ status, ticket, id, currentUser }) {
                 })
             }
         );
+
+        posthog?.capture("email_sent", {
+            recipientEmail: currentUser.email,
+            type: "order_refunded",
+            subject: "Order Refunded"
+        });
+
         await performRequest(); // Soft delete the order from the server-side database
     };
 

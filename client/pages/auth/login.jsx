@@ -82,6 +82,11 @@ export default () => {
                     })
                 }
             );
+            posthog?.capture("email_sent", {
+                recipientEmail: input.email,
+                type: "password_reset",
+                subject: "Password Reset Requested"
+            });
             setInput({
                 email: "",
                 password: ""

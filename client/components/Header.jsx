@@ -7,6 +7,7 @@ export default function Header({ currentUser }) {
     const links = [
          currentUser && {label: "Create", href: "/tickets/create"},
          currentUser && {label: "Orders", href: "/orders"},
+         currentUser?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL && {label: "Dashboard", href: "/admin/dashboard"},
          currentUser && {label: "Logout", href: "/auth/logout"},
         !currentUser && {label: "Register", href: "/auth/register"},
         !currentUser && {label: "Login", href: "/auth/login"}
@@ -15,7 +16,7 @@ export default function Header({ currentUser }) {
         .map(({ label, href }) => {
             return (
                 <Link
-                    className="opacity-85 hover:underline hover:opacity-100"
+                    className="nav-link"
                     key={href}
                     href={href}
                 >

@@ -1,5 +1,6 @@
 import OrderConfirmed from "../../components/email-templates/OrderConfirmed";
 import { Resend } from "resend";
+import { PostHog } from "posthog-js";
 
 const resend = new Resend(process.env.RESEND_KEY);
 

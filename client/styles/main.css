@@ -14,7 +14,25 @@
 }
 
 .vertical-line {
-    @apply min-h-full mx-1 bg-blue-light w-0.5 rounded-lg opacity-50
+    @apply min-h-full mx-1 bg-blue-light w-0.5 rounded-lg opacity-50;
+}
+
+.admin-divider {
+    @apply w-full h-[1px] bg-blue-light self-center opacity-70;
+}
+
+.metrics-container {
+    @apply text-blue-xlight bg-blue-xxdark outline outline-1 outline-blue-light;
+    @apply rounded h-[63vh] py-5 overflow-auto;
+}
+
+.nav-link {
+    @apply opacity-85 hover:underline hover:opacity-100;
+}
+
+.quick-link {
+    @apply bg-blue-xxdark outline outline-1 outline-blue-light;
+    @apply flex gap-2 items-center rounded py-3.5 justify-center;
 }
 
 .card-error {
