@@ -5,7 +5,7 @@ const queryPosthog = async ({ query }) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${process.env.NEXT_PUBLIC_POSTHOG_API_KEY}`
+                "Authorization": `Bearer ${process.env.POSTHOG_KEY_PRIVATE}`
             },
             body: JSON.stringify({
                 "query": {

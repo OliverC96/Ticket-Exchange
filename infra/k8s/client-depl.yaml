@@ -16,6 +16,16 @@ spec:
         - name: client
           image: oliverc96/client
           env:
+            - name: POSTHOG_KEY_PRIVATE
+              valueFrom:
+                secretKeyRef:
+                  name: posthog-secret-private
+                  key: POSTHOG_KEY_PRIVATE
+            - name: POSTHOG_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: posthog-secret
+                  key: POSTHOG_KEY
             - name: GITHUB_KEY_LOGIN
               valueFrom:
                 secretKeyRef:
