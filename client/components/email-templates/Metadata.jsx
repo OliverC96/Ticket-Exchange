@@ -1,8 +1,5 @@
-import { parseDate } from "../../utils/parse_date";
-
 // Displays order metadata (namely, order ID and time of purchase)
-export default function Metadata({ orderID }) {
-    const d = parseDate();
+export default function Metadata({ orderID, d }) {
     return (
         <div className="text-center text-lg font-bold">
             { orderID && <p> Order #{orderID} </p> }

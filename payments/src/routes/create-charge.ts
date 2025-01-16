@@ -13,7 +13,7 @@ import { body } from "express-validator";
 import { stripe } from "../stripe";
 import { Payment } from "../models/payments";
 import { PaymentCreatedPublisher } from "../events/publishers/payment-created-publisher";
-import { posthogClient } from "../index";
+import { posthogClient } from "../posthog";
 
 const router = express.Router();
 

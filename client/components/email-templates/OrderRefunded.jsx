@@ -10,7 +10,7 @@ import {
 
 // Template for order refund email update
 export default function OrderRefunded({ order, customer }) {
-    const { id, ticket, discount, status } = order;
+    const { id, ticket, discount, status, timestamp } = order;
     const provinceCode = customer.address.state;
     const chargeManager = new ChargeManager(
         ticket.price,
@@ -38,7 +38,10 @@ export default function OrderRefunded({ order, customer }) {
                 }}
             >
                 <Body className="p-6 bg-blue-dark text-blue-xlight">
-                    <Metadata orderID={id} />
+                    <Metadata
+                        orderID={id}
+                        d={timestamp}
+                    />
                     <StatusMessage
                         status={status}
                         firstName={customer.name.split(" ")[0]}

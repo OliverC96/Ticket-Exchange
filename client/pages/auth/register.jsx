@@ -136,7 +136,11 @@ export default () => {
                             </Link>
                         </div>
 
-                        <button className={`btn-primary ${input.password !== confirm && "cursor-not-allowed"}`} disabled={input.password !== confirm}>
+                        <button
+                            className={`btn-primary ${input.password !== confirm && "cursor-not-allowed"}`}
+                            disabled={input.password !== confirm}
+                            type="submit"
+                        >
                             Register
                         </button>
 
@@ -159,6 +163,7 @@ export default () => {
                     <div className="flex flex-col gap-5 justify-center w-[45%]">
                         {/* Google OAuth 2.0 */}
                         <button
+                            type="button"
                             className="btn-secondary icon-btn"
                             onClick={googleAuth}
                         >
@@ -167,6 +172,7 @@ export default () => {
                         </button>
                         {/* GitHub OAuth 2.0 */}
                         <button
+                            type="button"
                             className="btn-secondary icon-btn"
                             onClick={githubAuth}
                         >

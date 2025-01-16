@@ -5,7 +5,7 @@ import {
 } from "@react-email/components";
 import Metadata from "./Metadata";
 
-export default function ResetPassword({ email, name }) {
+export default function ResetPassword({ email, name, timestamp }) {
     return (
         <Html>
             <Tailwind
@@ -24,7 +24,9 @@ export default function ResetPassword({ email, name }) {
                 }}
             >
                 <Body className="p-6 bg-blue-dark text-blue-xlight">
-                    <Metadata />
+                    <Metadata
+                        d={timestamp}
+                    />
                     <div className="mt-8 bg-blue-xxdark px-7 py-4 rounded-md outline outline-1 outline-blue-xlight">
                         <p> Hello <span className="font-bold"> {name}, </span> </p>
                         <p className="mt-3">

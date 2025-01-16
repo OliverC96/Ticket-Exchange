@@ -13,7 +13,7 @@ import { Ticket } from "../models/tickets";
 import { Order } from "../models/orders";
 import { OrderCreatedPublisher } from "../events/publishers/order-created-publisher";
 import mongoose from "mongoose";
-import { posthogClient } from "../index";
+import { posthogClient } from "../posthog";
 
 const router = express.Router();
 

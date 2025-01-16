@@ -2,23 +2,28 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import request from "supertest";
 import { server } from "../server";
+import { posthogClient } from "../posthog";
 
 declare global {
     function getCookie(): Promise<string[]>;
 }
 
+process.env.JWT_KEY = "mySecret";
+process.env.POSTHOG_KEY = "phc_NE49LvOVJSBZATykB3x9fLoFi2J1wbcqPmtuhb294og";
+
 let mongoDB: any;
 beforeAll(async() => {
-    process.env.JWT_KEY = "mySecret";
     mongoDB = await MongoMemoryServer.create();
     const mongoURI = mongoDB.getUri();
     await mongoose.connect(mongoURI, {});
 });
 
 beforeEach(async() => {
-    const collections = await mongoose.connection.db.collections();
-    for (let collection of collections) {
-        await collection.deleteMany({});
+    if (mongoose.connection.db) {
+        const collections = await mongoose.connection.db.collections();
+        for (let collection of collections) {
+            await collection.deleteMany({});
+        }
     }
 });
 
@@ -27,6 +32,7 @@ afterAll(async() => {
         await mongoDB.stop();
     }
     await mongoose.connection.close();
+    await posthogClient.shutdown();
 });
 
 /**
@@ -40,7 +46,8 @@ global.getCookie = async(): Promise<string[]> => {
         .post("/api/users/register")
         .send({
             email,
-            password
+            password,
+            auth_method: "native"
         })
         .expect(201)
     let cookie = authResponse.get("Set-Cookie");

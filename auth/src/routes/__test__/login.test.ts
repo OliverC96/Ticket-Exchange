@@ -16,7 +16,8 @@ it("StatusCode = 400 with incorrect password", async() => {
         .post("/api/users/register")
         .send({
             email: "tests@gmail.com",
-            password: "password"
+            password: "password",
+            auth_method: "native"
         })
         .expect(201);
     await request(server)
@@ -33,7 +34,8 @@ it("Attaches a cookie upon successful login", async() => {
         .post("/api/users/register")
         .send({
             email: "tests@gmail.com",
-            password: "password"
+            password: "password",
+            auth_method: "native"
         })
         .expect(201);
     const response = await request(server)

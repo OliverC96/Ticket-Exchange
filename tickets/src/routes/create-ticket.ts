@@ -8,7 +8,7 @@ import {
 import { body } from "express-validator";
 import { Ticket } from "../models/tickets";
 import { TicketCreatedPublisher } from "../events/publishers/ticket-created-publisher";
-import { posthogClient } from "../index";
+import { posthogClient } from "../posthog";
 import mongoose from "mongoose";
 
 const router = express.Router();

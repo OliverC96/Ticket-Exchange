@@ -4,7 +4,7 @@ import { body } from "express-validator";
 import { validateRequest, BadRequestError } from "@ojctickets/common";
 import jwt from "jsonwebtoken";
 import { AuthMethod } from "../models/users";
-import { posthogClient } from "../index";
+import { posthogClient } from "../posthog";
 
 const router = express.Router();
 

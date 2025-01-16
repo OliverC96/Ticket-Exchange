@@ -9,6 +9,7 @@ export default async function (req, res) {
     // Extract the user's email address and name
     const props = JSON.parse(req.body);
     const recipientEmail = props.customer.email;
+    const timestamp = props.timestamp;
     const recipientName = recipientEmail.split('@')[0];
 
     // Send the email via the Resend API
@@ -16,7 +17,7 @@ export default async function (req, res) {
         from: process.env.SENDER_NAME + " <" + process.env.SENDER_EMAIL + ">",
         to: recipientEmail || process.env.RECIPIENT_EMAIL,
         subject: `Password Reset Requested`,
-        react: ResetPassword({ email: recipientEmail, name: recipientName })
+        react: ResetPassword({ email: recipientEmail, name: recipientName, timestamp })
     });
 
     if (error) {

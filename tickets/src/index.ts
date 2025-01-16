@@ -4,9 +4,6 @@ import { server } from "./server";
 import { natsWrapper } from "@ojctickets/common";
 import { OrderCreatedListener } from "./events/listeners/order-created-listener";
 import { OrderCancelledListener } from "./events/listeners/order-cancelled-listener";
-import { PostHog } from "posthog-node";
-
-let posthogClient;
 
 const initialize = async () => {
     if (!process.env.JWT_KEY) {
@@ -24,18 +21,6 @@ const initialize = async () => {
     if (!process.env.NATS_URL) {
         throw new Error("NATS URL must be defined.");
     }
-    if (!process.env.POSTHOG_KEY) {
-        throw new Error("PostHog API key must be defined.");
-    }
-
-    // Initialize a PostHog client
-    posthogClient = new PostHog(
-        process.env.POSTHOG_KEY,
-        {
-            host: "https://us.i.posthog.com",
-            flushAt: 1 // Flush the event queue after every event
-        }
-    );
 
     try {
         // Establish a connection to MongoDB
@@ -69,9 +54,6 @@ const initialize = async () => {
     server.listen(3001, () => {
         console.log("Successfully launched on port 3001.");
     });
-    await posthogClient.shutdown();
 }
 
 initialize();
-
-export { posthogClient };

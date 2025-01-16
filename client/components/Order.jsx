@@ -2,6 +2,7 @@ import { HiOutlineReceiptRefund } from "react-icons/hi";
 import useRequest from "../hooks/use-request";
 import Router from "next/router";
 import { usePostHog } from "posthog-js/react";
+import { parseDate } from "../utils/parse_date";
 
 // Encapsulates a single order document
 export default function Order({ status, ticket, id, currentUser }) {
@@ -37,7 +38,8 @@ export default function Order({ status, ticket, id, currentUser }) {
                         id,
                         ticket,
                         discount,
-                        status: "refunded"
+                        status: "refunded",
+                        timestamp: parseDate()
                     },
                     customer: {
                         name,

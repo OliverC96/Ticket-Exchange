@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
-import { PostHog } from "posthog-node";
 import { DatabaseConnectionError } from "@ojctickets/common";
 import { server } from "./server";
-
-let posthogClient;
 
 const initialize = async () => {
     if (!process.env.JWT_KEY) {
@@ -12,18 +9,7 @@ const initialize = async () => {
     if (!process.env.MONGO_URI) {
         throw new Error("Mongo URI must be defined.");
     }
-    if (!process.env.POSTHOG_KEY) {
-        throw new Error("PostHog API key must be defined.");
-    }
 
-    // Initialize a PostHog client
-    posthogClient = new PostHog(
-        process.env.POSTHOG_KEY,
-        {
-            host: "https://us.i.posthog.com",
-            flushAt: 1 // Flush the event queue after every event
-        }
-    );
     try {
         // Establish a connection to MongoDB
         await mongoose.connect(process.env.MONGO_URI);
@@ -36,9 +22,6 @@ const initialize = async () => {
     server.listen(3001, () => {
         console.log("Successfully launched on port 3001");
     });
-    await posthogClient.shutdown();
 }
 
 initialize();
-
-export { posthogClient };

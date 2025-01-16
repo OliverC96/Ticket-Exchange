@@ -7,7 +7,7 @@ import {
     BadRequestError
 } from "@ojctickets/common";
 import { AuthMethod } from "../models/users";
-import { posthogClient } from "../index";
+import { posthogClient } from "../posthog";
 
 const router = express.Router();
 

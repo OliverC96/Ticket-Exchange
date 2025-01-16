@@ -11,6 +11,7 @@ import Link from "next/link";
 import Divider from "../../components/Divider";
 import { useState } from "react";
 import { usePostHog } from "posthog-js/react";
+import { parseDate } from "../../utils/parse_date";
 
 // Displays the login form
 export default () => {
@@ -78,7 +79,8 @@ export default () => {
                     body: JSON.stringify({
                         customer: {
                             email: input.email
-                        }
+                        },
+                        timestamp: parseDate()
                     })
                 }
             );
@@ -110,6 +112,7 @@ export default () => {
                     <div className="flex gap-5">
                         {/* Google OAuth 2.0 */}
                         <button
+                            type="button"
                             className="btn-secondary flex gap-2 items-center"
                             onClick={googleAuth}
                         >
@@ -118,6 +121,7 @@ export default () => {
                         </button>
                         {/* GitHub OAuth 2.0 */}
                         <button
+                            type="button"
                             className="btn-secondary flex gap-2 items-center"
                             onClick={githubAuth}
                         >
@@ -177,7 +181,7 @@ export default () => {
                         </ul>
                     }
 
-                    <button className="btn-primary mt-2" >
+                    <button className="btn-primary mt-2" type="submit">
                         Login
                     </button>
 

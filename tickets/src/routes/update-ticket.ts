@@ -10,7 +10,7 @@ import {
     BadRequestError
 } from "@ojctickets/common";
 import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
-import { posthogClient } from "../index";
+import { posthogClient } from "../posthog";
 
 const router = express.Router();
 

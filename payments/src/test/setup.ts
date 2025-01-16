@@ -29,11 +29,12 @@ jest.mock('@ojctickets/common', () => {
     };
 });
 
-process.env.STRIPE_KEY = "sk_test_51PdklUDO089tzeAmRUGze6hivnUhhy787kKzLSnfh5gN2SiBYGW3YfcnlyxUstY3qe2PdThFqPGuHScwhVQV1rek00fRsqWaEZ";
+process.env.STRIPE_SECRET_KEY = "sk_test_51PdklUDO089tzeAmRUGze6hivnUhhy787kKzLSnfh5gN2SiBYGW3YfcnlyxUstY3qe2PdThFqPGuHScwhVQV1rek00fRsqWaEZ";
+process.env.JWT_KEY = 'mySecret';
+process.env.POSTHOG_KEY = "phc_NE49LvOVJSBZATykB3x9fLoFi2J1wbcqPmtuhb294og";
 
 let mongoDB: any;
 beforeAll(async() => {
-    process.env.JWT_KEY = "mySecret";
     mongoDB = await MongoMemoryServer.create();
     const mongoURI = mongoDB.getUri();
     await mongoose.connect(mongoURI, {});
@@ -41,9 +42,11 @@ beforeAll(async() => {
 
 beforeEach(async() => {
     jest.clearAllMocks();
-    const collections = await mongoose.connection.db.collections();
-    for (let collection of collections) {
-        await collection.deleteMany({});
+    if (mongoose.connection.db) {
+        const collections = await mongoose.connection.db.collections();
+        for (let collection of collections) {
+            await collection.deleteMany({});
+        }
     }
 });
 

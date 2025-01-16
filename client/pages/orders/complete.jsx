@@ -13,7 +13,7 @@ export default () => {
     const posthog = usePostHog();
 
     // Extract the relevant information from local storage
-    const { id, ticket, discount } = JSON.parse(localStorage.getItem("order"));
+    const { id, ticket, discount, timestamp: d } = JSON.parse(localStorage.getItem("order"));
     const { name, email, address } = JSON.parse(localStorage.getItem("customer"));
 
     async function handleSubmission(event) {
@@ -26,7 +26,6 @@ export default () => {
         await Router.push("/orders");
     }
 
-    const d = parseDate();
     const chargeManager = new ChargeManager(
         ticket.price,
         discount,

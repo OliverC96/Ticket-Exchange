@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { posthogClient } from "../index";
+import { posthogClient } from "../posthog";
 import { requireAuth, currentUser } from "@ojctickets/common";
 
 const router = express.Router();
@@ -18,7 +18,7 @@ router.post(
         }
     });
     req.session = null; // Clear the JWT from the cookie object on the user's browser
-    res.send({});
+    res.status(200).send({});
 });
 
 export { router as logoutRouter };

@@ -5,6 +5,7 @@ import request from "supertest";
 import { server } from "../server";
 import { TicketDocument } from "../models/tickets";
 import { TicketType } from "../models/tickets";
+import { posthogClient } from "../posthog";
 
 declare global {
     function getCookie(): string[];
@@ -32,10 +33,11 @@ jest.mock('@ojctickets/common', () => {
     };
 });
 
-let mongoDB: any;
+process.env.JWT_KEY = 'mySecret';
+process.env.POSTHOG_KEY = "phc_NE49LvOVJSBZATykB3x9fLoFi2J1wbcqPmtuhb294og";
 
+let mongoDB: any;
 beforeAll(async() => {
-    process.env.JWT_KEY = "mySecret";
     mongoDB = await MongoMemoryServer.create();
     const mongoURI = mongoDB.getUri();
     await mongoose.connect(mongoURI, {});
@@ -43,9 +45,11 @@ beforeAll(async() => {
 
 beforeEach(async() => {
     jest.clearAllMocks();
-    const collections = await mongoose.connection.db.collections();
-    for (let collection of collections) {
-        await collection.deleteMany({});
+    if (mongoose.connection.db) {
+        const collections = await mongoose.connection.db.collections();
+        for (let collection of collections) {
+            await collection.deleteMany({});
+        }
     }
 });
 
@@ -54,6 +58,7 @@ afterAll(async() => {
         await mongoDB.stop();
     }
     await mongoose.connection.close();
+    await posthogClient.shutdown();
 });
 
 /**

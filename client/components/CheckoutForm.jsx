@@ -15,6 +15,7 @@ import useRequest from "../hooks/use-request";
 import useExpiration from "../hooks/use-expiration";
 import Router from "next/router";
 import { usePostHog } from "posthog-js/react";
+import { parseDate } from "../utils/parse_date";
 
 // Checkout form component; allows users to securely purchase a listing via the StripeJS API
 export default function CheckoutForm({ order, currentUser }) {
@@ -73,6 +74,7 @@ export default function CheckoutForm({ order, currentUser }) {
 
             const { name, address} = billingDetails.value;
             address.country = countryMapping[address.country]; // Convert ISO Alpha-2 country code to full country name
+            const timestamp = parseDate();
 
             // Initiate order confirmation email update
             await fetch(
@@ -84,7 +86,8 @@ export default function CheckoutForm({ order, currentUser }) {
                             id: order.id,
                             ticket: order.ticket,
                             discount: 0,
-                            status: "complete"
+                            status: "complete",
+                            timestamp
                         },
                         customer: {
                             name,
@@ -104,7 +107,8 @@ export default function CheckoutForm({ order, currentUser }) {
             // Persist order and customer details via browser local storage
             localStorage.setItem("order", JSON.stringify({
                 ...order,
-                discount: 0
+                discount: 0,
+                timestamp
             }));
             localStorage.setItem("customer", JSON.stringify({
                 name,

@@ -10,7 +10,7 @@ import {
 } from "@ojctickets/common";
 import { Order } from "../models/orders";
 import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-publisher";
-import { posthogClient } from "../index";
+import { posthogClient } from "../posthog";
 
 const router = express.Router();
 

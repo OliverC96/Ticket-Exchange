@@ -8,7 +8,7 @@ import {
 import { OrderCancelledPublisher } from "../publishers/order-cancelled-publisher";
 import { Message } from "node-nats-streaming";
 import { Order } from "../../models/orders";
-import { posthogClient } from "../../index";
+import { posthogClient } from "../../posthog";
 
 /**
  * Listens for events pertaining to order expiration

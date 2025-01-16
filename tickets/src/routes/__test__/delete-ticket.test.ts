@@ -2,6 +2,7 @@ import request from "supertest";
 import { server } from "../../server";
 import mongoose from "mongoose";
 import { Ticket } from "../../models/tickets";
+import { natsWrapper, Subjects } from "@ojctickets/common";
 
 it("Can only be accessed by authenticated users", async() => {
     // Ensuring non-authenticated users CANNOT delete existing tickets on the platform
@@ -62,4 +63,15 @@ it("Successfully deletes ticket document from MongoDB", async() => {
         .expect(204);
     ticket = await Ticket.findById(response.id);
     expect(ticket!).toBeNull();
+});
+
+it("Successfully publishes a 'ticket:deleted' event", async() => {
+    const cookie = global.getCookie();
+    const ticket = await global.createTicket({ cookie });
+    await request(server)
+        .delete(`/api/tickets/${ticket.id}`)
+        .set("Cookie", cookie)
+        .expect(204);
+    expect(natsWrapper.client.publish).toHaveBeenCalledTimes(2);
+    expect(natsWrapper.client.publish).toHaveBeenLastCalledWith(Subjects.TicketDeleted, expect.anything(), expect.anything());
 });

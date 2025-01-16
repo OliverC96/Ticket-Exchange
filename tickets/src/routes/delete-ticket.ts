@@ -9,7 +9,7 @@ import {
 import { param } from "express-validator";
 import { Ticket } from "../models/tickets";
 import { TicketDeletedPublisher } from "../events/publishers/ticket-deleted-publisher";
-import { posthogClient } from "../index";
+import { posthogClient } from "../posthog";
 
 const router = express.Router();
 
@@ -49,7 +49,7 @@ router.delete(
             version: ticket.version + 1
         });
 
-        return res.status(204);
+        return res.status(204).send({});
     }
 );
 
