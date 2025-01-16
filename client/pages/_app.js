@@ -12,7 +12,7 @@ export default function AppComponent({Component, pageProps, currentUser}) {
 
     useEffect(() => {
         // Initialize PostHog analytics
-        posthog.init(process.env.POSTHOG_KEY, {
+        posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
             api_host: "/ingest", // Use reverse proxy (Next.js rewrites)
             ui_host: 'https://us.posthog.com',
             person_profiles: 'always',

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { queryPosthog } from "../../utils/queryPosthog";
 import ReloadButton from "./ReloadButton";
 import SkeletonEmail from "./SkeletonEmail";
 import SkeletonEvent from "./SkeletonEvent";
@@ -74,9 +73,16 @@ export default ({ type }) => {
     // Fetches data from PostHog, parses the resulting response, and updates state accordingly
     const fetchData = async () => {
         setLoading(true);
-        const data = await queryPosthog({
-            query: type === "Emails" ? emailQuery : eventsQuery
-        });
+        const res = await fetch(
+            "/api/query-posthog",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    query: type === "Emails" ? emailQuery : eventsQuery
+                })
+            }
+        );
+        const data = await res.json();
         if (type === "Emails") {
             setData(parseEmails(data));
         }

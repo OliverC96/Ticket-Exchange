@@ -1,5 +1,7 @@
-const queryPosthog = async ({ query }) => {
-    const res = await fetch(
+// Initiates a PostHog API query; exposes the resulting response to the client
+export default async function(req, res) {
+    const { query } = JSON.parse(req.body);
+    const response = await fetch(
         `https://us.posthog.com/api/projects/${process.env.NEXT_PUBLIC_POSTHOG_PROJECT_ID}/query/`,
         {
             method: "POST",
@@ -15,7 +17,6 @@ const queryPosthog = async ({ query }) => {
             })
         }
     );
-    return await res.json();
-};
-
-export { queryPosthog };
+    const data = await response.json();
+    return res.status(200).send(data);
+}
