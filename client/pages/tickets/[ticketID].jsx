@@ -30,7 +30,7 @@ const ViewTicket = ({ ticket }) => {
 
     return (
         <div className="page-wrapper">
-            <div className="card p-8 w-1/3 -mt-36">
+            <div className="card p-8 w-3/4 md:w-1/2 xl:w-1/3 -mt-36">
                 <form className="flex flex-col gap-5" onSubmit={handleSubmission} >
 
                     <div className="flex items-center justify-between">

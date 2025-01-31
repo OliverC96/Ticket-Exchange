@@ -98,7 +98,7 @@ export default () => {
 
     return (
         <div className="page-wrapper">
-            <div className="card p-8">
+            <div className="card p-8 w-3/4 md:w-auto">
                 <form className="flex flex-col gap-5" onSubmit={(e) => {
                     e.preventDefault();
                     setSubmitted(true);
@@ -109,20 +109,20 @@ export default () => {
                     </h1>
 
                     {/* Third-party login options */}
-                    <div className="flex gap-5">
+                    <div className="flex flex-col md:flex-row gap-5">
                         {/* Google OAuth 2.0 */}
                         <button
                             type="button"
-                            className="btn-secondary flex gap-2 items-center"
+                            className="btn-secondary flex gap-2 items-center justify-center"
                             onClick={googleAuth}
                         >
-                            <FaGoogle className="text-2xl" />
+                            <FaGoogle className="text-xl" />
                             Continue with Google
                         </button>
                         {/* GitHub OAuth 2.0 */}
                         <button
                             type="button"
-                            className="btn-secondary flex gap-2 items-center"
+                            className="btn-secondary flex gap-2 items-center justify-center"
                             onClick={githubAuth}
                         >
                             <FaGithub className="text-xl" />

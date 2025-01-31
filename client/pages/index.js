@@ -19,13 +19,13 @@ export default function LandingPage({ currentUser, originalTickets }) {
     } = useSorting({ tickets, setTickets });
 
     return (
-        <div className="w-screen -mt-[10vh] flex justify-center h-screen decal gap-4">
+        <div className="w-screen -mt-[10vh] flex justify-center min-h-screen pb-10 decal gap-4">
             {/* Logo image */}
-            <RiExchange2Fill className="absolute top-20 left-20 text-blue-xlight" size={65} />
+            <RiExchange2Fill className="absolute top-20 left-20 text-blue-xlight hidden lg:block" size={65} />
             {/* Ticket grid */}
-            <div className="ticket-grid ml-20">
+            <div className="ticket-grid">
                 {/* Sorting options */}
-                <div className="col-span-4 flex gap-4 items-center">
+                <div className="col-span-full flex flex-col pb-7 lg:pb-0 lg:flex-row gap-4 items-start lg:items-center w-full lg:w-auto">
                     <div className="flex items-center mr-4">
                         <CgSortAz size={48}/>
                         <p className="text-xl"> Sort Results </p>

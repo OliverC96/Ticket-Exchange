@@ -4,7 +4,7 @@ import TicketDecal from "../../components/TicketDecal";
 // Displays all orders associated with the current user (irrespective of their status)
 const OrderIndex = ({ orders, currentUser }) => {
     return (
-        <div className="flex p-8 justify-evenly h-screen -mt-[10vh] bg-blue-dark">
+        <div className="flex p-8 justify-evenly min-h-screen -mt-[10vh] bg-blue-dark">
             <div className="order-grid">
                 { orders.length > 0
                     ?

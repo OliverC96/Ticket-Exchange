@@ -14,8 +14,8 @@ export default () => {
     }, []);
     return (
         <div className="page-wrapper">
-            <div className="card p-8 w-3/5 h-3/4 overflow-scroll gap-6">
-                <div className="flex justify-between items-center pb-1">
+            <div className="card p-8 w-3/4 md:w-3/5 h-3/4 overflow-scroll gap-6">
+                <div className="flex flex-col lg:flex-row justify-between items-center pb-1 gap-2">
                     <h1 className="text-2xl underline"> Terms and Conditions </h1>
                     <p className="text-lg text-green-400">
                         Last Updated: { date ? date.toLocaleDateString("default", DATE_OPTIONS) : "N/A" }

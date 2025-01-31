@@ -1,7 +1,6 @@
 import Router from "next/router";
 import BillingDetails from "../../components/email-templates/BillingDetails";
 import CostSummary from "../../components/email-templates/CostSummary";
-import { parseDate } from "../../utils/parse_date";
 import { IoReceiptOutline } from "react-icons/io5";
 import { RiArrowRightDoubleFill } from "react-icons/ri";
 import ChargeManager from "../../utils/ChargeManager";
@@ -36,7 +35,7 @@ export default () => {
 
     return (
         <div className="page-wrapper">
-            <div className="card p-8">
+            <div className="card p-8 w-3/4 md:w-auto">
                 <form className="flex flex-col gap-5" onSubmit={handleSubmission}>
 
                     <div className="order-confirm-header">

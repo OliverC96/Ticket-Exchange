@@ -1,5 +1,4 @@
 1. Migrate from NATS Streaming Server to NATS JetStream [ref: https://docs.nats.io/nats-concepts/jetstream]
-2. Implement data caching via Redis (only for the orders collection)
+2. [selected] Implement data caching via Redis (only for the orders collection)
 3. [selected] Design, and implement comprehensive integration (e2e) tests (via Playwright)
-4. [selected] Make application more responsive on different screen sizes
-5. [selected] Refactor order and customer local storage for order complete page?
+4. Change local storage to DB storage?

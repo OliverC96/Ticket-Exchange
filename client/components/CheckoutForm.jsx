@@ -13,6 +13,7 @@ import { addressOptions, countryMapping } from "../utils/address_config";
 import { ThreeDots } from "react-loader-spinner";
 import useRequest from "../hooks/use-request";
 import useExpiration from "../hooks/use-expiration";
+import useScreenDetector from "../hooks/use-screen-detector";
 import Router from "next/router";
 import { usePostHog } from "posthog-js/react";
 import { parseDate } from "../utils/parse_date";
@@ -44,6 +45,8 @@ export default function CheckoutForm({ order, currentUser }) {
             await Router.push("/orders/complete");
         }
     });
+
+    const isOver = useScreenDetector({ breakpoint: "lg" });
 
     // Initiate the backend request upon token creation (i.e., when a valid token ID is defined)
     useEffect(() => {
@@ -138,7 +141,7 @@ export default function CheckoutForm({ order, currentUser }) {
 
     return (
         <div className="page-wrapper">
-            <div className="card gap-5 p-8 w-[60%]">
+            <div className="card gap-5 p-8 w-3/4 h-3/4 lg:h-auto md:w-2/3 xl:w-[60%] overflow-scroll">
                 <div className="flex flex-col gap-2 items-center">
                     {/* Order expiration window countdown */}
                     {
@@ -153,15 +156,15 @@ export default function CheckoutForm({ order, currentUser }) {
                 </div>
 
                 {/* Secure checkout form */}
-                <form className="flex gap-5" onSubmit={handleSubmission}>
+                <form className="flex flex-col lg:flex-row gap-5" onSubmit={handleSubmission}>
 
                     {/* Billing address */}
-                    <AddressElement options={addressOptions} className="w-3/5 ph-no-capture" />
+                    <AddressElement options={addressOptions} className="w-full lg:w-3/5 ph-no-capture" />
 
-                    <div className="vertical-line" />
+                    <div className={isOver ? "vertical-line" : "horizontal-line"} />
 
                     {/* Credit card payment information */}
-                    <div className="w-2/5 flex flex-col gap-5 justify-between">
+                    <div className="w-full lg:w-2/5 flex flex-col gap-5 justify-between">
 
                         <div className="flex flex-col gap-3">
                             <div className="form-field">

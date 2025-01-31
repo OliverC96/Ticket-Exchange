@@ -57,7 +57,7 @@ export default function TicketForm({ isModal, ticket, setModalVisible }) {
 
     return (
         <div className={`${isModal ? "modal-wrapper" : "page-wrapper"}`}>
-            <div className="card p-8 w-1/3 -mt-28" ref={containerRef}>
+            <div className="card p-8 card-breakpoints -mt-28" ref={containerRef}>
                 <form className="flex flex-col gap-5" onSubmit={handleSubmission} >
 
                     <div className={`flex gap-4 items-center text-2xl ${isModal && "justify-between"}`}>

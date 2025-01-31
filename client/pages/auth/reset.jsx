@@ -81,7 +81,7 @@ export default () => {
 
     return (
         <div className="page-wrapper">
-            <div className="card p-8 w-1/3 -mt-6">
+            <div className="card p-8 -mt-6 card-breakpoints">
                 <form className="flex flex-col gap-5" onSubmit={(e) => {
                     e.preventDefault();
                     setSubmitted(true);

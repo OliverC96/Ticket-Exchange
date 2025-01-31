@@ -7,7 +7,7 @@ import {
 export default function SortButton({ type, isAscending, isEnabled, toggleDirection }) {
     return (
         <button
-            className={`sort-btn icon-btn justify-center w-[14%] ${isEnabled && "sort-enabled"}`}
+            className={`sort-btn icon-btn justify-center w-full lg:w-1/4 xl:w-[14%] ${isEnabled && "sort-enabled"}`}
             onClick={toggleDirection}
         >
             { type }

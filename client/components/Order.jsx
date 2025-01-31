@@ -75,7 +75,7 @@ export default function Order({ status, ticket, id, currentUser }) {
     };
 
     return (
-        <div className="flex flex-col gap-2 rounded-lg p-5 outline outline-1 outline-blue-light bg-blue-xxdark h-fit">
+        <div className="flex flex-col gap-2 rounded-lg p-5 outline outline-1 outline-blue-light bg-blue-xxdark h-fit w-fit">
             <div className="flex justify-between">
                 <h1 className="text-xl"> { ticket.title } </h1>
                 {/* Display order refund icon when applicable */}

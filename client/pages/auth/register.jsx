@@ -11,6 +11,7 @@ import useGoogle from "../../hooks/use-google";
 import useGithub from "../../hooks/use-github";
 import { useRef, useState } from "react";
 import { usePostHog } from "posthog-js/react";
+import useScreenDetector from "../../hooks/use-screen-detector";
 
 // Displays the register form
 export default () => {
@@ -69,15 +70,17 @@ export default () => {
         }
     });
 
+    const isOver = useScreenDetector({ breakpoint: "lg" });
+
     return (
         <div className="page-wrapper">
-            <div className="card p-8 w-1/2">
-                <form className="flex gap-5" onSubmit={(e) => {
+            <div className="card p-8 w-3/4 md:w-2/3 xl:w-1/2">
+                <form className="flex flex-col-reverse lg:flex-row gap-5" onSubmit={(e) => {
                     e.preventDefault();
                     setSubmitted(true);
                 }}>
 
-                    <div className="flex flex-col gap-5 w-[55%]">
+                    <div className="flex flex-col gap-5 w-full lg:w-[55%]">
                         <h1 className="text-2xl font-bold">
                             Create an account
                         </h1>
@@ -157,14 +160,14 @@ export default () => {
 
                     </div>
 
-                    <Divider type="vertical" />
+                    <Divider type={isOver ? "vertical" : "horizontal"} />
 
                     {/* Third-party registration options */}
-                    <div className="flex flex-col gap-5 justify-center w-[45%]">
+                    <div className="flex flex-col gap-5 justify-center w-full lg:w-[45%]">
                         {/* Google OAuth 2.0 */}
                         <button
                             type="button"
-                            className="btn-secondary icon-btn"
+                            className="btn-secondary icon-btn justify-center"
                             onClick={googleAuth}
                         >
                             <FaGoogle className="text-xl"/>
@@ -173,7 +176,7 @@ export default () => {
                         {/* GitHub OAuth 2.0 */}
                         <button
                             type="button"
-                            className="btn-secondary icon-btn"
+                            className="btn-secondary icon-btn justify-center"
                             onClick={githubAuth}
                         >
                             <FaGithub className="text-2xl"/>
