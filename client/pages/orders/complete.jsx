@@ -35,7 +35,7 @@ export default () => {
 
     return (
         <div className="page-wrapper">
-            <div className="card p-8 w-3/4 md:w-auto">
+            <div className="card p-8 w-[80%] md:w-auto h-3/4 md:h-auto overflow-scroll">
                 <form className="flex flex-col gap-5" onSubmit={handleSubmission}>
 
                     <div className="order-confirm-header">
@@ -45,7 +45,7 @@ export default () => {
                         <p className="text-lg opacity-80"> {d.day} {d.date} {d.month} {d.year} @ {d.hours}:{d.minutes} {d.tag} </p>
                     </div>
 
-                    <div className="flex flex-col gap-5 mx-10">
+                    <div className="flex flex-col gap-5 md:mx-10">
                         <p className="text-lg"> Confirmation email sent to <span className="underline"> { email } </span> </p>
 
                         <div className="order-confirm-summary">
