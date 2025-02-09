@@ -19,7 +19,7 @@ export default function LandingPage({ currentUser, originalTickets }) {
     } = useSorting({ tickets, setTickets });
 
     return (
-        <div className="w-screen -mt-[10vh] flex justify-center min-h-screen pb-10 decal gap-4 pt-0">
+        <div className="w-screen -mt-[10vh] flex justify-center min-h-screen pb-10 decal gap-4">
             {/* Logo image */}
             <RiExchange2Fill className="absolute top-20 left-20 text-blue-xlight hidden lg:block" size={65} />
             {/* Ticket grid */}

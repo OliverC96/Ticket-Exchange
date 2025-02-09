@@ -1,10 +1,9 @@
-* {
-    margin:0;
-    padding:0;
+html {
+    @apply overflow-hidden;
 }
 
 .page-wrapper {
-    @apply bg-blue-dark -mt-[10vh] h-screen text-blue-xlight pt-0;
+    @apply bg-blue-dark -mt-[10vh] h-screen text-blue-xlight;
     @apply flex flex-col justify-center items-center;
 }
 
