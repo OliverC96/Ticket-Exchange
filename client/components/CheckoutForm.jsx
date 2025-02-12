@@ -141,7 +141,7 @@ export default function CheckoutForm({ order, currentUser }) {
 
     return (
         <div className="page-wrapper">
-            <div className="card gap-5 p-8 w-3/4 h-3/4 lg:h-auto md:w-2/3 xl:w-[60%] overflow-scroll">
+            <div className="card gap-5 p-8 w-4/5 sm:w-3/4 md:w-2/3 xl:w-3/5 h-3/4 lg:h-auto overflow-scroll">
                 <div className="flex flex-col gap-2 items-center">
                     {/* Order expiration window countdown */}
                     {

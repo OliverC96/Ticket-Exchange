@@ -3,7 +3,7 @@ export default ({ event }) => {
     const [eventName, properties, timestamp, userEmail] = event;
     return (
         <div className="flex flex-col gap-1 px-5">
-            <div className="flex justify-between text-lg">
+            <div className="flex flex-col sm:flex-row justify-between text-lg">
                 <p className="text-green-400"> {eventName} </p>
                 <p> {timestamp} </p>
             </div>

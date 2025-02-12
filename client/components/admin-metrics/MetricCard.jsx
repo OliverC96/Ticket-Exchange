@@ -82,14 +82,9 @@ export default ({ type }) => {
                 })
             }
         );
-        const data = await res.json();
-        if (type === "Emails") {
-            setData(parseEmails(data));
-        }
-        else if (type === "Events") {
-            const events = parseEvents(data);
-            setData(data => data.concat(events));
-        }
+        const rawData = await res.json();
+        const data = type === "Emails" ? parseEmails(rawData) : parseEvents(rawData);
+        setData(d => d.concat(data));
         setOffset(offset => offset + 10);
         setLoading(false);
     }
@@ -106,7 +101,7 @@ export default ({ type }) => {
     }, [greenLight]);
 
     return (
-        <div className="flex flex-col gap-6 w-[55%] text-lg">
+        <div className="flex flex-col gap-6 w-full xl:w-1/2 text-lg">
             <div className="flex gap-5">
                 <h1 className="text-2xl"> { type } </h1>
                 <ReloadButton onClick={() => {

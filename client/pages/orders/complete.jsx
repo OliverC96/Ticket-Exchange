@@ -35,7 +35,7 @@ export default () => {
 
     return (
         <div className="page-wrapper">
-            <div className="card p-8 w-[80%] md:w-auto h-3/4 md:h-auto overflow-scroll">
+            <div className="card p-8 w-4/5 sm:w-3/4 md:w-auto h-3/4 md:h-auto overflow-y-scroll overflow-x-hidden mt-10">
                 <form className="flex flex-col gap-5" onSubmit={handleSubmission}>
 
                     <div className="order-confirm-header">
