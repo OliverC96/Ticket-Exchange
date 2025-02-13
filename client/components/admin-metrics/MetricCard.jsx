@@ -101,7 +101,7 @@ export default ({ type }) => {
     }, [greenLight]);
 
     return (
-        <div className="flex flex-col gap-6 w-full xl:w-1/2 text-lg">
+        <div className="flex flex-col gap-6 text-lg">
             <div className="flex gap-5">
                 <h1 className="text-2xl"> { type } </h1>
                 <ReloadButton onClick={() => {

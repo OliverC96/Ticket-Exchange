@@ -28,7 +28,7 @@ const AdminDashboard = () => {
                     </div>
                 </div>
                 {/* Relevant metrics; in particular, recent emails and events */}
-                <div id="metrics" className="flex flex-col xl:flex-row gap-10 xl:gap-5">
+                <div id="metrics" className="grid grid-cols-1 xl:grid-cols-2 gap-10 xl:gap-5">
                     <MetricCard type="Events" />
                     <MetricCard type="Emails" />
                 </div>

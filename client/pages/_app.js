@@ -41,8 +41,8 @@ export default function AppComponent({Component, pageProps, currentUser}) {
                 <title> Ticket Exchange </title>
             </Head>
             <PostHogProvider client={posthog}>
-                <Header currentUser={currentUser}/>
-                <Component currentUser={currentUser} {...pageProps} />
+                <Header currentUser={currentUser} />
+                <Component currentUser={currentUser} {...pageProps}/>
             </PostHogProvider>
         </>
     );
