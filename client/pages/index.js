@@ -19,53 +19,57 @@ export default function LandingPage({ currentUser, originalTickets }) {
     } = useSorting({ tickets, setTickets });
 
     return (
-        <div className="w-screen -mt-[10vh] flex justify-center min-h-screen pb-10 decal gap-4">
+        <div className="w-screen -mt-[10vh] flex justify-center min-h-screen pb-10 decal gap-4 text-blue-xlight">
             {/* Logo image */}
-            <RiExchange2Fill className="absolute top-20 left-20 text-blue-xlight hidden lg:block" size={65} />
-            {/* Ticket grid */}
-            <div className="ticket-grid">
-                {/* Sorting options */}
-                <div className="col-span-full flex flex-col pb-7 lg:pb-0 lg:flex-row gap-4 items-start lg:items-center w-full lg:w-auto">
-                    <div className="flex items-center mr-4">
-                        <CgSortAz size={48}/>
-                        <p className="text-xl"> Sort Results </p>
+            <RiExchange2Fill className="absolute top-20 left-20 hidden lg:block" size={65} />
+            <div className="flex gap-9 justify-center w-full mt-24 lg:mt-[8.5rem]">
+                {/* Ticket grid */}
+                <div className="flex flex-col gap-44 md:gap-6 h-fit w-1/3 md:w-1/2">
+                    {/* Sorting options */}
+                    <div className="sort-options">
+                        <div className="flex items-center mr-4">
+                            <CgSortAz size={48} className="-my-3 lg:-my-2" />
+                            <p className="text-xl"> Sort Results </p>
+                        </div>
+                        <SortButton
+                            type="Price"
+                            toggleDirection={() => updateSortingOptions("price")}
+                            {...price}
+                        />
+                        <SortButton
+                            type="Title"
+                            toggleDirection={() => updateSortingOptions("title")}
+                            {...title}
+                        />
                     </div>
-                    <SortButton
-                        type="Price"
-                        toggleDirection={() => updateSortingOptions("price")}
-                        {...price}
-                    />
-                    <SortButton
-                        type="Title"
-                        toggleDirection={() => updateSortingOptions("title")}
-                        {...title}
-                    />
+                    <div className="ticket-grid">
+                        {/* Ticket listings */}
+                        {tickets.length > 0
+                            ?
+                            tickets.map((ticket) => {
+                                return <Ticket
+                                    key={ticket.id}
+                                    currUser={currentUser}
+                                    {...ticket}
+                                />;
+                            })
+                            :
+                            <p
+                                className="col-span-4"
+                            >
+                                We couldn't find any listings matching the specified conditions. Try adjusting the current filters to receive more results.
+                            </p>
+                        }
+                    </div>
                 </div>
-                {/* Ticket listings */}
-                {tickets.length > 0
-                    ?
-                        tickets.map((ticket) => {
-                            return <Ticket
-                                key={ticket.id}
-                                currUser={currentUser}
-                                {...ticket}
-                            />;
-                        })
-                    :
-                        <p
-                            className="col-span-4"
-                        >
-                            We couldn't find any listings matching the specified conditions. Try adjusting the current filters to receive more results.
-                        </p>
-                }
+                {/* Filter options */}
+                <FilterForm
+                    tickets={originalTickets}
+                    setTickets={setTickets}
+                    resetSortingOptions={resetSortingOptions}
+                />
             </div>
-            {/* Filter options */}
-            <FilterForm
-                tickets={originalTickets}
-                setTickets={setTickets}
-                resetSortingOptions={resetSortingOptions}
-            />
-        </div>
+            </div>
     );
 };
 

@@ -1,7 +1,3 @@
-* {
-    @apply mt-0 pt-0;
-}
-
 .page-wrapper {
     @apply bg-blue-dark -mt-[10vh] h-screen text-blue-xlight;
     @apply flex flex-col justify-center items-center;
@@ -56,18 +52,24 @@
 }
 
 .ticket-grid {
-    @apply grid grid-cols-1 gap-4 text-blue-xlight mt-24 lg:mt-32 h-fit items-start w-1/3;
-    @apply md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:w-1/2;
+    @apply grid grid-cols-2 gap-4 items-start;
+    @apply w-[91vw] sm:w-[89vw] md:w-auto;
+    @apply md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+.sort-options {
+    @apply col-span-full flex flex-col lg:flex-row gap-4;
+    @apply items-start lg:items-center w-full lg:w-auto;
+}
+
+.filter-form {
+    @apply bg-inherit text-blue-xlight;
+    @apply h-fit w-1/2 md:w-1/3 lg:w-1/4 xl:w-[18%] text-lg flex flex-col gap-5;
 }
 
 .order-grid {
     @apply grid grid-cols-1 md:grid-cols-2 gap-5 text-lg;
     @apply text-blue-xlight w-fit h-fit pt-24;
-}
-
-.filter-form {
-    @apply bg-inherit text-blue-xlight mt-32 py-2 px-5;
-    @apply h-fit w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 text-lg flex flex-col gap-5;
 }
 
 .order-confirm-header {
