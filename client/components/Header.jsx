@@ -26,7 +26,7 @@ export default function Header({ currentUser }) {
         });
 
     return (
-        <div className="text-blue-xlight text-lg flex justify-between px-6 items-center h-[10vh]">
+        <div className="text-blue-xlight text-lg flex justify-between px-6 items-center h-[10svh]">
             <Link href="/" className="font-title text-2xl">
                 Ticket-Exchange
             </Link>
