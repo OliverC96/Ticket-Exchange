@@ -1,15 +1,10 @@
-body {
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
 .page-wrapper {
-    @apply bg-blue-dark -mt-[10svh] h-svh text-blue-xlight;
+    @apply bg-blue-dark -mt-[10vh] h-screen text-blue-xlight;
     @apply flex flex-col justify-center items-center;
 }
 
 .modal-wrapper {
-    @apply z-50 fixed top-0 left-0 h-screen w-screen;
+    @apply z-50 fixed top-0 left-0 h-[110vh] w-screen;
     @apply bg-[#0F2A38] bg-opacity-65 flex justify-center items-center;
 }
 
