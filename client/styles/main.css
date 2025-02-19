@@ -4,7 +4,7 @@
 }
 
 .modal-wrapper {
-    @apply z-50 fixed top-0 left-0 h-[110vh] w-screen;
+    @apply z-50 fixed top-0 left-0 h-screen w-screen;
     @apply bg-[#0F2A38] bg-opacity-65 flex justify-center items-center;
 }
 

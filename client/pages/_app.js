@@ -38,6 +38,7 @@ export default function AppComponent({Component, pageProps, currentUser}) {
     return (
         <>
             <Head>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
                 <title> Ticket Exchange </title>
             </Head>
             <PostHogProvider client={posthog}>
