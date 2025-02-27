@@ -39,7 +39,7 @@ export default function AppComponent({Component, pageProps, currentUser}) {
         <>
             <Head>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-                <meta name="theme-color" content="#003049" />
+                <meta name="theme-color" content="var(--bg)" />
                 <title> Ticket Exchange </title>
             </Head>
             <PostHogProvider client={posthog}>
