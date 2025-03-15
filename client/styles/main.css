@@ -1,7 +1,3 @@
-body, h2, div {
-    margin-top: 0;
-}
-
 .page-wrapper {
     @apply bg-blue-dark -mt-[10vh] h-screen text-blue-xlight;
     @apply flex flex-col justify-center items-center;
