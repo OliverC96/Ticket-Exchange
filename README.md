@@ -67,6 +67,12 @@ Users will receive emails notifying them of significant events that occur within
 
 ![Order confirmation and order refunded email updates](./images/email_updates.png)
 
+## Admin Dashboard
+
+Users with administrative privileges have exclusive access to a dashboard page displaying relevant metrics and other useful information. In particular, the dashboard contains quick links to frequently-used software services (e.g., Github, DigitalOcean), a recent event log, and a recent email log.
+
+![Admin-only dashboard page](./images/admin_dashboard.png)
+
 ## Event-based Communication
 
 Backend microservices communicate with each other in an asynchronous, event-based fashion. Publishers emit events, and subscribers consume events from their subscriptions (i.e., the channels which they are subscribed to). Queue groups are used to avoid the redundant emission of events to copies of the same service. The following diagram illustrates the flow of events through the event bus.
