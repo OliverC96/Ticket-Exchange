@@ -69,9 +69,15 @@ Users will receive emails notifying them of significant events that occur within
 
 ## Admin Dashboard
 
-Users with administrative privileges have exclusive access to a dashboard page displaying relevant metrics and other useful information. In particular, the dashboard contains quick links to frequently-used software services (e.g., Github, DigitalOcean), a recent event log, and a recent email log.
+Users with administrative privileges have exclusive access to a dashboard page where they can quickly access frequently-used resources (e.g., GitHub, DigitalOcean), and view important application activity (namely, recent events and email updates) at-a-glance. By default, the 10 most recent events and emails are retrieved via the [Posthog API](https://posthog.com/docs/api) - users can request to view an additional 10 items by clicking the "Show More" button at the bottom of the respective log section. This approach reduces the loading of unnecessary information (improving initial page load times), and minimizes queries to Posthog endpoints (avoiding rate limit violations).
 
 ![Admin-only dashboard page](./images/admin_dashboard.png)
+
+## Responsive Design
+
+The default [TailwindCSS](https://tailwindcss.com/docs/responsive-design) breakpoints are used to implement responsive design; ensuring a positive user experience on all screen sizes. Most pages are identical in structure across breakpoints, with varying levels of whitespace. Conversely, some pages (in particular, the more complex ones) differ significantly across breakpoints to improve their appearance on smaller screen sizes (examples shown below).
+
+![Mobile view of landing page and admin dashboard](./images/mobile_view.png)
 
 ## Event-based Communication
 
