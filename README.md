@@ -119,4 +119,4 @@ CI/CD is implemented via [GitHub Actions](https://docs.github.com/en/actions/wri
 
 [PostHog](https://posthog.com) is deeply integrated within the application to enable comprehensive event tracking across the frontend, and backend services. In addition to autocaptured events (e.g., PageView), custom events are defined to acquire fine-grained insight into a user's activity in the context of the [core application workflow](#core-workflow). Frontend and backend events are distinguished by nomenclature and the _source_ property. While some events are anonymous (e.g., PageView by an unauthenticated user), most are associated with a particular user in the database (via their unique identifier). PostHog data can be queried using [HogQL](https://posthog.com/blog/introducing-hogql) (a [ClickHouse SQL](https://clickhouse.com/docs/sql-reference) wrapper) to obtain detailed, and personalized insights.
 
-[Snapshot of PostHog dashboard](./images/posthog_dashboard)
+![Snapshot of PostHog dashboard](./images/posthog_dashboard.png)
