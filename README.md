@@ -14,7 +14,7 @@
 - Uses [Resend](https://resend.com) to provide email updates; notifying users of significant events (e.g., order confirmation, order refunds)
 - Uses [Stripe](https://stripe.com/en-ca) to implement secure checkout (i.e., collecting payment information server-side)
 - Uses [Kubernetes](https://kubernetes.io) to manage - and facilitate interactions between - the containerized microservices
-- This project was completed as part of the [Microservices with Node JS and React](https://www.udemy.com/share/102VKE3@7EmZCLfhgMS8nceqObqL-SLnUUwTL_cQ2PgLDvt3Djbb7731WxXdE-WuEC-NyENJTQ==/) course on Udemy
+- This project was inspired by the [Microservices with Node JS and React](https://www.udemy.com/share/102VKE3@7EmZCLfhgMS8nceqObqL-SLnUUwTL_cQ2PgLDvt3Djbb7731WxXdE-WuEC-NyENJTQ==/) course on Udemy
 
 ### UI Colour Palette
 
@@ -69,7 +69,7 @@ Users will receive emails notifying them of significant events that occur within
 
 ## Admin Dashboard
 
-Users with administrative privileges have exclusive access to a dashboard page where they can quickly access frequently-used resources (e.g., GitHub, DigitalOcean), and view important application activity (namely, recent events and email updates) at-a-glance. By default, the 10 most recent events and emails are retrieved via the [Posthog API](https://posthog.com/docs/api) - users can request to view an additional 10 items by clicking the "Show More" button at the bottom of the respective log section. This approach reduces the loading of unnecessary information (improving initial page load times), and minimizes queries to Posthog endpoints (avoiding rate limit violations).
+Users with administrative privileges have exclusive access to a dashboard page where they can quickly access frequently-used resources (e.g., GitHub, DigitalOcean), and view important application activity (namely, recent events and email updates) at-a-glance. By default, the 10 most recent events and emails are retrieved via the [PostHog API](https://posthog.com/docs/api) - users can request to view an additional 10 items by clicking the "Show More" button at the bottom of the respective log section. This approach reduces the loading of unnecessary information (improving initial page load times), and minimizes queries to PostHog endpoints (avoiding rate limit violations).
 
 ![Admin-only dashboard page](./images/admin_dashboard.png)
 
@@ -114,3 +114,9 @@ Backend microservices are thoroughly tested using [Supertest](https://www.npmjs.
 ## CI/CD
 
 CI/CD is implemented via [GitHub Actions](https://docs.github.com/en/actions/writing-workflows). Whenever a pull request is created (attempting to merge a secondary branch with the main branch), all affected code will be tested automatically (by executing the relevant test suites). For example, if a pull request is created, and only the _orders_ service has been modified, then all tests related to the _orders_ service (and only those tests!) will be executed to ensure it is still functioning as expected after the recent changes. Additionally, whenever a pull request is accepted (i.e., code is pushed into the main branch), new Docker images will be created (to reflect the recent changes), and the affected deployments will be restarted.
+
+## PostHog Analytics
+
+[PostHog](https://posthog.com) is deeply integrated within the application to enable comprehensive event tracking across the frontend, and backend services. In addition to autocaptured events (e.g., PageView), custom events are defined to acquire fine-grained insight into a user's activity in the context of the [core application workflow](#core-workflow). Frontend and backend events are distinguished by nomenclature and the _source_ property. While some events are anonymous (e.g., PageView by an unauthenticated user), most are associated with a particular user in the database (via their unique identifier). PostHog data can be queried using [HogQL](https://posthog.com/blog/introducing-hogql) (a [ClickHouse SQL](https://clickhouse.com/docs/sql-reference) wrapper) to obtain detailed, and personalized insights.
+
+[Snapshot of PostHog dashboard](./images/posthog_dashboard)
