@@ -111,7 +111,7 @@ Currently, NATS Streaming Server is used to manage the transmission of events be
 
 [Jest](https://www.npmjs.com/package/jest) and [Supertest](https://www.npmjs.com/package/supertest) are used to perform low-level tests on isolated backend components (e.g., routes, data models, event listeners/publishers), and validate groups of related components within each service.
 
-[Playwright](https://playwright.dev) is used to perform end-to-end testing in an automated fashion; validating the functionality of the application at a high-level (and from a user-facing perspective). All major flows within the [core application workflow](#core-workflow) are targeted in these tests.
+[Playwright](https://playwright.dev) is used to perform end-to-end testing in an automated fashion; validating the functionality of the application at a high-level (and from a user-facing perspective). All major flows within the [core application workflow](#core-workflow) are targeted (i.e., simulated) in these tests.
 
 ## CI/CD
 
