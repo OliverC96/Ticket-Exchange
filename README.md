@@ -56,7 +56,7 @@
 
 ## User Authentication
 
-Un-authenticated users are only able to view listings. Users must be authenticated in order to create, edit, delete, or purchase listings. Returning users can login to their existing accounts by providing valid credentials. New users must complete the registration form to create an account with the application (note: the supplied email address must be unique, i.e., it cannot be tied to another account in the system). Alternatively, users can choose to login/register through one of the supported third-party sign-in partners (at this time, only Google and GitHub are available).
+Un-authenticated users are only able to view listings. Users must be authenticated in order to create, edit, delete, or purchase listings. Returning users can login to their existing accounts by providing valid credentials. New users must complete the registration form to create an account with the application (note: the supplied email address must be unique, i.e., it cannot be tied to another account in the system). Alternatively, users can choose to authenticate through one of the supported third-party sign-in partners (at this time, only Google and GitHub are available).
 
 ![Registration form for new users](./images/registration_form.png)
 ![Login form for returning users](./images/login_form.png)
@@ -69,7 +69,7 @@ Users will receive emails notifying them of significant events that occur within
 
 ## Admin Dashboard
 
-Users with administrative privileges have exclusive access to a dashboard page where they can quickly access frequently-used resources (e.g., GitHub, DigitalOcean), and view important application activity (namely, recent events and email updates) at-a-glance. By default, the 10 most recent events and emails are retrieved via the [PostHog API](https://posthog.com/docs/api) - users can request to view an additional 10 items by clicking the "Show More" button at the bottom of the respective log section. This approach reduces the loading of unnecessary information (improving initial page load times), and minimizes queries to PostHog endpoints (avoiding rate limit violations).
+Users with administrative privileges have exclusive access to a dashboard page where they can quickly access frequently-used resources (e.g., GitHub, DigitalOcean), and view important application activity (namely, recent events and email updates) at-a-glance. By default, the 10 most recent events and emails are retrieved via the [PostHog API](https://posthog.com/docs/api) - users can request to view additional items (in increments of 10) by clicking the "Show More" button located at the bottom of the corresponding section. This approach reduces the loading of unnecessary information (improving initial page load times), and minimizes queries to PostHog endpoints (avoiding rate limit violations).
 
 ![Admin-only dashboard page](./images/admin_dashboard.png)
 
@@ -105,18 +105,22 @@ _Note:_ [MongoDB Atlas Clusters](https://www.mongodb.com/resources/products/fund
 
 ### NATS
 
-Currently, NATS Streaming Server is used to manage the transmission of events between microservices. By default, NATS Streaming Server operates entirely in-memory - eliminating the possibility of data persistence. In the future, I plan on investigating the viability of a migration to the newer [NATS Jetstream](https://docs.nats.io/nats-concepts/jetstream) module, which (in conjunction with Kubernetes PVs) could be used to successfully persist events/messages beyond the lifetime of any consumer.
+Currently, NATS Streaming Server is used to manage the transmission of events between microservices. By default, NATS Streaming Server operates entirely in-memory - eliminating the possibility of data persistence. In the future, I plan on investigating the viability of a migration to the newer [NATS Jetstream](https://docs.nats.io/nats-concepts/jetstream) module, which - in conjunction with Kubernetes PVs - could be used to successfully persist events/messages beyond the lifetime of any consumer.
 
 ## Testing
 
-Backend microservices are thoroughly tested using [Supertest](https://www.npmjs.com/package/supertest) and [Jest](https://www.npmjs.com/package/jest). All backend components (routes, data models, event listeners/publishers) are targeted to ensure comprehensive test coverage.
+[Jest](https://www.npmjs.com/package/jest) and [Supertest](https://www.npmjs.com/package/supertest) are used to perform low-level tests on isolated backend components (e.g., routes, data models, event listeners/publishers), and validate groups of related components within each service.
+
+[Playwright](https://playwright.dev) is used to perform end-to-end testing in an automated fashion; validating the functionality of the application at a high-level (and from a user-facing perspective). All major flows within the [core application workflow](#core-workflow) are targeted in these tests.
 
 ## CI/CD
 
 CI/CD is implemented via [GitHub Actions](https://docs.github.com/en/actions/writing-workflows). Whenever a pull request is created (attempting to merge a secondary branch with the main branch), all affected code will be tested automatically (by executing the relevant test suites). For example, if a pull request is created, and only the _orders_ service has been modified, then all tests related to the _orders_ service (and only those tests!) will be executed to ensure it is still functioning as expected after the recent changes. Additionally, whenever a pull request is accepted (i.e., code is pushed into the main branch), new Docker images will be created (to reflect the recent changes), and the affected deployments will be restarted.
 
+Digital Ocean
+
 ## PostHog Analytics
 
-[PostHog](https://posthog.com) is deeply integrated within the application to enable comprehensive event tracking across the frontend, and backend services. In addition to autocaptured events (e.g., PageView), custom events are defined to acquire fine-grained insight into a user's activity in the context of the [core application workflow](#core-workflow). Frontend and backend events are distinguished by nomenclature and the _source_ property. While some events are anonymous (e.g., PageView by an unauthenticated user), most are associated with a particular user in the database (via their unique identifier). PostHog data can be queried using [HogQL](https://posthog.com/blog/introducing-hogql) (a [ClickHouse SQL](https://clickhouse.com/docs/sql-reference) wrapper) to obtain detailed, and personalized insights.
+[PostHog](https://posthog.com) is deeply integrated within the application to enable comprehensive event tracking across the frontend, and the various backend services. In addition to autocaptured events (e.g., PageView), custom events are defined to acquire fine-grained insight into user activity. Frontend and backend events are distinguished by nomenclature and the _source_ property. While some events are anonymous (e.g., PageView by an unauthenticated user), most are associated with a particular user in the database (via their unique identifier). PostHog data can be queried using [HogQL](https://posthog.com/blog/introducing-hogql) (a [ClickHouse SQL](https://clickhouse.com/docs/sql-reference) wrapper) to obtain detailed, and personalized insights.
 
 ![Snapshot of PostHog dashboard](./images/posthog_dashboard.png)
