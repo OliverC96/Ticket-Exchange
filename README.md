@@ -58,8 +58,23 @@
 
 Un-authenticated users are only able to view listings. Users must be authenticated in order to create, edit, delete, or purchase listings. Returning users can login to their existing accounts by providing valid credentials. New users must complete the registration form to create an account with the application (note: the supplied email address must be unique, i.e., it cannot be tied to another account in the system). Alternatively, users can choose to authenticate through one of the supported third-party sign-in partners (at this time, only Google and GitHub are available).
 
+### Registration
+
 ![Registration form for new users](./images/registration_form.png)
+
+In order to complete the registration process, users must read and agree to the application's terms and conditions.
+
+![Terms and conditions](./images/terms_and_conditions.png)
+
+### Login
+
 ![Login form for returning users](./images/login_form.png)
+
+Users are able to reset their passwords at any moment by clicking the _"Forgot password?"_ link located within the login form. Shortly after, they will receive an email with a link directing them to the password reset form (see below). Upon successful submission of this form, their password will be updated effective immediately (pre-existing sessions will not be expired/invalidated).
+
+_Note:_ only natively-authenticated users are able to reset their passwords. Users authenticated with a third-party partner are unable to make use of this feature (as their password is tied to the third-party platform).
+
+![Password reset form](./images/password_reset.png)
 
 ## Email Updates
 
@@ -116,8 +131,6 @@ Currently, NATS Streaming Server is used to manage the transmission of events be
 ## CI/CD
 
 CI/CD is implemented via [GitHub Actions](https://docs.github.com/en/actions/writing-workflows). Whenever a pull request is created (attempting to merge a secondary branch with the main branch), all affected code will be tested automatically (by executing the relevant test suites). For example, if a pull request is created, and only the _orders_ service has been modified, then all tests related to the _orders_ service (and only those tests!) will be executed to ensure it is still functioning as expected after the recent changes. Additionally, whenever a pull request is accepted (i.e., code is pushed into the main branch), new Docker images will be created (to reflect the recent changes), and the affected deployments will be restarted.
-
-Digital Ocean
 
 ## PostHog Analytics
 
