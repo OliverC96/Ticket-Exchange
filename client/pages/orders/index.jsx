@@ -5,7 +5,7 @@ import TicketDecal from "../../components/TicketDecal";
 const OrderIndex = ({ orders, currentUser }) => {
     return (
         <div className="flex p-8 justify-evenly min-h-screen -mt-[10vh] bg-blue-dark">
-            <div className="order-grid">
+            <div className="order-grid footer-buffer">
                 { orders.length > 0
                     ?
                         orders.map((order) => {

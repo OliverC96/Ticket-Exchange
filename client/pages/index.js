@@ -42,7 +42,7 @@ export default function LandingPage({ currentUser, originalTickets }) {
                             {...title}
                         />
                     </div>
-                    <div className="ticket-grid">
+                    <div className="ticket-grid footer-buffer">
                         {/* Ticket listings */}
                         {tickets.length > 0
                             ?

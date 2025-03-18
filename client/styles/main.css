@@ -1,6 +1,10 @@
 .page-wrapper {
-    @apply bg-blue-dark -mt-[10vh] h-screen text-blue-xlight;
+    @apply bg-blue-dark -mt-[10vh] min-h-screen text-blue-xlight;
     @apply flex flex-col justify-center items-center;
+}
+
+.footer-buffer {
+    @apply mb-12
 }
 
 .modal-wrapper {

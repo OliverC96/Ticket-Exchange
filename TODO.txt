@@ -1,4 +1,2 @@
 1. Migrate from NATS Streaming Server to NATS JetStream [ref: https://docs.nats.io/nats-concepts/jetstream]
 2. [selected] Implement data caching via Redis (only for the orders collection)
-3. Change local storage to DB storage?
-4. Implement NextJS route caching?

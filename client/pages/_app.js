@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import "../styles/main.css";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import buildClient from "../api/build-client";
 import posthog from "posthog-js";
 import { PostHogProvider } from 'posthog-js/react';
@@ -45,6 +46,7 @@ export default function AppComponent({Component, pageProps, currentUser}) {
             <PostHogProvider client={posthog}>
                 <Header currentUser={currentUser} />
                 <Component currentUser={currentUser} {...pageProps}/>
+                <Footer />
             </PostHogProvider>
         </>
     );
