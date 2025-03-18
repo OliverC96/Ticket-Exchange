@@ -56,7 +56,7 @@
 
 ## User Authentication
 
-Un-authenticated users are only able to view listings. Users must be authenticated in order to create, edit, delete, or purchase listings. Returning users can login to their existing accounts by providing valid credentials. New users must complete the registration form to create an account with the application (note: the supplied email address must be unique, i.e., it cannot be tied to another account in the system). Alternatively, users can choose to authenticate through one of the supported third-party sign-in partners (at this time, only Google and GitHub are available).
+Users must be authenticated in order to create, edit, delete, or purchase listings. Returning users can login to their existing accounts by providing valid credentials. New users must complete the registration form to create an account with the application (note: the supplied email address must be unique, i.e., it cannot be tied to another account in the system). Alternatively, users can choose to authenticate through one of the supported third-party sign-in partners (at this time, only Google and GitHub are available).
 
 ### Registration
 
@@ -70,9 +70,9 @@ In order to complete the registration process, users must read and agree to the 
 
 ![Login form for returning users](./images/login_form.png)
 
-Users are able to reset their passwords at any moment by clicking the _"Forgot password?"_ link located within the login form. Shortly after, they will receive an email with a link directing them to the password reset form (see below). Upon successful submission of this form, their password will be updated effective immediately (pre-existing sessions will not be expired/invalidated).
+Users are able to reset their passwords at any time by clicking the _"Forgot password?"_ link located within the login form. Shortly after, they will receive an email with a link directing them to the password reset form (see below). Upon successful submission of this form, their password will be updated effective immediately (pre-existing sessions will not be expired/invalidated).
 
-_Note:_ only natively-authenticated users are able to reset their passwords. Users authenticated with a third-party partner are unable to make use of this feature (as their password is tied to the third-party platform).
+_Note:_ only natively-authenticated users are able to reset their passwords. Users authenticated with a third-party partner are unable to make use of this feature (as their password is tied to the third-party platform, and thus, cannot be modified by the application).
 
 ![Password reset form](./images/password_reset.png)
 
