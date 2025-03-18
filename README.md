@@ -32,7 +32,7 @@
   - Additionally, users can filter and sort listings by price and/or title
 - Authenticated users can create listings by clicking on the "Create" link and filling out the subsequent form
 
-### Purchase a Listing (Ticket)
+### Purchase a Listing
 
 - Clicking on a listing brings up a new page containing the listing details - users can click "Purchase" to initiate the checkout process
 - Users are then shown the checkout page, where they have 15 minutes to enter their billing address and payment information to secure the listing
