@@ -2,7 +2,7 @@
 export default function Footer() {
     const currYear = new Date().getFullYear();
     return (
-        <div className="text-blue-xlight text-lg flex justify-center items-center h-[10vh] -mt-[10vh] opacity-75">
+        <div className="text-blue-xlight text-lg flex justify-center items-center h-[10vh] -mt-[10vh] opacity-80">
             ⓒ {currYear} Oliver Clennan
         </div>
     );

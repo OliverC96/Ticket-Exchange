@@ -74,7 +74,7 @@ export default () => {
 
     return (
         <div className="page-wrapper">
-            <div className="card p-8 w-4/5 sm:w-3/4 md:w-2/3 xl:w-1/2 mt-16 md:mt-0">
+            <div className="card p-8 w-4/5 sm:w-3/4 md:w-2/3 xl:w-1/2 mt-16 md:mt-0 mb-16">
                 <form className="flex flex-col-reverse lg:flex-row gap-5" onSubmit={(e) => {
                     e.preventDefault();
                     setSubmitted(true);
