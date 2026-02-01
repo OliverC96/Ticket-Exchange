@@ -27,6 +27,42 @@ const ticketRequests: Request[] = [
     }
 ];
 
+const orderRequests: Request[] = [
+    {
+        method: "get",
+        path: "/api/orders"
+    },
+    {
+        method: "post",
+        path: "/api/orders",
+        data: {
+            ticketID: process.env.TEST_TICKET_ID
+        }
+    },
+    {
+        method: "patch",
+        path: `/api/orders/${process.env.TEST_ORDER_ID}`
+    },
+    {
+        method: "get",
+        path: `/api/orders/${process.env.TEST_ORDER_ID}`
+    }
+]
+
+const paymentRequests: Request[] = [
+    {
+        method: "post",
+        path: "/api/payments",
+        data: {
+            tokenID: process.env.TEST_TOKEN_ID,
+            orderID: process.env.TEST_ORDER_ID
+        }
+    }
+]
+
 export {
-    ticketRequests
+    Request,
+    ticketRequests,
+    orderRequests,
+    paymentRequests
 };

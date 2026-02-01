@@ -1,2 +1,3 @@
 1. Migrate from NATS Streaming Server to NATS JetStream [ref: https://docs.nats.io/nats-concepts/jetstream]
 2. [selected] Implement data caching via Redis (only for the orders collection)
+3. [selected] Generate PostMan API documentation for backend API services (include in README)

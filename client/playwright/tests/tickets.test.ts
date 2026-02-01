@@ -1,29 +1,19 @@
 import {
     expect,
     Locator,
-    APIResponse
+    APIResponse,
+    test
 } from "@playwright/test";
-import { test } from "./fixtures/fixtures";
 import {
     Ticket,
     filterOptions,
     sortingOptions
 } from "./utils/tickets";
-import { ticketRequests } from "./utils/requests";
+import { Request, ticketRequests} from "./utils/requests";
 import { authenticate, logout } from "./utils/auth";
 import { errorMessages } from "./utils/error-messages";
 import IndexPage from "./helpers/index-page";
-
-type Payload = {
-    id: string,
-    email: string
-}
-
-const assertLabels = async (locator: Locator, labels: string[]): Promise<void> => {
-    for (const label of labels) {
-        await expect(locator.getByText(label)).toBeVisible();
-    }
-}
+import { assertRequest, assertLabels } from "./utils/custom-assertions";
 
 test("User can view, filter, and sort listings", async({ page }) => {
     const indexPage = new IndexPage(page);
@@ -65,7 +55,6 @@ test.describe("User is authenticated", async () => {
             await expect(indexPage.page).toHaveURL("/");
 
             let l: Locator;
-            const ticketGrid = indexPage.page.locator(".ticket-grid");
             l = await indexPage.findListing(testTicket);
 
             const editButton = l.locator(".icon-btn").first();
@@ -88,37 +77,17 @@ test.describe("User is authenticated", async () => {
             const deleteButton = l.locator(".icon-btn").nth(1);
             await deleteButton.click();
 
-        });
-    });
-    test.describe("Updating an existing listing", async () => {
-        test("Is unsuccessful with invalid form inputs", async ({ page }) => {
-
-        });
-        test("Is successful with valid form inputs", async ({ page }) => {
-
-        });
-    });
-    test.describe("Deleting an existing listing", async () => {
-        test("Is unsuccessful with invalid form inputs", async ({ page }) => {
-
-        });
-        test("Is successful with valid form inputs", async ({ page }) => {
+            l = await indexPage.findListing(updatedTicket);
+            expect(l).toBeUndefined();
 
         });
     });
 });
 
 test.describe("User is NOT authenticated", async () => {
-    ticketRequests.forEach(({ method, path, data }) => {
-        test(`User cannot access ${method.toUpperCase()} ${path}`, async ({ page }) => {
-            const res: APIResponse = await page.request[method](
-                path,
-                { data }
-            );
-            const errorMessage = (await res.json())["errors"][0]["message"];
-            expect(errorMessage).toEqual("User not authorized to access this resource.");
-            expect(res.status()).toEqual(401);
-            expect(res.headers()["Cookie"]).toBeUndefined();
+    ticketRequests.forEach((r: Request) => {
+        test(`User cannot access ${r.method.toUpperCase()} ${r.path}`, async ({ page }) => {
+            await assertRequest(page, r);
         });
     });
 });
